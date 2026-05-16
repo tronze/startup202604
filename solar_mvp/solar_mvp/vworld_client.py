@@ -18,21 +18,25 @@ LAYER_BUILDING = "lp_pa_cbnd_bonbun"     # 건물 (simplified)
 LAYER_ROAD = "lt_c_lanl"                 # 도로중심선
 LAYER_SIGUNGU = "lt_c_adsido_c"          # 시군구 경계
 
-_EMPTY_GEOJSON = {
-    "type": "FeatureCollection",
-    "features": [],
-}
+def _empty_geojson() -> dict:
+    return {"type": "FeatureCollection", "features": []}
 
 
 class VWorldClient:
     """Thin wrapper around the VWorld REST / WFS API with disk cache and retry."""
 
-    def __init__(self, api_key: str, cache_dir: Path = CACHE_DIR / "vworld"):
+    def __init__(
+        self,
+        api_key: str,
+        cache_dir: Path = CACHE_DIR / "vworld",
+        max_age_days: int = 90,
+    ):
         if not api_key:
             raise ValueError("VWORLD_API_KEY must not be empty.")
         self.api_key = api_key
-        self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self._cache_dir = Path(cache_dir)
+        self._cache_dir.mkdir(parents=True, exist_ok=True)
+        self._max_age_seconds = max_age_days * 86400
         self.session = requests.Session()
         self.session.headers.update({"Accept": "application/json"})
 
@@ -41,18 +45,21 @@ class VWorldClient:
     # ------------------------------------------------------------------
 
     def _cache_path(self, url: str, params: dict) -> Path:
-        """SHA-256 of (url, sorted params) → cache/<hash>.json"""
-        key = json.dumps({"url": url, "params": sorted(params.items())}, sort_keys=True)
+        """SHA-256 of (url, sorted params without API key) → cache/<hash>.json"""
+        safe = {k: v for k, v in params.items() if k.upper() != "KEY"}
+        key = json.dumps({"url": url, "params": sorted(safe.items())}, sort_keys=True)
         digest = hashlib.sha256(key.encode()).hexdigest()
-        return self.cache_dir / f"{digest}.json"
+        return self._cache_dir / f"{digest}.json"
 
     def _get(self, url: str, params: dict, timeout: int = 30) -> dict:
-        """GET with disk cache and 3-retry exponential backoff."""
+        """GET with disk cache (TTL-aware) and 3-retry exponential backoff."""
         cache_file = self._cache_path(url, params)
         if cache_file.exists():
-            logger.debug("Cache hit: %s", cache_file.name)
-            with cache_file.open("r", encoding="utf-8") as f:
-                return json.load(f)
+            age_seconds = time.time() - cache_file.stat().st_mtime
+            if age_seconds < self._max_age_seconds:
+                logger.debug("Cache hit: %s", cache_file.name)
+                return json.loads(cache_file.read_text(encoding="utf-8"))
+            logger.debug("Cache expired (%.1f days old): %s", age_seconds / 86400, cache_file.name)
 
         last_exc: Exception | None = None
         for attempt in range(3):
@@ -115,7 +122,7 @@ class VWorldClient:
                 type_name,
                 exc,
             )
-            return dict(_EMPTY_GEOJSON)
+            return _empty_geojson()
 
         # VWorld sometimes wraps in {"response": ...} or returns GeoJSON directly
         if isinstance(raw, dict):
@@ -134,7 +141,7 @@ class VWorldClient:
             "Unexpected WFS response structure for layer %s — returning empty FeatureCollection",
             type_name,
         )
-        return dict(_EMPTY_GEOJSON)
+        return _empty_geojson()
 
     @staticmethod
     def _bbox_to_polygon_wkt(bbox: tuple[float, float, float, float]) -> str:
@@ -216,7 +223,7 @@ class VWorldClient:
                 sigungu_code,
                 exc,
             )
-            return dict(_EMPTY_GEOJSON)
+            return _empty_geojson()
 
         # Normalise to GeoJSON FeatureCollection
         if isinstance(raw, dict):
@@ -241,7 +248,7 @@ class VWorldClient:
             "Could not parse admin boundary response for %s — returning empty FeatureCollection",
             sigungu_code,
         )
-        return dict(_EMPTY_GEOJSON)
+        return _empty_geojson()
 
     def reverse_geocode(self, lon: float, lat: float) -> dict | None:
         """Reverse geocode WGS84 coords → address + PNU if available."""

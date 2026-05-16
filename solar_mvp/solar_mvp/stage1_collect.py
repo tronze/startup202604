@@ -64,12 +64,13 @@ def _geojson_to_gdf(geojson: dict) -> gpd.GeoDataFrame:
         return gpd.GeoDataFrame(geometry=[], crs=CRS_WGS84)
 
     rows = []
-    for feat in features:
+    for i, feat in enumerate(features):
         props = feat.get("properties") or {}
         geom_raw = feat.get("geometry")
         try:
             geom = shape(geom_raw) if geom_raw else None
-        except Exception:
+        except Exception as exc:
+            logger.warning("Feature %d geometry parse error: %s", i, exc)
             geom = None
         rows.append({**props, "geometry": geom})
 
@@ -123,6 +124,9 @@ def _normalise_columns(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
     # Keep only the columns we care about plus geometry
     keep = ["pnu", "jimok", "area_official_m2", "use_zone", "owner_type", "land_price", "geometry"]
+    dropped = set(gdf.columns) - set(keep)
+    if dropped:
+        logger.debug("Dropping %d non-essential columns: %s", len(dropped), dropped)
     extra = [c for c in gdf.columns if c not in keep]
     return gdf.drop(columns=extra, errors="ignore")[keep]
 
@@ -147,6 +151,12 @@ def _fetch_all_parcels(
             tile_gdf = _geojson_to_gdf(result)
             all_gdfs.append(tile_gdf)
             logger.debug("  Page %d: %d features", page, len(features))
+            if len(features) == 1000:
+                logger.warning(
+                    "Tile %s page %d returned exactly %d features — possible truncation. "
+                    "Consider subdividing this tile.",
+                    tile, page, len(features),
+                )
             if len(features) < 1000:
                 break  # no more pages
             page += 1
@@ -212,6 +222,8 @@ def _join_land_use(
     parcel_centroids = parcels.copy()
     parcel_centroids["geometry"] = parcel_centroids.geometry.centroid
     joined = gpd.sjoin(parcel_centroids, lu_slim, how="left", predicate="within")
+    # Deduplicate to one row per parcel (centroid may hit multiple overlapping zones)
+    joined = joined[~joined.index.duplicated(keep="first")]
 
     if "_lu_zone" in joined.columns:
         # Fill use_zone only where currently null
@@ -303,6 +315,9 @@ def collect_parcels(force: bool = False) -> gpd.GeoDataFrame:
         elapsed,
     )
 
+    # TODO Stage 3: buildings and roads not loaded here — handled in stage3_enrich.py
+    # (client.get_buildings, client.get_roads available in VWorldClient)
+
     # 7. Save
     raw_gdf.to_parquet(output_path, index=False)
     logger.info("Saved to %s", output_path)
@@ -333,5 +348,4 @@ if __name__ == "__main__":
         help="Re-fetch even if parcels_raw.parquet already exists.",
     )
     args = parser.parse_args()
-    df = collect_parcels(force=args.force)
-    print(f"Collected {len(df)} parcels")
+    collect_parcels(force=args.force)
