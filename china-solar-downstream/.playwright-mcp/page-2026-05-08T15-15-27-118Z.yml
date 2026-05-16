@@ -1,0 +1,81 @@
+- generic [ref=e1]:
+  - generic [ref=e5]:
+    - generic [ref=e7]:
+      - link "콘텐츠로 건너뛰기" [ref=e9] [cursor=pointer]:
+        - /url: "#main"
+        - generic [ref=e10]:
+          - text: 콘텐츠로 건너뛰기
+          - img [ref=e11]
+      - generic [ref=e13]:
+        - banner [ref=e14]:
+          - generic [ref=e15]:
+            - text: Notion 계정이 있는 모든 사용자가 이 페이지를 편집할 수 있습니다.
+            - button "편집하려면 가입 또는 로그인하세요." [ref=e16] [cursor=pointer]
+          - generic [ref=e19]:
+            - generic [ref=e20]:
+              - link "전력/에너지팀" [ref=e22] [cursor=pointer]:
+                - /url: /3593a93f0ab1804b8a38de28ce228bd5?pvs=18
+                - generic [ref=e24]: 전력/에너지팀
+              - img [ref=e26]
+              - button "중국 태양광 하류 기업들 데이터" [ref=e28] [cursor=pointer]:
+                - generic [ref=e29]: 중국 태양광 하류 기업들 데이터
+            - button "댓글" [ref=e33] [cursor=pointer]:
+              - img [ref=e34]
+            - button "페이지 복제" [ref=e38] [cursor=pointer]:
+              - img [ref=e39]
+            - button "추가 작업" [ref=e42] [cursor=pointer]:
+              - img [ref=e43]
+        - main [ref=e45]:
+          - group [disabled] [ref=e48]:
+            - generic [ref=e50]:
+              - heading "중국 태양광 하류 기업들 데이터" [level=1] [ref=e58]
+              - generic [ref=e60]:
+                - generic [ref=e64]: 단순 데이터 수집 단계이지만 대략적인 태양광 업계에서의 event들을 이해하는데에는 도움이 될수 있을것같습니다.
+                - generic [ref=e68]: /
+        - region [ref=e74]
+    - dialog "회원 가입 또는 로그인하기" [ref=e80]:
+      - generic [ref=e84]:
+        - generic [ref=e85] [cursor=pointer]: 취소
+        - generic [ref=e86]:
+          - generic [ref=e87]: 회원 가입 또는 로그인하기
+          - generic [ref=e88]: 더 많은 기능을 이용하려면 계정을 만들거나 로그인하세요.
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - generic [ref=e91]:
+                - button "Google" [active] [ref=e92] [cursor=pointer]:
+                  - img [ref=e93]
+                  - generic [ref=e99]: Google
+                - button "Apple" [ref=e100] [cursor=pointer]:
+                  - img [ref=e101]
+                  - generic [ref=e103]: Apple
+                - button "Microsoft" [ref=e104] [cursor=pointer]:
+                  - img [ref=e105]
+                  - generic [ref=e111]: Microsoft
+                - button "패스키" [ref=e112] [cursor=pointer]:
+                  - img [ref=e113]
+                  - generic [ref=e115]: 패스키
+                - button "SSO(통합 로그인)" [ref=e116] [cursor=pointer]:
+                  - img [ref=e117]
+                  - generic [ref=e120]: SSO(통합 로그인)
+              - generic [ref=e121]:
+                - generic [ref=e122]:
+                  - generic:
+                    - generic:
+                      - generic: 또는 다음으로 계속하기
+                - generic [ref=e124]:
+                  - generic [ref=e125]: 이메일
+                  - textbox "이메일" [ref=e127]:
+                    - /placeholder: 이메일 주소를 입력하세요.
+                  - generic [ref=e128]: 조직 이메일을 사용하여 팀원들과 쉽게 협업하세요.
+                  - generic:
+                    - textbox
+                  - button "계속" [ref=e129] [cursor=pointer]:
+                    - generic [ref=e130]: 계속
+            - generic [ref=e132]:
+              - text: New user?
+              - link "Sign up" [ref=e133] [cursor=pointer]:
+                - /url: /signup
+    - status [ref=e75]
+    - alert [ref=e76]
+  - iframe [ref=e77]:
+    

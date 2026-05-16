@@ -1,0 +1,393 @@
+/* ============================================================
+   ACADEMIC PDF STYLESHEET — China Solar Downstream Report
+   Target: A4, weasyprint 68+
+   ============================================================ */
+
+/* ── Page layout ─────────────────────────────────────────── */
+@page {
+  size: A4;
+  margin: 25mm 22mm 28mm 25mm;
+}
+
+@page :left {
+  @bottom-left {
+    content: counter(page);
+    font-family: Georgia, serif;
+    font-size: 9pt;
+    color: #666;
+  }
+  @top-left {
+    content: "China Solar Downstream 2016–2026";
+    font-family: Georgia, serif;
+    font-size: 8pt;
+    color: #999;
+  }
+}
+
+@page :right {
+  @bottom-right {
+    content: counter(page);
+    font-family: Georgia, serif;
+    font-size: 9pt;
+    color: #666;
+  }
+  @top-right {
+    content: "China Solar Downstream 2016–2026";
+    font-family: Georgia, serif;
+    font-size: 8pt;
+    color: #999;
+  }
+}
+
+@page cover {
+  margin: 0;
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+  @top-left { content: none; }
+  @top-right { content: none; }
+}
+
+/* ── Base typography ─────────────────────────────────────── */
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 11pt;
+  line-height: 1.65;
+  color: #1a1a1a;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* ── Cover page ──────────────────────────────────────────── */
+.cover-page {
+  page: cover;
+  page-break-after: always;
+  background: #1a2744;
+  min-height: 280mm;
+  display: block;
+  padding: 40mm 30mm;
+  text-align: center;
+  color: #ffffff;
+}
+
+.cover-label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 8.5pt;
+  letter-spacing: 4px;
+  color: #7a9fc0;
+  text-transform: uppercase;
+  margin-bottom: 16mm;
+  display: block;
+}
+
+.cover-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 26pt;
+  font-weight: bold;
+  line-height: 1.25;
+  color: #ffffff;
+  margin: 0 0 8mm 0;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.cover-subtitle {
+  font-family: Georgia, serif;
+  font-size: 17pt;
+  font-weight: normal;
+  color: #8ab4d4;
+  margin: 0 0 20mm 0;
+  border: none !important;
+}
+
+.cover-meta {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10.5pt;
+  color: #b0cce4;
+  line-height: 2;
+}
+
+.cover-stats {
+  font-size: 9pt;
+  color: #7a9fc0;
+  margin-top: 4mm;
+}
+
+.cover-line {
+  border-top: 1px solid #2e4a70;
+  margin: 10mm auto;
+  width: 40mm;
+}
+
+.cover-date {
+  color: #8ab4d4;
+  margin-top: 8mm;
+  display: block;
+  font-size: 10pt;
+}
+
+/* ── Part divider pages ──────────────────────────────────── */
+.part-header {
+  page-break-before: always;
+  page-break-after: always;
+  background: #f0f3f8;
+  min-height: 180mm;
+  display: block;
+  padding: 50mm 25mm 30mm 25mm;
+  text-align: center;
+}
+
+.part-title {
+  font-family: Georgia, serif;
+  font-size: 22pt;
+  font-weight: bold;
+  color: #1a2744;
+  border-bottom: 2px solid #1a2744 !important;
+  padding-bottom: 6mm !important;
+  display: inline-block;
+}
+
+/* ── Main headings ───────────────────────────────────────── */
+h1 {
+  font-family: Georgia, serif;
+  font-size: 17pt;
+  font-weight: bold;
+  color: #1a2744;
+  margin: 12mm 0 5mm 0;
+  page-break-after: avoid;
+  border-bottom: 1.5pt solid #1a2744;
+  padding-bottom: 2mm;
+}
+
+h2 {
+  font-family: Georgia, serif;
+  font-size: 13.5pt;
+  font-weight: bold;
+  color: #1a2744;
+  margin: 9mm 0 4mm 0;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11pt;
+  font-weight: bold;
+  color: #2c4a7a;
+  margin: 6mm 0 3mm 0;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10.5pt;
+  font-weight: bold;
+  color: #3d5c8a;
+  margin: 4mm 0 2mm 0;
+}
+
+/* ── Table of Contents ───────────────────────────────────── */
+nav#TOC {
+  page-break-after: always;
+  padding: 8mm 0;
+}
+
+nav#TOC h2 {
+  font-size: 16pt;
+  border-bottom: 2px solid #1a2744;
+  padding-bottom: 3mm;
+}
+
+nav#TOC ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+nav#TOC > ul > li {
+  margin: 2.5mm 0;
+  font-size: 10.5pt;
+}
+
+nav#TOC ul ul {
+  padding-left: 5mm;
+}
+
+nav#TOC ul ul li {
+  margin: 1.5mm 0;
+  font-size: 9.5pt;
+}
+
+nav#TOC a {
+  color: #1a2744;
+  text-decoration: none;
+}
+
+nav#TOC a::after {
+  content: leader('. ') target-counter(attr(href), page);
+  font-size: 9pt;
+  color: #666;
+}
+
+/* ── Tables ──────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4mm 0 6mm 0;
+  font-size: 9.5pt;
+  page-break-inside: avoid;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+thead tr {
+  background: #1a2744;
+  color: #ffffff;
+}
+
+thead th {
+  padding: 2.5mm 3mm;
+  text-align: left;
+  font-weight: bold;
+  font-size: 9pt;
+  border: none;
+}
+
+tbody tr:nth-child(odd) {
+  background: #f5f7fc;
+}
+
+tbody tr:nth-child(even) {
+  background: #ffffff;
+}
+
+tbody td {
+  padding: 2mm 3mm;
+  border-bottom: 0.5pt solid #d8dfe8;
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+/* ── Blockquotes ─────────────────────────────────────────── */
+blockquote {
+  border-left: 4pt solid #1a2744;
+  background: #f4f6fa;
+  margin: 4mm 0;
+  padding: 3mm 5mm;
+  page-break-inside: avoid;
+  font-style: italic;
+  color: #333;
+}
+
+/* ── Code blocks ─────────────────────────────────────────── */
+pre {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 8pt;
+  background: #f0f2f6;
+  padding: 3mm 4mm;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  page-break-inside: avoid;
+  border-left: 3pt solid #c0c8d8;
+  margin: 3mm 0;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 8.5pt;
+  background: #eef0f6;
+  padding: 0.5mm 1.5mm;
+  border-radius: 1px;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 8pt;
+}
+
+/* ── HR ──────────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 0.75pt solid #c0c8d8;
+  margin: 5mm 0;
+}
+
+/* ── Paragraphs ──────────────────────────────────────────── */
+p {
+  margin: 0 0 3mm 0;
+  orphans: 3;
+  widows: 3;
+}
+
+/* ── Lists ───────────────────────────────────────────────── */
+ul, ol {
+  margin: 2mm 0 4mm 0;
+  padding-left: 6mm;
+}
+
+li {
+  margin-bottom: 1.5mm;
+  line-height: 1.55;
+}
+
+/* ── Inline text ─────────────────────────────────────────── */
+strong { font-weight: bold; }
+em { font-style: italic; }
+
+/* ── Page break helpers ──────────────────────────────────── */
+.page-break { page-break-before: always; }
+
+
+/* ============================================================
+   Korean PDF overrides
+   ============================================================ */
+
+@page :left {
+  @bottom-left {
+    font-family: 'Apple SD Gothic Neo', 'Nanum Gothic', 'Noto Sans CJK KR', sans-serif;
+  }
+  @top-left {
+    content: "중국 태양광 다운스트림 2016–2026";
+    font-family: 'Apple SD Gothic Neo', 'Nanum Gothic', 'Noto Sans CJK KR', sans-serif;
+  }
+}
+
+@page :right {
+  @bottom-right {
+    font-family: 'Apple SD Gothic Neo', 'Nanum Gothic', 'Noto Sans CJK KR', sans-serif;
+  }
+  @top-right {
+    content: "중국 태양광 다운스트림 2016–2026";
+    font-family: 'Apple SD Gothic Neo', 'Nanum Gothic', 'Noto Sans CJK KR', sans-serif;
+  }
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+table,
+thead th,
+tbody td,
+.cover-label,
+.cover-title,
+.cover-subtitle,
+.cover-meta,
+.part-title,
+nav#TOC,
+blockquote {
+  font-family: 'Apple SD Gothic Neo', 'Nanum Gothic', 'Noto Sans CJK KR', sans-serif;
+}
+
+body {
+  word-break: keep-all;
+  line-break: strict;
+  hyphens: none;
+}
+
+.cover-title {
+  line-height: 1.35;
+}
+
+.part-title {
+  line-height: 1.35;
+}

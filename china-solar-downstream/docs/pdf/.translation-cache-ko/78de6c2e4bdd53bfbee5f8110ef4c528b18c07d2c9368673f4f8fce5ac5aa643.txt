@@ -1,0 +1,7 @@
+## 시장 구조(2026년 스냅샷)
+**OEM 전용 모니터링 기존 업체:** Sungrow iSolarCloud(98GW, 198만 사용자), Growatt ShinePhone(1위 주거용 인버터와 번들), Ginlong SolisCloud(60만 개 이상 설치, 유럽에서 강세)  
+**독립 멀티 브랜드 플랫폼:** SOLARMAN/IGEN Tech(220GW, 250만 시스템 — 주거 집중으로 인해 시스템 수 기준 최대 규모)  
+**엔터프라이즈 그리드 예측 SaaS:** Guoneng Rixin(CNY 5억 5천만 개정, ChiNext 상장, 그리드 운영자 고객 기반, AI 예측 LLM)  
+**AI 기반 에너지 관리:** Sigenergy(통합 하드웨어 + AI OS, HKEX 상장), Guoxia Technology(BESS 통합업체 + HANCHU AI 플랫폼, HKEX 상장)  
+**하드웨어 기반 O&M:** Sunpure Technology(청소 로봇 + SaaS, Hillhouse 지원, 330개 이상의 특허)  
+**통합 O&M + 전력 거래:** Jinko Power Technology(2024년 상반기 CNY 43.7B 회전, CNY 245억 녹색 전력 거래)

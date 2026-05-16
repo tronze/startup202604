@@ -1,0 +1,176 @@
+[     486ms] [INFO] Resource Sentinel initialized... @ https://www.notion.so/35a3a93f0ab180f0826ff9c09722cb35:0
+[     718ms] [INFO] 2026-05-08T15:15:11.032Z [info] FeatureFlagTransactionQueue: preferIndexedDB {team: no-team-specified} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[     721ms] [WARNING]   WARN  [Statsig] Creating multiple Statsig clients with the same SDK key can lead to unexpected behavior. Multi-instance support requires different SDK keys. @ https://www.notion.so/_assets/38994-57e75a3c479e6567.js:0
+[     768ms] [INFO] 2026-05-08T15:15:11.082Z [info] appHelpers: shouldShowError {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[     772ms] [INFO] 2026-05-08T15:15:11.086Z [info] appHelpers: shouldShowError {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[     781ms] [LOG] %c
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnn                         nnnn
+	nnnnnnn                          nnnn
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnnnnnn                           nnn
+	nnnnnnnn    nnnnnnnn     nnnnnnn   nnn
+	nnnnnnnn      nnnnnnn      nnn     nnn
+	nnnnnnnn      nnnnnnnn     nnn     nnn
+	nnnnnnnn      nnnnnnnnnn   nnn     nnn
+	nnnnnnnn      nnn nnnnnnn  nnn     nnn
+	nnnnnnnn      nnn  nnnnnnnnnnn     nnn
+	nnnnnnnn      nnn   nnnnnnnnnn     nnn
+	nnnnnnnn      nnn     nnnnnnnn     nnn
+	nnnnnnnn      nnn      nnnnnnn     nnn
+	nnnnnnnn    nnnnnnnn    nnnnnn     nnn
+	  nnnnnn                           nnn
+		nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn		We're hiring!
+		  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn		notion.so/careers
+
+	“yeah, I would probably eat a lemon for one hundred dollars” -- Ivan Zhao (2023-07-14)
+				  font-family: monospace @ https://www.notion.so/_assets/mainApp-0202b3472b25c00d.js:76
+[     826ms] [INFO] 2026-05-08T15:15:11.141Z [info] PageLoader: loserAborted {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[     923ms] [WARNING] Ignoring inability to install OPFS sqlite3_vfs: Cannot install OPFS: Missing SharedArrayBuffer and/or Atomics. The server must emit the COOP/COEP response headers to enable those. See https://sqlite.org/wasm/doc/trunk/persistence.md#coop-coep @ https://www.notion.so/_assets/wasm-sqlite-worker-7c99cd42a0b703f8.js:0
+[    1068ms] [INFO] 2026-05-08T15:15:11.383Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[    1070ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://www.notion.so/api/v3/recordPageExit:0
+[    1096ms] [INFO] 2026-05-08T15:15:11.411Z [error] handleRestrictedStateForResponse: callApi {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[    1173ms] [INFO] 2026-05-08T15:15:11.488Z [info] sqliteSchemaHelpers: attemptFastForwardMigration {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[    1184ms] [INFO] 2026-05-08T15:15:11.498Z [error] handleRestrictedStateForResponse: callApi {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[    1235ms] [INFO] 2026-05-08T15:15:11.550Z [info] sqliteSchemaHelpers: successfulFastForwardMigration {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[    1504ms] [WARNING] Amplitude Logger [Warn]: Event not tracked, no destination plugins on the instance @ https://www.notion.so/_assets/transport-support-49d6a98cbf389fa8.js:0
+[    1504ms] [INFO] 2026-05-08T15:15:11.819Z [error] eventTrailApiHelpers: trackFailure {error: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[    1699ms] [ERROR] HttpRequestError: Received HTTP 401
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814) @ https://www.notion.so/_assets/handleHttpFailure-852e9b5617753094.js:0
+[    1700ms] [INFO] 2026-05-08T15:15:12.014Z [error] api: httpTrigger401 {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[    2585ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://cdn.metadata.io/pixel/config/1127.json:0
+[   15152ms] [WARNING] [GSI_LOGGER]: Your client application uses one of the Google One Tap prompt UI status methods that may stop functioning when FedCM becomes mandatory. Refer to the migration guide to update your code accordingly and opt-in to FedCM to test your changes. Learn more: https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#display_moment and https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#skipped_moment @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   15153ms] [ERROR] Not signed in with the identity provider. @ https://www.notion.so/35a3a93f0ab180f0826ff9c09722cb35:0
+[   16127ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token. @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   19464ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://appleid.apple.com/auth/authorize?client_id=notion.signin&nonce=91db321b05c4ff5cd85efc9bbfcb3f56bc2d6cc0da0ea674&redirect_uri=https%3A%2F%2Fwww.notion.so%2Fapplepopupcallback&response_type=code&response_mode=form_post&scope=name%20email&state=eyJjYWxsYmFja1R5cGUiOiJyZWRpcmVjdCIsImVuY3J5cHRlZFRva2VuIjoidjAyOmFwcGxlX2F1dGhfZmxvdzphVmItYUFfR2pwTHBpR0hITkI4cEdDUTVrMnJmRHI3dEZDczZBSllscjFjdDBnbGxVNGFvQ2JfcjFDVXdNNHlmWF9sYXhhNVI4RDFNZGUwak95UTNhX05uQW1lNEs5QXhfeEpESUFTTENVRmI2eF9Ec1U5ZXo2ckxVaFJleEdKdzZBV0UiLCJlbmNyeXB0ZWROb25jZSI6InYwMjphcHBsZV9hdXRoX2Zsb3c6cHB1M25pLTZ0TF9PVTJ5N29ybHFldUdLTlpsQnlhYXc4Mkk5ekpfQ1daSzlqWEZNbG90TzdPSzU1ZllXTnE1LVktSm0zYlVzelZIOW1pZXFYY0ZsZGUtRzYtQXN1bTN1SDFrNjlJbTdxZDZtSm9ac1EzWU5NWDE3X2x5eVI0MThOWGVXMGgxMjVjelE1VDZwRG00eiJ9:0
+[   19674ms] [ERROR] Access to font at 'https://www.apple.com/ac/globalfooter/7/ko_KR/assets/ac-footer/legacy/appleicons_text.woff' from origin 'https://appleid.apple.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://appleid.apple.com/auth/authorize?client_id=notion.signin&nonce=91db321b05c4ff5cd85efc9bbfcb3f56bc2d6cc0da0ea674&redirect_uri=https%3A%2F%2Fwww.notion.so%2Fapplepopupcallback&response_type=code&response_mode=form_post&scope=name%20email&state=eyJjYWxsYmFja1R5cGUiOiJyZWRpcmVjdCIsImVuY3J5cHRlZFRva2VuIjoidjAyOmFwcGxlX2F1dGhfZmxvdzphVmItYUFfR2pwTHBpR0hITkI4cEdDUTVrMnJmRHI3dEZDczZBSllscjFjdDBnbGxVNGFvQ2JfcjFDVXdNNHlmWF9sYXhhNVI4RDFNZGUwak95UTNhX05uQW1lNEs5QXhfeEpESUFTTENVRmI2eF9Ec1U5ZXo2ckxVaFJleEdKdzZBV0UiLCJlbmNyeXB0ZWROb25jZSI6InYwMjphcHBsZV9hdXRoX2Zsb3c6cHB1M25pLTZ0TF9PVTJ5N29ybHFldUdLTlpsQnlhYXc4Mkk5ekpfQ1daSzlqWEZNbG90TzdPSzU1ZllXTnE1LVktSm0zYlVzelZIOW1pZXFYY0ZsZGUtRzYtQXN1bTN1SDFrNjlJbTdxZDZtSm9ac1EzWU5NWDE3X2x5eVI0MThOWGVXMGgxMjVjelE1VDZwRG00eiJ9:0
+[   19674ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://www.apple.com/ac/globalfooter/7/ko_KR/assets/ac-footer/legacy/appleicons_text.woff:0
+[   19689ms] [ERROR] Access to font at 'https://www.apple.com/ac/globalfooter/7/ko_KR/assets/ac-footer/legacy/appleicons_text.ttf' from origin 'https://appleid.apple.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://appleid.apple.com/auth/authorize?client_id=notion.signin&nonce=91db321b05c4ff5cd85efc9bbfcb3f56bc2d6cc0da0ea674&redirect_uri=https%3A%2F%2Fwww.notion.so%2Fapplepopupcallback&response_type=code&response_mode=form_post&scope=name%20email&state=eyJjYWxsYmFja1R5cGUiOiJyZWRpcmVjdCIsImVuY3J5cHRlZFRva2VuIjoidjAyOmFwcGxlX2F1dGhfZmxvdzphVmItYUFfR2pwTHBpR0hITkI4cEdDUTVrMnJmRHI3dEZDczZBSllscjFjdDBnbGxVNGFvQ2JfcjFDVXdNNHlmWF9sYXhhNVI4RDFNZGUwak95UTNhX05uQW1lNEs5QXhfeEpESUFTTENVRmI2eF9Ec1U5ZXo2ckxVaFJleEdKdzZBV0UiLCJlbmNyeXB0ZWROb25jZSI6InYwMjphcHBsZV9hdXRoX2Zsb3c6cHB1M25pLTZ0TF9PVTJ5N29ybHFldUdLTlpsQnlhYXc4Mkk5ekpfQ1daSzlqWEZNbG90TzdPSzU1ZllXTnE1LVktSm0zYlVzelZIOW1pZXFYY0ZsZGUtRzYtQXN1bTN1SDFrNjlJbTdxZDZtSm9ac1EzWU5NWDE3X2x5eVI0MThOWGVXMGgxMjVjelE1VDZwRG00eiJ9:0
+[   19689ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://www.apple.com/ac/globalfooter/7/ko_KR/assets/ac-footer/legacy/appleicons_text.ttf:0
+[   33218ms] [INFO] Resource Sentinel initialized... @ https://www.notion.so/appleauthcallback?state=eyJjYWxsYmFja1R5cGUiOiJyZWRpcmVjdCIsImVuY3J5cHRlZFRva2VuIjoidjAyOmFwcGxlX2F1dGhfZmxvdzphVmItYUFfR2pwTHBpR0hITkI4cEdDUTVrMnJmRHI3dEZDczZBSllscjFjdDBnbGxVNGFvQ2JfcjFDVXdNNHlmWF9sYXhhNVI4RDFNZGUwak95UTNhX05uQW1lNEs5QXhfeEpESUFTTENVRmI2eF9Ec1U5ZXo2ckxVaFJleEdKdzZBV0UiLCJlbmNyeXB0ZWROb25jZSI6InYwMjphcHBsZV9hdXRoX2Zsb3c6cHB1M25pLTZ0TF9PVTJ5N29ybHFldUdLTlpsQnlhYXc4Mkk5ekpfQ1daSzlqWEZNbG90TzdPSzU1ZllXTnE1LVktSm0zYlVzelZIOW1pZXFYY0ZsZGUtRzYtQXN1bTN1SDFrNjlJbTdxZDZtSm9ac1EzWU5NWDE3X2x5eVI0MThOWGVXMGgxMjVjelE1VDZwRG00eiJ9&code=cdd1153f3a9124fa18a96e8caff1b6505.0.srwzs.tqymftqHY3aGCbCfPoe-CA:0
+[   33352ms] [WARNING]   WARN  [Statsig] 'StatsigUser.customIDs.stableID' mismatch @ https://www.notion.so/_assets/38994-57e75a3c479e6567.js:0
+[   33352ms] [WARNING]   WARN  [Statsig] 'StatsigUser.customIDs.stableID' mismatch @ https://www.notion.so/_assets/38994-57e75a3c479e6567.js:0
+[   33353ms] [WARNING]   WARN  [Statsig] 'StatsigUser.customIDs.stableID' mismatch @ https://www.notion.so/_assets/38994-57e75a3c479e6567.js:0
+[   33372ms] [INFO] 2026-05-08T15:15:43.686Z [info] FeatureFlagTransactionQueue: preferIndexedDB {team: no-team-specified} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[   33409ms] [WARNING] Ignoring inability to install OPFS sqlite3_vfs: Cannot install OPFS: Missing SharedArrayBuffer and/or Atomics. The server must emit the COOP/COEP response headers to enable those. See https://sqlite.org/wasm/doc/trunk/persistence.md#coop-coep @ https://www.notion.so/_assets/wasm-sqlite-worker-7c99cd42a0b703f8.js:0
+[   33599ms] [LOG] %c
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnn                         nnnn
+	nnnnnnn                          nnnn
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnnnnnn                           nnn
+	nnnnnnnn    nnnnnnnn     nnnnnnn   nnn
+	nnnnnnnn      nnnnnnn      nnn     nnn
+	nnnnnnnn      nnnnnnnn     nnn     nnn
+	nnnnnnnn      nnnnnnnnnn   nnn     nnn
+	nnnnnnnn      nnn nnnnnnn  nnn     nnn
+	nnnnnnnn      nnn  nnnnnnnnnnn     nnn
+	nnnnnnnn      nnn   nnnnnnnnnn     nnn
+	nnnnnnnn      nnn     nnnnnnnn     nnn
+	nnnnnnnn      nnn      nnnnnnn     nnn
+	nnnnnnnn    nnnnnnnn    nnnnnn     nnn
+	  nnnnnn                           nnn
+		nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn		We're hiring!
+		  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn		notion.so/careers
+
+	“yeah, I would probably eat a lemon for one hundred dollars” -- Ivan Zhao (2023-07-14)
+				  font-family: monospace @ https://www.notion.so/_assets/mainApp-0202b3472b25c00d.js:76
+[   33648ms] [INFO] 2026-05-08T15:15:43.962Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:6
+[   33864ms] [WARNING] Amplitude Logger [Warn]: Event not tracked, no destination plugins on the instance @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   33864ms] [INFO] 2026-05-08T15:15:44.178Z [error] eventTrailApiHelpers: trackFailure {error: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   33984ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://cdn.metadata.io/pixel/config/1127.json:0
+[   36007ms] [INFO] 2026-05-08T15:15:46.322Z [error] main: ClientError {error: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   36023ms] Error: Failed to load a required record: user_root, 282d872b-594c-811f-baa4-0002dd5588a5, undefined.
+    at Object.loadRecordModel [as loadFn] (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:5:77884)
+    at async https://www.notion.so/_assets/61315-fa9839c6a057445d.js:207:107743
+    at async Promise.all (index 0)
+    at async o (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:207:107684)
+    at async r (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:207:107295)
+    at async Object.s (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:207:108456)
+    at async Object.r (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:5:77458)
+    at async h (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:86:102848)
+    at async r.measureErrors (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:206:1223627)
+    at async g (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:86:100943)
+[   36030ms] [INFO] 2026-05-08T15:15:46.344Z [info] syncRecordValuesBatched: recordPointerMissingSpaceId {actor: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   36253ms] [INFO] 2026-05-08T15:15:46.568Z [info] PageLoader: loserAborted {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   36341ms] [INFO] 2026-05-08T15:15:46.656Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   36828ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getTrustedDomainsForSpace:0
+[   36839ms] [INFO] 2026-05-08T15:15:47.153Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   36978ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async a (https://www.notion.so/_assets/31415-1d76f494b9208085.js:4:17816) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   37044ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getAIUsageEligibilityV2:0
+[   37045ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async o (https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156166)
+    at async d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:80611)
+    at async a.n.dontCacheUndefined (https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156706)
+    at async l.fetchFn (https://www.notion.so/_assets/79936-ac90fc8e2f03047a.js:1:24534)
+    at async l.fetch (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:78955)
+    at async r.awaitData (https://www.notion.so/_assets/79936-ac90fc8e2f03047a.js:1:24900)
+    at async f (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:7:87346)
+    at async h (https://www.notion.so/_assets/callouts-022606a155eaefcc.js:1:45186)
+    at async Promise.all (index 11)
+    at async A (https://www.notion.so/_assets/callouts-022606a155eaefcc.js:1:48180)
+    at async Module.D (https://www.notion.so/_assets/callouts-022606a155eaefcc.js:1:51520)
+    at async n (https://www.notion.so/_assets/GlobalInAppMessageListener-8eddea7738747bad.js:1:2538) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   37055ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/getLibraryPage:0
+[   37055ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async https://www.notion.so/_assets/AppComponents-5dcdbdabefde2f59.js:1:98304
+    at async https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:7:193553 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   37077ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getTeamsV2:0
+[   37077ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async o (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:206:694733)
+    at async https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:60674
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:206:695853)
+    at async Module.s (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:206:696576) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   37222ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/getSimilarUsers:0
+[   37222ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async Promise.all (index 2)
+    at async a (https://www.notion.so/_assets/15840-c1b563e608b8b821.js:1:1942) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   37448ms] [INFO] 2026-05-08T15:15:47.762Z [warning] ai.completionActions: maybeUpdateAIUsageEligibilityStoreV2BillingDataMissing {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   37510ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getTrustedDomainsForSpace:0
+[   37511ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async a (https://www.notion.so/_assets/31415-1d76f494b9208085.js:4:17816)
+    at async listener (https://www.notion.so/_assets/31415-1d76f494b9208085.js:1:24220) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   37627ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/getAIUsageEligibility:0
+[   37627ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-1b2b663d1f0ca543.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async Module.n (https://www.notion.so/_assets/subscriptionActionsLazyDeps-2bcff1e0d07590ad.js:3:7649)
+    at async a (https://www.notion.so/_assets/15840-c1b563e608b8b821.js:1:3550) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   47159ms] [INFO] 2026-05-08T15:15:57.473Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472

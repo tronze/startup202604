@@ -1,0 +1,5 @@
+## 시장 구조(2026년 스냅샷)
+**B2B 정보 리더:** Solarbe Global(중국 국내), ENF Solar/ENF.com.cn(해외 바이어)  
+**설치 프로그램 SaaS:** SOLARMAN 설치 프로그램 포털(모니터링 생태계에 내장됨), Zheguyun(전체 워크플로), JinengCloud(기업)  
+**포속 플랫폼:** Chint Anneng 安能商城(농촌 시장, Chint 생태계 포로), Sungrow O&M 포털  
+**존재하지 않음/알 수 없음:** S2B2C-PV-플랫폼(光伏行家 — 확인 가능한 상업 활동 없음)

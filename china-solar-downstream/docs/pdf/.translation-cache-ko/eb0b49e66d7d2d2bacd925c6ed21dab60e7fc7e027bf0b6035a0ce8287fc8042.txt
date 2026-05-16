@@ -1,0 +1,7 @@
+| 청구 | 현재 증거 | 권장 검증 |
+|-------|------|-------------|
+| SOLARMAN 220GW 관리/250만 시스템 | 회사 웹사이트(자체 보고) | 독립적인 시장 조사 표창을 구하세요 |
+| Sungrow iSolarCloud 98 GW 관리 / 사용자 198만 명 | Sungrow 공식 보도 자료 2024년 8월 | 이미 검증됨 ★5 |
+| Chint Anneng 200만 가구 사용자 | EqualOcean 기사 + 회사 언론 | SSE IPO 투자설명서 공개 모색 |
+| Skyworth Solar 29.3GW / CNY 234억 수익 | OFWeek Solar + 회사 웹사이트 | Skyworth Group(0751.HK) 연례 보고서 참조 찾기 |
+| Yuexiu New Energy 14.08GW 관리 / CNY 27.34B 수익 | OFWeek 태양광 표창 | Yuexiu Capital 연례 보고서 찾기 |

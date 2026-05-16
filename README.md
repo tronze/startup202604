@@ -20,8 +20,9 @@ This workspace currently contains collected raw data for analyzing Korea's elect
 ## Current Project State
 
 - `data/raw` is populated with source files.
-- `data/processed` exists but is empty.
-- No notebooks, scripts, or analysis pipeline were present before this starter setup.
+- `data/processed` contains normalized CSV outputs plus processing manifests.
+- `scripts/process_all_raw.py` rebuilds the processed file layer from raw inputs.
+- `scripts/build_sqlite_db.py` builds a local SQL database from the processed CSVs.
 
 ## Recommended Analysis Tables
 
@@ -33,7 +34,13 @@ This workspace currently contains collected raw data for analyzing Korea's elect
 
 ## Starter Code
 
-Use [`scripts/load_datasets.py`](/Users/limthanh/기초인공지능프로그래밍/DR_프로젝트/scripts/load_datasets.py) to load the main datasets with the correct encodings and normalized columns.
+Install the Python dependencies before running the pandas-based ETL or hypothesis scripts.
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+Use `scripts/load_datasets.py` to load the main datasets with the correct encodings and normalized columns.
 
 Example:
 
@@ -47,7 +54,7 @@ print(datasets["supply_daily"].head())
 print(datasets["smp_hourly"].head())
 ```
 
-Use [`scripts/build_analysis_table.py`](/Users/limthanh/기초인공지능프로그래밍/DR_프로젝트/scripts/build_analysis_table.py) to create an analysis-ready hourly master table in `data/processed`.
+Use `scripts/build_analysis_table.py` to create an analysis-ready hourly master table in `data/processed`.
 
 ```bash
 python3 scripts/build_analysis_table.py
@@ -56,7 +63,6 @@ python3 scripts/build_analysis_table.py
 This pipeline creates:
 
 - `data/processed/analysis_hourly.csv`
-- `data/processed/analysis_hourly.parquet`
 
 The merged hourly table includes:
 
@@ -66,3 +72,30 @@ The merged hourly table includes:
 - daily supply-demand context
 - daily weather aggregates across all tracked cities
 - city-specific daily weather features for `서울`, `인천`, `부산`, `대구`
+
+## SQL Workflow
+
+For analysis work, use SQL against the generated SQLite database instead of opening large CSVs in Excel.
+
+```bash
+python3 scripts/build_sqlite_db.py
+sqlite3 data/processed/startup202604.sqlite
+```
+
+Useful starting queries:
+
+```sql
+SELECT table_name, row_count, column_count
+FROM _table_inventory
+ORDER BY row_count DESC;
+
+SELECT *
+FROM v_quality_issues;
+
+SELECT year, month, AVG(load_mw) AS avg_load_mw, AVG(smp_krw_per_kwh) AS avg_smp
+FROM v_analysis_hourly_clean
+GROUP BY year, month
+ORDER BY year, month;
+```
+
+The SQLite file is generated output and is ignored by Git. Rebuild it whenever processed CSVs change.

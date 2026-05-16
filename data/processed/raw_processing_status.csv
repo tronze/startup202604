@@ -11,7 +11,6 @@ EPSIS_신재생이용률.xlsx,processed,Converted into one or more processed dat
 EPSIS_재생에너지이용률.xlsx,processed,Converted into one or more processed datasets.
 EPSIS_전력수급실적.csv,processed,Converted into one or more processed datasets.
 KPX_시간별전국전력수요량_2025.csv,processed,Converted into one or more processed datasets.
-KPX_시간별전국전력수요량_2025_playwright.csv,processed,Converted into one or more processed datasets.
 download_targets_manifest.csv,processed,Converted into one or more processed datasets.
 institution_request_queue.csv,processed,Converted into one or more processed datasets.
 kpx_board0216_notices_playwright.csv,processed,Converted into one or more processed datasets.
@@ -26,6 +25,5 @@ kpx_output_related_notices_playwright.csv,processed,Converted into one or more p
 플러스DR_제주플러스DR실적.xlsx,processed,Converted into one or more processed datasets.
 한국전력거래소-시간별-전국-전력수요량-20221231.csv,processed,Converted into one or more processed datasets.
 한국전력거래소-시간별-전국-전력수요량-20241231.csv,processed,Converted into one or more processed datasets.
-한국전력거래소-시간별-전국-전력수요량-20251231.csv,processed,Converted into one or more processed datasets.
 한국전력거래소-행정구역별-에너지사용량-통합데이터-20241231.csv,processed,Converted into one or more processed datasets.
 한국전력공사-전력데이터서비스마켓-EDS-OPEN-API-서비스-목록-20250630.csv,processed,Converted into one or more processed datasets.

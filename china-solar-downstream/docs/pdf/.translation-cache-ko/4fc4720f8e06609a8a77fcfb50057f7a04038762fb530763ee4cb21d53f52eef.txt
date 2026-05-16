@@ -1,0 +1,1 @@
+**OEM 전용 플랫폼**(98GW 관리형 Sungrow iSolarCloud, Growatt ShinePhone, Ginlong SolisCloud): 각 주요 인버터 제조업체는 설치 기반에 무료 모니터링을 제공합니다. 인버터 프로토콜이 독점적이기 때문에 스위칭 비용이 높습니다. 사용자 확보 = 인버터 출하. 수익: 정기 구독 업그레이드 + O&M 서비스 계약.

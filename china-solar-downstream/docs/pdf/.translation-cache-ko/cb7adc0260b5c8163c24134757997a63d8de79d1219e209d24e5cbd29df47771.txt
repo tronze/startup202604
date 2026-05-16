@@ -1,0 +1,16 @@
+| 프로필 | 성적 청구 | 소스 유형 | 평결 |
+|---------|--------------|-------------|---------|
+| 시에너지 기술 | ★5 | HKEX 투자 설명서 + SCMP + Bamboo Works + AsiaBits(4개 소스) | 패스 |
+| hoymiles-스마일-클라우드 | ★5 | 상하이 STAR 시장 등록 + PRNewswire(2 공식) | 패스 |
+| 솔라바오스피 | ★5 | PRNewswire(출시) + People's Energy News(사기) + 36Kr(접기) + Wikipedia(결과) | 패스 |
+| Hanergy 모바일 에너지 | ★5 | SFC 집행기록 + 위키피디아 + PV 매거진 + SCMP | 패스 |
+| 구오능릭신 | ★5 | ChiNext 301162.SZ 공개 연례 보고서(공식) | 패스 |
+| 진코파워테크놀로지 | ★5 | SSE 601778.SH 공개 연례 보고서(공식) | 패스 |
+| 친트아넨 | ★4 | EqualOcean + Dealroom + 회사 웹사이트(3개 소스, 공식 제출 없음) | PASS (★4개 적합) |
+| 스카이워스-태양광 | ★4 | OFWeek Solar + 회사 웹사이트(2개 출처, 공식 제출 없음) | 패스 |
+| huaxia-금융-리스-태양광 | ★4 | CLBA 연례 보고서 + Solar.in-en.com | 패스 |
+| yuexiu-신에너지 | ★4 | OFWeek Solar + CLBA(2개 기관 소스) | 패스 |
+| Solarman-igen-기술 | ★4 | 회사홈페이지(기업공시) | ACCEPTABLE(회사 웹사이트는 자체 지표에 대해 신뢰할 수 있음) |
+| 국시아기술 | ★5 | HKEX 2655.HK 투자설명서 + Bamboo Works + 에너지-스토리지.뉴스 | 패스 |
+| 선퓨어테크놀로지 | ★4 | Mercom India + Tracxn + Hillhouse 포트폴리오 페이지 | 패스 |
+| 그로와트샤인폰 | ★4 | Roth Capital + 회사 IR을 통한 Wood Mackenzie | 패스 |

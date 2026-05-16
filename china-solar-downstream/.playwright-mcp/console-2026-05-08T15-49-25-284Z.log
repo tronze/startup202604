@@ -1,0 +1,351 @@
+[     113ms] [INFO] Resource Sentinel initialized... @ https://www.notion.so/35a3a93f0ab180f0826ff9c09722cb35:0
+[     162ms] [INFO] 2026-05-08T15:49:25.445Z [info] PageLoader: loserAborted {data: Object} @ https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:6
+[     316ms] [WARNING]   WARN  [Statsig] 'StatsigUser.customIDs.stableID' mismatch @ https://www.notion.so/_assets/38994-57e75a3c479e6567.js:0
+[     316ms] [WARNING]   WARN  [Statsig] 'StatsigUser.customIDs.stableID' mismatch @ https://www.notion.so/_assets/38994-57e75a3c479e6567.js:0
+[     317ms] [WARNING]   WARN  [Statsig] 'StatsigUser.customIDs.stableID' mismatch @ https://www.notion.so/_assets/38994-57e75a3c479e6567.js:0
+[     333ms] [INFO] 2026-05-08T15:49:25.617Z [info] FeatureFlagTransactionQueue: preferIndexedDB {team: no-team-specified} @ https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:6
+[     389ms] [WARNING] Ignoring inability to install OPFS sqlite3_vfs: Cannot install OPFS: Missing SharedArrayBuffer and/or Atomics. The server must emit the COOP/COEP response headers to enable those. See https://sqlite.org/wasm/doc/trunk/persistence.md#coop-coep @ https://www.notion.so/_assets/wasm-sqlite-worker-7c99cd42a0b703f8.js:0
+[     601ms] [LOG] %c
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnn                         nnnn
+	nnnnnnn                          nnnn
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+	nnnnnnnn                           nnn
+	nnnnnnnn    nnnnnnnn     nnnnnnn   nnn
+	nnnnnnnn      nnnnnnn      nnn     nnn
+	nnnnnnnn      nnnnnnnn     nnn     nnn
+	nnnnnnnn      nnnnnnnnnn   nnn     nnn
+	nnnnnnnn      nnn nnnnnnn  nnn     nnn
+	nnnnnnnn      nnn  nnnnnnnnnnn     nnn
+	nnnnnnnn      nnn   nnnnnnnnnn     nnn
+	nnnnnnnn      nnn     nnnnnnnn     nnn
+	nnnnnnnn      nnn      nnnnnnn     nnn
+	nnnnnnnn    nnnnnnnn    nnnnnn     nnn
+	  nnnnnn                           nnn
+		nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn		We're hiring!
+		  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn		notion.so/careers
+
+	“yeah, I would probably eat a lemon for one hundred dollars” -- Ivan Zhao (2023-07-14)
+				  font-family: monospace @ https://www.notion.so/_assets/mainApp-59f0e4cc12d70e05.js:76
+[     762ms] [INFO] 2026-05-08T15:49:26.045Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:6
+[     776ms] [INFO] 2026-05-08T15:49:26.060Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:6
+[    1037ms] [WARNING] Amplitude Logger [Warn]: Event not tracked, no destination plugins on the instance @ https://www.notion.so/_assets/transport-support-49d6a98cbf389fa8.js:0
+[    1038ms] [INFO] 2026-05-08T15:49:26.321Z [error] eventTrailApiHelpers: trackFailure {error: Object} @ https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:6
+[    1243ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getAIUsageEligibilityV2:0
+[    1405ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getTrustedDomainsForSpace:0
+[    1414ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async a (https://www.notion.so/_assets/31415-1d76f494b9208085.js:4:17816) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[    1414ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async o (https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156166)
+    at async d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:80611)
+    at async https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156706
+    at async l.fetchFn (https://www.notion.so/_assets/79936-ac90fc8e2f03047a.js:1:24534)
+    at async l.fetch (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:78955)
+    at async r.awaitData (https://www.notion.so/_assets/79936-ac90fc8e2f03047a.js:1:24900)
+    at async f (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:7:87346)
+    at async h (https://www.notion.so/_assets/callouts-022606a155eaefcc.js:1:45186)
+    at async Promise.all (index 11)
+    at async A (https://www.notion.so/_assets/callouts-022606a155eaefcc.js:1:48180)
+    at async Module.D (https://www.notion.so/_assets/callouts-022606a155eaefcc.js:1:51520)
+    at async n (https://www.notion.so/_assets/GlobalInAppMessageListener-8eddea7738747bad.js:1:2538) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[    1417ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getTeamsV2:0
+[    1417ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/getSimilarUsers:0
+[    1424ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async o (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:206:694733)
+    at async https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:60674
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:206:695853)
+    at async Module.s (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:206:696576) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[    1426ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async Promise.all (index 2)
+    at async a (https://www.notion.so/_assets/15840-c1b563e608b8b821.js:1:1942) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[    1462ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://cdn.metadata.io/pixel/config/1127.json:0
+[    1553ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/getLibraryPage:0
+[    1553ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async https://www.notion.so/_assets/AppComponents-5dcdbdabefde2f59.js:1:98304
+    at async https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:7:193553 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[    1599ms] [INFO] 2026-05-08T15:49:26.882Z [warning] ai.completionActions: maybeUpdateAIUsageEligibilityStoreV2BillingDataMissing {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[    1789ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/getAIUsageEligibility:0
+[    1789ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async Module.n (https://www.notion.so/_assets/subscriptionActionsLazyDeps-2bcff1e0d07590ad.js:3:7649)
+    at async a (https://www.notion.so/_assets/15840-c1b563e608b8b821.js:1:3550) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[    1928ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getTrustedDomainsForSpace:0
+[    1929ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async a (https://www.notion.so/_assets/31415-1d76f494b9208085.js:4:17816)
+    at async listener (https://www.notion.so/_assets/31415-1d76f494b9208085.js:1:24220) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   30748ms] [INFO] 2026-05-08T15:49:56.031Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   38727ms] [INFO] 2026-05-08T15:50:04.010Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   38925ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getAIUsageEligibilityV2:0
+[   38925ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async o (https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156166)
+    at async d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:80611)
+    at async https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156706
+    at async l.fetchFn (https://www.notion.so/_assets/79936-ac90fc8e2f03047a.js:1:24534)
+    at async l.fetch (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:78955) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   49835ms] [INFO] 2026-05-08T15:50:15.119Z [info] uploadActions: ClientUploadSuccess {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   59227ms] [INFO] 2026-05-08T15:50:24.511Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   60741ms] [INFO] 2026-05-08T15:50:26.024Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   62167ms] [INFO] 2026-05-08T15:50:27.450Z [info] uploadActions: ClientUploadSuccess {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   65008ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   65012ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[   90745ms] [INFO] 2026-05-08T15:50:56.028Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  120745ms] [INFO] 2026-05-08T15:51:26.029Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  150750ms] [INFO] 2026-05-08T15:51:56.032Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  180745ms] [INFO] 2026-05-08T15:52:26.028Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  210746ms] [INFO] 2026-05-08T15:52:56.030Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  240747ms] [INFO] 2026-05-08T15:53:26.030Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  270747ms] [INFO] 2026-05-08T15:53:56.030Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  300747ms] [INFO] 2026-05-08T15:54:26.030Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  301526ms] [INFO] 2026-05-08T15:54:26.809Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  302076ms] [INFO] 2026-05-08T15:54:27.359Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  330745ms] [INFO] 2026-05-08T15:54:56.029Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  360752ms] [INFO] 2026-05-08T15:55:26.035Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  390764ms] [INFO] 2026-05-08T15:55:56.048Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  420748ms] [INFO] 2026-05-08T15:56:26.031Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  450749ms] [INFO] 2026-05-08T15:56:56.033Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  480749ms] [INFO] 2026-05-08T15:57:26.033Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  510756ms] [INFO] 2026-05-08T15:57:56.039Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  540752ms] [INFO] 2026-05-08T15:58:26.035Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  570748ms] [INFO] 2026-05-08T15:58:56.031Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  600756ms] [INFO] 2026-05-08T15:59:26.039Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  630745ms] [INFO] 2026-05-08T15:59:56.029Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  631815ms] [INFO] 2026-05-08T15:59:57.098Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  631817ms] [INFO] 2026-05-08T15:59:57.100Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  642773ms] [INFO] 2026-05-08T16:00:08.056Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  660746ms] [INFO] 2026-05-08T16:00:26.029Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  677957ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  677959ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  680265ms] [INFO] 2026-05-08T16:00:45.548Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  680882ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getAIUsageEligibilityV2:0
+[  680883ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async o (https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156166)
+    at async d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:80611)
+    at async https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156706
+    at async l.fetchFn (https://www.notion.so/_assets/79936-ac90fc8e2f03047a.js:1:24534)
+    at async l.fetch (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:78955) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683079ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683080ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683084ms] [INFO] 2026-05-08T16:00:48.368Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683111ms] [INFO] 2026-05-08T16:00:48.395Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683128ms] [INFO] 2026-05-08T16:00:48.412Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683132ms] [INFO] 2026-05-08T16:00:48.415Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683136ms] [INFO] 2026-05-08T16:00:48.420Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  683145ms] [INFO] 2026-05-08T16:00:48.428Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684381ms] [INFO] 2026-05-08T16:00:49.664Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684397ms] [INFO] 2026-05-08T16:00:49.680Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684413ms] [INFO] 2026-05-08T16:00:49.696Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684430ms] [INFO] 2026-05-08T16:00:49.713Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684446ms] [INFO] 2026-05-08T16:00:49.730Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684463ms] [INFO] 2026-05-08T16:00:49.747Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684946ms] [INFO] 2026-05-08T16:00:50.230Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  684951ms] [INFO] 2026-05-08T16:00:50.234Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  685036ms] [INFO] 2026-05-08T16:00:50.320Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  687362ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  687363ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  687528ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of characterData "1.7 MiB" -> "1.7 Mi" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  690581ms] [INFO] 2026-05-08T16:00:55.864Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  690752ms] [INFO] 2026-05-08T16:00:56.035Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  691109ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  691109ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  695432ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  695434ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  709251ms] [INFO] 2026-05-08T16:01:14.535Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  709256ms] [INFO] 2026-05-08T16:01:14.540Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  712939ms] [INFO] 2026-05-08T16:01:18.223Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  712942ms] [INFO] 2026-05-08T16:01:18.226Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716507ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716510ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716512ms] [INFO] 2026-05-08T16:01:21.796Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716531ms] [INFO] 2026-05-08T16:01:21.815Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716542ms] [INFO] 2026-05-08T16:01:21.825Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716545ms] [INFO] 2026-05-08T16:01:21.828Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716549ms] [INFO] 2026-05-08T16:01:21.832Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  716556ms] [INFO] 2026-05-08T16:01:21.839Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  717513ms] [INFO] 2026-05-08T16:01:22.796Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  717564ms] [INFO] 2026-05-08T16:01:22.847Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  718184ms] [INFO] 2026-05-08T16:01:23.467Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  718197ms] [INFO] 2026-05-08T16:01:23.481Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  718231ms] [INFO] 2026-05-08T16:01:23.514Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  718247ms] [INFO] 2026-05-08T16:01:23.530Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  718280ms] [INFO] 2026-05-08T16:01:23.564Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  718413ms] [INFO] 2026-05-08T16:01:23.697Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  718422ms] [INFO] 2026-05-08T16:01:23.706Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  719278ms] [INFO] 2026-05-08T16:01:24.562Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  719285ms] [INFO] 2026-05-08T16:01:24.569Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  719463ms] [INFO] 2026-05-08T16:01:24.747Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  719465ms] [INFO] 2026-05-08T16:01:24.748Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  719475ms] [INFO] 2026-05-08T16:01:24.759Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  719478ms] [INFO] 2026-05-08T16:01:24.762Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720385ms] [INFO] 2026-05-08T16:01:25.669Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720388ms] [INFO] 2026-05-08T16:01:25.671Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720398ms] [INFO] 2026-05-08T16:01:25.682Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720400ms] [INFO] 2026-05-08T16:01:25.684Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720462ms] [INFO] 2026-05-08T16:01:25.746Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720464ms] [INFO] 2026-05-08T16:01:25.747Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720537ms] [INFO] 2026-05-08T16:01:25.821Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720539ms] [INFO] 2026-05-08T16:01:25.822Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720638ms] [INFO] 2026-05-08T16:01:25.921Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720640ms] [INFO] 2026-05-08T16:01:25.924Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  720744ms] [INFO] 2026-05-08T16:01:26.028Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  733181ms] [INFO] 2026-05-08T16:01:38.464Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  733184ms] [INFO] 2026-05-08T16:01:38.468Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  733186ms] [INFO] 2026-05-08T16:01:38.470Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  733188ms] [INFO] 2026-05-08T16:01:38.471Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735345ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735348ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735350ms] [INFO] 2026-05-08T16:01:40.633Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735362ms] [INFO] 2026-05-08T16:01:40.646Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735377ms] [INFO] 2026-05-08T16:01:40.660Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735381ms] [INFO] 2026-05-08T16:01:40.664Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735384ms] [INFO] 2026-05-08T16:01:40.668Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  735393ms] [INFO] 2026-05-08T16:01:40.676Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  741304ms] [INFO] 2026-05-08T16:01:46.587Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  741313ms] [INFO] 2026-05-08T16:01:46.597Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  742621ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  742622ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  742625ms] [INFO] 2026-05-08T16:01:47.908Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  742634ms] [INFO] 2026-05-08T16:01:47.917Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  742642ms] [INFO] 2026-05-08T16:01:47.925Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  742645ms] [INFO] 2026-05-08T16:01:47.928Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  742652ms] [INFO] 2026-05-08T16:01:47.935Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  744196ms] [INFO] 2026-05-08T16:01:49.479Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  744219ms] [INFO] 2026-05-08T16:01:49.503Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  744235ms] [INFO] 2026-05-08T16:01:49.519Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  744404ms] [INFO] 2026-05-08T16:01:49.688Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  744453ms] [INFO] 2026-05-08T16:01:49.737Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  744652ms] [INFO] 2026-05-08T16:01:49.936Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  745267ms] [INFO] 2026-05-08T16:01:50.550Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  745482ms] [INFO] 2026-05-08T16:01:50.765Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  745830ms] [INFO] 2026-05-08T16:01:51.113Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  747671ms] [INFO] 2026-05-08T16:01:52.955Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  748550ms] [INFO] 2026-05-08T16:01:53.833Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  748559ms] [INFO] 2026-05-08T16:01:53.842Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  750745ms] [INFO] 2026-05-08T16:01:56.029Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  780755ms] [INFO] 2026-05-08T16:02:26.038Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  782205ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  782208ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  782210ms] [INFO] 2026-05-08T16:02:27.493Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  782217ms] [INFO] 2026-05-08T16:02:27.500Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  782227ms] [INFO] 2026-05-08T16:02:27.510Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  782231ms] [INFO] 2026-05-08T16:02:27.514Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  782239ms] [INFO] 2026-05-08T16:02:27.522Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  784525ms] [INFO] 2026-05-08T16:02:29.809Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  784547ms] [INFO] 2026-05-08T16:02:29.830Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  784562ms] [INFO] 2026-05-08T16:02:29.846Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  784580ms] [INFO] 2026-05-08T16:02:29.863Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  784832ms] [INFO] 2026-05-08T16:02:30.115Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  786613ms] [INFO] 2026-05-08T16:02:31.896Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  786697ms] [INFO] 2026-05-08T16:02:31.980Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  789400ms] [INFO] 2026-05-08T16:02:34.683Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  789416ms] [INFO] 2026-05-08T16:02:34.699Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  789749ms] [INFO] 2026-05-08T16:02:35.033Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  789753ms] [INFO] 2026-05-08T16:02:35.037Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  790991ms] [INFO] 2026-05-08T16:02:36.274Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  790999ms] [INFO] 2026-05-08T16:02:36.282Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  791039ms] [INFO] 2026-05-08T16:02:36.322Z [info] PageLoader: loserAborted {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  791491ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/recordPageExit:0
+[  791491ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  793064ms] [INFO] 2026-05-08T16:02:38.348Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  793080ms] [INFO] 2026-05-08T16:02:38.363Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  793114ms] [INFO] 2026-05-08T16:02:38.398Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  793117ms] [INFO] 2026-05-08T16:02:38.401Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  793121ms] [INFO] 2026-05-08T16:02:38.405Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  793130ms] [INFO] 2026-05-08T16:02:38.413Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  800293ms] [INFO] 2026-05-08T16:02:45.576Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  800295ms] [INFO] 2026-05-08T16:02:45.579Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  801981ms] [INFO] 2026-05-08T16:02:47.265Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  801986ms] [INFO] 2026-05-08T16:02:47.269Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  805839ms] [INFO] 2026-05-08T16:02:51.122Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  805844ms] [INFO] 2026-05-08T16:02:51.127Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  805888ms] [INFO] 2026-05-08T16:02:51.171Z [info] PageLoader: loserAborted {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  806384ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/recordPageExit:0
+[  806384ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  810746ms] [INFO] 2026-05-08T16:02:56.029Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  837253ms] [INFO] 2026-05-08T16:03:22.536Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  837255ms] [INFO] 2026-05-08T16:03:22.539Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  838722ms] [INFO] 2026-05-08T16:03:24.006Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  838726ms] [INFO] 2026-05-08T16:03:24.010Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  838780ms] [INFO] 2026-05-08T16:03:24.064Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  838848ms] [INFO] 2026-05-08T16:03:24.132Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  839047ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://www.notion.so/api/v3/getAIUsageEligibilityV2:0
+[  839047ms] [ERROR] HttpRequestError: Received HTTP 403
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814)
+    at async n (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:1467)
+    at async o (https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156166)
+    at async d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:80611)
+    at async https://www.notion.so/_assets/22278-730614ee340bc7b5.js:1:156706
+    at async l.fetchFn (https://www.notion.so/_assets/79936-ac90fc8e2f03047a.js:1:24534)
+    at async l.fetch (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:78955) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  839247ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://www.notion.so/api/v3/recordPageExit:0
+[  839248ms] [ERROR] HttpRequestError: Received HTTP 400
+    at d (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:32736)
+    at async m (https://www.notion.so/_assets/ClientFramework-7f43235c85260e46.js:7:34601)
+    at async r (https://www.notion.so/_assets/app-3aeb37fd2d61e73b.js:1:159)
+    at async l (https://www.notion.so/_assets/61315-fa9839c6a057445d.js:1:5814) @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840755ms] [INFO] 2026-05-08T16:03:26.038Z [info] useExpPingPolling: exp_ping_success {data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840829ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk xt2wqj3 x9wfp6s xdvhukp" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840831ms] [WARNING] %c NOTION%c WARNING %c background: black; color: white; background: black; color: orange font-weight: normal Reverting mutation of attribute class from "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" -> "x87ps6o x1b7c0jy x1ypdohk x1md70p1 xdxgbl4 xayv9eh" in component undefined MutationRecord See documentation for more details: https://dev.notion.so/notion/About-DOMLock-ContentEditableVoid-and-MaybeContentEditable-184b35e6e67f8092a306e41a781782d6 @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840832ms] [INFO] 2026-05-08T16:03:26.116Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840843ms] [INFO] 2026-05-08T16:03:26.126Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840856ms] [INFO] 2026-05-08T16:03:26.139Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840860ms] [INFO] 2026-05-08T16:03:26.143Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840864ms] [INFO] 2026-05-08T16:03:26.147Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  840872ms] [INFO] 2026-05-08T16:03:26.156Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  842220ms] [INFO] 2026-05-08T16:03:27.503Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  842224ms] [INFO] 2026-05-08T16:03:27.507Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  845179ms] [INFO] 2026-05-08T16:03:30.462Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472
+[  848284ms] [INFO] 2026-05-08T16:03:33.568Z [error] UserActorMembership: NecessaryRecordWasNotProvided {error: Object, data: Object} @ https://www.notion.so/_assets/76406-6b42df3763f56eeb.js:472

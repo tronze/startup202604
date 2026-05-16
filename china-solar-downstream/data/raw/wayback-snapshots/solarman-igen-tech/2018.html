@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><script type="text/javascript" src="https://web-static.archive.org/_static/js/bundle-playback.js?v=oZ57VlYl" charset="utf-8"></script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/wombat.js?v=txqj7nKC" charset="utf-8"></script>
+<script>window.RufflePlayer=window.RufflePlayer||{};window.RufflePlayer.config={"autoplay":"on","unmuteOverlay":"hidden","showSwfDownload":true};</script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/ruffle/ruffle.js"></script>
+<script type="text/javascript">
+    __wm.init("https://web.archive.org/web");
+  __wm.wombat("http://www.solarmanpv.com:80/","20180701184606","https://web.archive.org/","web","https://web-static.archive.org/_static/",
+	      "1530470766");
+</script>
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/banner-styles.css?v=1utQkbB3" />
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/iconochive.css?v=3PDvdIFv" />
+<!-- End Wayback Rewrite JS Include -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>SolarMAN-远程智能光伏监控专家</title>
+<link rel="icon" href="/web/20180701184606im_/http://www.solarmanpv.com/images/icon.png"/>
+<link rel="shortcut icon" href="/web/20180701184606im_/http://www.solarmanpv.com/images/icon.png" type="image/x-icon"/>
+<link rel="bookmark" href="images/icon.png" type="image/x-icon"/>
+<meta name="keywords" content="光伏监控,数据采集器,太阳能,远程监控平台,逆变器数据采集器"/>
+<link rel="stylesheet" href="/web/20180701184606cs_/http://www.solarmanpv.com/css/style.css"/>
+<script type="text/javascript" src="/web/20180701184606js_/http://www.solarmanpv.com/js/javascript.js"></script>
+<script type="text/javascript" src="/web/20180701184606js_/http://www.solarmanpv.com/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/web/20180701184606js_/http://www.solarmanpv.com/js/jquery.solarmanSlideshow.js"></script>
+<script type="text/javascript">
+//location.href="https://web.archive.org/web/20180701184606/http://www.solarman.cn";
+$(document).ready( function() {				
+	$('.slideshow').solarmanSlideshow({
+	'slides'	    : [{},{image:'index_t0.png', href: 'https://web.archive.org/web/20180701184606/http://www.solarman.cn'}],
+	'img_path'	  : './images/', // path to images
+	'auto_change' : true, 
+	'interval'    : 8000 // 6 seconds
+			});
+	});
+//function tran(){ 
+//	var myDate = new Date();
+//	var sec=myDate.getTime();
+//	var totalp, tkwh;
+//	var tkwhs, tkwhs_l;
+//	totalp=1165
+//	tkwh=(sec-1338274969360)/1000/3600*totalp+123455;
+//	tkwh=Math.round(tkwh);
+//	tkwhs=tkwh.toString();
+//	tkwhs_l=tkwhs.length;	
+//	while (tkwhs_l>0) {
+//		var temp=tkwhs_l+7-tkwhs.length;
+//	document.getElementById("num_"+temp).innerHTML='<div style="font-size:30px;color:white;font-family:\'Arial\';text-align:center;margin-top:3px">'+tkwhs.charAt(tkwhs_l-1)+'</div>';  
+//	tkwhs_l=tkwhs_l-1;
+//	}
+//window.setTimeout('tran()',1000); 
+//} 
+//window.setTimeout('tran()',1000); 
+$(document).ready(function(){
+    
+	$.getJSON("https://web.archive.org/web/20180701184606/http://www.omnikportal.com/Led/LedData.ashx?ac=statistics&random="+Math.random()+"&jsoncallback=?",function(a){
+	    document.getElementById("pw_count").innerHTML = a[0].pwcount;
+        document.getElementById("inv_count").innerHTML = a[0].invcount;
+        document.getElementById("pw_dan").innerHTML = " 座";
+        document.getElementById("inv_dan").innerHTML = " 台";
+        if(a[0].engcount>1000000)
+        {
+	        document.getElementById("eng_count").innerHTML = parseFloat(a[0].engcount/1000000).toFixed(2);
+	        document.getElementById("eng_dan").innerHTML = " GWh";
+        }
+        else if(a[0].engcount>1000 && a[0].engcount<1000000)
+        {
+	        document.getElementById("eng_count").innerHTML = parseFloat(a[0].engcount/1000).toFixed(2);
+	        document.getElementById("eng_dan").innerHTML = " MWh";
+        }
+        else
+        {
+	        document.getElementById("eng_count").innerHTML = a[0].engcount;
+	        document.getElementById("eng_dan").innerHTML = " kWh";
+        }
+	})
+});
+</script>
+</head>
+
+<body>
+	<div class="div_1">
+		<div class="logo"><img src="/web/20180701184606im_/http://www.solarmanpv.com/images/logo.png" style="height:53px"/></div>
+		<div class="contact">
+			<div style="margin-top:30px">
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/add.png" style="height:14px;margin-bottom:-2px;"/>
+				<img title="订阅公司新闻" src="/web/20180701184606im_/http://www.solarmanpv.com/images/dingyue.png" style="height:14px;margin-bottom:-2px;cursor:pointer" onclick="location.href='zh-cn/subscibe.html'"/>
+				<img title="Facebook" src="/web/20180701184606im_/http://www.solarmanpv.com/images/facebook.png" style="height:14px;margin-bottom:-2px;cursor:pointer" onclick="window.open('https://web.archive.org/web/20180701184606/http://www.facebook.com/solarmanmonitoring')"/>
+				<img title="Twitter" src="/web/20180701184606im_/http://www.solarmanpv.com/images/twitter.png" style="height:14px;margin-bottom:-2px;cursor:pointer" onclick="window.open('https://web.archive.org/web/20180701184606/https://twitter.com/SolarMAN_IGEN')"/>
+				<img title="新浪微博" src="/web/20180701184606im_/http://www.solarmanpv.com/images/sina.png" style="height:14px;margin-bottom:-2px;cursor:pointer" onclick="window.open('https://web.archive.org/web/20180701184606/http://weibo.com/solarmanmonitoring')"/>
+				<img title="产品咨询" src="/web/20180701184606im_/http://www.solarmanpv.com/images/tencent.png" style="height:14px;margin-bottom:-2px;cursor:pointer" onclick="location.href='https://web.archive.org/web/20180701184606/http://sighttp.qq.com/authd?IDKEY=4a3981a0b2e45ab504d9f52933cd224d3e54bcf890047c19'"/>
+				<img title="售后支持" src="/web/20180701184606im_/http://www.solarmanpv.com/images/qq2.png" style="height:18px;margin-bottom:-3px;cursor:pointer" onclick="location.href='https://web.archive.org/web/20180701184606/http://sighttp.qq.com/authd?IDKEY=21d2f4719111abd03d77c61b2cb60b9621db172c1150ffc7'"/>
+				<img title="Skype" src="/web/20180701184606im_/http://www.solarmanpv.com/images/skype.png" style="height:14px;margin-bottom:-2px;cursor:pointer" onclick="location.href='skype:solarman-monitoring?chat'"/>
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/shuxian.png" style="height:18px;width:1px;margin-bottom:-4px"/>
+				<a class="lan" href="zh-cn/contact.html" style="text-decoration:none;font-family:'微软雅黑'">联系我们</a>
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/shuxian.png" style="height:18px;width:1px;margin-bottom:-4px"/>
+				<a class="lan" href="index_en.html" style="text-decoration:none" onclick="setCookie('en-us')">English</a>
+			</div>
+		</div>
+	</div>
+	<div class="menu">
+		<div class="menu_a" onmouseover="menu_over2_2(this)" onmouseout="menu_out2_2(this)" onclick="location.href='index.html'"><div class="menu_txt">首页</div></div>
+		<div class="menu_b" style="margin-left:126px" onmouseover="menu_over_2(this)" onmouseout="menu_out_2(this)" onclick="location.href='zh-cn/product.html'"><div class="menu_txt">产品</div></div>
+		<div class="menu_b" style="margin-left:251px" onmouseover="menu_over_2(this)" onmouseout="menu_out_2(this)" onclick="location.href='zh-cn/solution.html'"><div class="menu_txt">解决方案</div></div>
+		<div class="menu_b" style="margin-left:376px" onmouseover="menu_over_2(this)" onmouseout="menu_out_2(this)" onclick="location.href='zh-cn/partner.html'"><div class="menu_txt">合作</div></div>
+		<div class="menu_b" style="margin-left:501px" onmouseover="menu_over_2(this)" onmouseout="menu_out_2(this)" onclick="location.href='zh-cn/document.html'"><div class="menu_txt">技术支持</div></div>
+		<div class="menu_b" style="margin-left:626px" onmouseover="menu_over_2(this)" onmouseout="menu_out_2(this)" onclick="location.href='zh-cn/aboutus.html'"><div class="menu_txt">关于我们</div></div>
+		<div class="menu_b" style="margin-left:751px" onmouseover="menu_over_2(this)" onmouseout="menu_out_2(this)" onclick="location.href='zh-cn/joinus.html'"><div class="menu_txt">加入我们</div></div>
+	</div>
+	<div class="slideshow" style="margin-top:20px"></div>
+	</div>
+	<div class="div_center" style="margin-top:20px">
+		<!--<div style="width:649px;float:left;height:179px;">
+		<div style="margin-top:11px"><img src="images/index_p1.png" onclick="location.href='zh-cn/invdatalogger.html'" style="cursor:pointer"/><img src="images/shuxian.png" style="width:1px;height:140px;margin-left:10px;margin-right:10px"/><img src="images/index_p2.png" onclick="location.href='zh-cn/monequipment.html'" style="cursor:pointer"/><img src="images/shuxian.png" style="width:1px;height:140px;margin-left:10px;margin-right:15px"/><img src="images/index_p3.png" style="margin-bottom:25px;cursor:pointer" onclick="location.href='zh-cn/solarmanweb.html'"/><br/><a style="font-size:13px;font-family:'微软雅黑';color:#4C4646;text-decoration:none;margin-left:53px" href="zh-cn/invdatalogger.html">光伏数据采集器</a><a style="font-size:13px;font-family:'微软雅黑';color:#4C4646;text-decoration:none;margin-left:124px" href="zh-cn/monequipment.html">配套监控设备</a><a style="font-size:13px;font-family:'微软雅黑';color:#4C4646;text-decoration:none;margin-left:160px" href="zh-cn/solarmanweb.html">软件平台</a></div></div>-->
+		<div style="width:649px;float:left;height:179px;">
+			<div style="width:649px">
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/index_p1.png" onclick="location.href='zh-cn/invdatalogger.html'" style="cursor:pointer;margin-left:15px;margin-bottom: -10px; margin-top: 10px;"/>
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/shuxian.png" style="width:1px;height:140px;margin-left:17px;margin-bottom:-15px"/>
+				<!--<img src="images/index_p2.png" onclick="location.href='zh-cn/monequipment.html'" style="cursor:pointer;margin-left:7px"/>
+				<img src="images/shuxian.png" style="width:1px;height:140px;margin-left:8px;margin-bottom:-15px"/>-->
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/index_p3.png" onclick="location.href='zh-cn/solarmanweb.html'" style="cursor:pointer;margin-left:15px;margin-bottom:25px"/>
+			</div>
+			<div style="width:649px">
+				<div style="width:216px;text-align:center;float:left"><a style="font-size:13px;font-family:'微软雅黑';color:#4C4646;text-decoration:none;" href="zh-cn/invdatalogger.html">光伏数据采集器</a></div>
+				<!--<div style="width:216px;text-align:center;float:left"><a style="font-size:13px;font-family:'微软雅黑';color:#4C4646;text-decoration:none;" href="zh-cn/monequipment.html">配套监控设备</a></div>-->
+				<div style="width:216px;text-align:center;float:left"><a style="font-size:13px;font-family:'微软雅黑';color:#4C4646;text-decoration:none;" href="zh-cn/solarmanweb.html">软件平台</a></div>
+				<div style="clear:left"></div>
+			</div>
+		</div>
+		<div style="margin-left:20px;width:291px;float:left;background-image:url(/web/20180701184606im_/http://www.solarmanpv.com/images/index_p4_2.png);height:180px">
+	<div style="margin-left:8px;margin-top:10px;"></div>
+	    <div style="height:127px;font-family:微软雅黑">
+	        <div style="height:42px"><div style="padding-left: 45px;"><div style="width:70px;font-size:12px;float:left;margin-top:13px">电站：</div><div id="pw_count" style="float:left;width:130px;text-align:right;font-size:18px;color:#42A5E0;margin-top:8px">Loading...</div><div id="pw_dan" style="float:left;font-size:12px;color:#42A5E0;margin-top:13px"></div><div style="clear:left"></div></div></div>
+	        <div style="height:42px"><div style="padding-left: 45px;"><div style="width:70px;font-size:12px;float:left;margin-top:13px">逆变器：</div><div id="inv_count" style="float:left;width:130px;text-align:right;font-size:18px;color:#42A5E0;margin-top:8px">Loading...</div><div id="inv_dan" style="float:left;font-size:12px;color:#42A5E0;margin-top:13px"></div><div style="clear:left"></div></div></div>
+	        <div style="height:42px"><div style="padding-left: 45px;"><div style="width:70px;font-size:12px;float:left;margin-top:13px">总发电量：</div><div id="eng_count" style="float:left;width:130px;text-align:right;font-size:18px;color:#42A5E0;margin-top:8px">Loading...</div><div id="eng_dan" style="float:left;font-size:12px;color:#42A5E0;margin-top:13px"></div><div style="clear:left"></div></div></div>
+	    </div>
+		<div style="margin-top:7px">
+			<div style="float:left;width:74px;height:28px;background-image:url(/web/20180701184606im_/http://www.solarmanpv.com/images/btn_b1.png);margin-left:9px;cursor:pointer" onmouseover="btn_mouse_over_2(this)" onmouseout="btn_mouse_out_2(this)" onclick="window.open('https://web.archive.org/web/20180701184606/http://www.solarmanpv.com/portal/LoginPage.aspx');"><div style="text-align:center;color:white;margin-top:5px;font-family:'微软雅黑';font-size:11px">登陆平台</div></div>
+			<div style="float:left;width:74px;height:28px;background-image:url(/web/20180701184606im_/http://www.solarmanpv.com/images/btn_b1.png);margin-left:24px;cursor:pointer" onmouseover="btn_mouse_over_2(this)" onmouseout="btn_mouse_out_2(this)" onclick="window.open('https://web.archive.org/web/20180701184606/http://www.solarmanpv.com/portal/Terminal/TerminalMain.aspx?pid=267')"><div style="text-align:center;color:white;margin-top:5px;font-family:'微软雅黑';font-size:11px">示例电站</div></div>
+			<div style="float:left;width:74px;height:28px;background-image:url(/web/20180701184606im_/http://www.solarmanpv.com/images/btn_g1.png);margin-left:25px;cursor:pointer" onmouseover="btn_mouse_over_g(this)" onmouseout="btn_mouse_out_g(this)" onclick="window.open('https://web.archive.org/web/20180701184606/http://www.solarmanpv.com/portal/Register/Regi_Pub.aspx')" target="_black"><div style="text-align:center;color:white;margin-top:5px;font-family:'微软雅黑';font-size:11px">立即注册</div></div>
+			<div style="clear:left"></div>
+		</div>
+		</div>
+	</div>
+	<div style="clear:left"></div>
+	<div class="line" style="margin-top:20px;margin-bottom:20px;width:960px;margin-left:auto;margin-right:auto;"></div>
+	<div class="div_center">
+		<!--<div style="width:649px;height:309px;border:1px solid #B8B8B8;"><div style="width:216px;float:left"><img src="images/index_p6.png" style="margin-bottom:87px;margin-left:5px"/><img src="images/shuxian.png" style="width:1px;height:280px;margin-left:5px;margin-top:14px"/><div style="margin-left:52px;margin-top:-30px"><a href="zh-cn/product.html" style="font-family:'微软雅黑';font-size:13px;color:#618AC1;text-decoration:none;cursor:pointer">了解更多&gt;&gt;</a></div></div><div style="width:216px;float:left"><img src="images/index_p7.png"  style="margin-left:5px;margin-bottom:74px"/><img src="images/shuxian.png" style="width:1px;height:280px;margin-left:35px;margin-top:14px"/><div style="margin-left:50px;margin-top:-30px"><a href="zh-cn/product.html" style="font-family:'微软雅黑';font-size:13px;color:#618AC1;text-decoration:none;cursor:pointer">了解更多&gt;&gt;</a></div></div><div style="width:216px;float:left;margin-top:57px"><img src="images/index_p5.png" style="margin-left:45px;margin-bottom:60px"/><div style="margin-left:63px;margin-top:-30px"><a href="zh-cn/product.html" style="font-family:'微软雅黑';font-size:13px;color:#618AC1;text-decoration:none;cursor:pointer">了解更多&gt;&gt;</a></div></div><div style="clear:left"></div></div>-->
+		<div style="width:649px;height:309px;border:1px solid #B8B8B8;">
+			<div style="width:649px">
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/index_p6_en.png" style="margin-bottom:68px;margin-left:25px"/>
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/shuxian.png" style="height:280px;width:1px;margin-top:15px;margin-bottom:-15px;margin-left:7px"/>
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/index_p7_en.png" style="margin-bottom:60px;margin-left:15px"/>
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/shuxian.png" style="height:280px;width:1px;margin-top:15px;margin-bottom:-15px;margin-left:7px"/>
+				<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/index_p5_en.png" style="margin-bottom:47px;margin-left:2px"/>
+			</div>
+			<div style="width:648px;height:20px;margin-top:-20px;position:relative">
+				<div style="text-align:center;width:216px;float:left"><a href="zh-cn/product.html" style="font-family:'微软雅黑';font-size:13px;color:#618AC1;text-decoration:none;cursor:pointer">了解更多&gt;&gt;</a></div>
+				<div style="text-align:center;width:216px;float:left"><a href="zh-cn/product.html" style="font-family:'微软雅黑';font-size:13px;color:#618AC1;text-decoration:none;cursor:pointer">了解更多&gt;&gt;</a></div>
+				<div style="text-align:center;width:216px;float:left"><a href="zh-cn/product.html" style="font-family:'微软雅黑';font-size:13px;color:#618AC1;text-decoration:none;cursor:pointer">了解更多&gt;&gt;</a></div>
+			</div>
+			<div style="clear:left"></div>
+		</div>
+		<div style="margin-left:669px;margin-top:-312px;width:290px"><iframe width="290" height="319" class="share_self" frameborder="0" scrolling="no" src="https://web.archive.org/web/20180701184606if_/http://widget.weibo.com/weiboshow/index.php?language=&amp;width=290&amp;height=319&amp;fansRow=2&amp;ptype=0&amp;speed=100&amp;skin=5&amp;isTitle=1&amp;noborder=1&amp;isWeibo=1&amp;isFans=0&amp;uid=2248631090&amp;verifier=dde46a02&amp;colors=ffffff,ffffff,666666,5f5d5d,ecfbfd&amp;dpc=1"></iframe>
+</div>
+	</div>
+	<div style="clear:left"></div>
+	<div class="div_center">
+		<div style="border:1px solid #B8B8B8;padding:2px">
+		    <img src="/web/20180701184606im_/http://www.solarmanpv.com/images/i14en.jpg" style="width:460px;cursor:pointer" onclick="window.open('https://web.archive.org/web/20180701184606/http://www.intersolar.de');"/>
+		    <img src="/web/20180701184606im_/http://www.solarmanpv.com/images/s14en.jpg" style="width:460px;cursor:pointer;margin-left:26px" onclick="window.open('https://web.archive.org/web/20180701184606/http://www.snec.org.cn/');"/>
+		</div>
+		<div style="height:18px;width:1px"></div>
+		<div style="width:938px;padding:10px 10px 10px 10px;border:solid 1px #B8B8B8">
+		    <img src="/web/20180701184606im_/http://www.solarmanpv.com/images/HDPV-Member-url-three-eight.png" style="height:50px;cursor:pointer" onclick="window.open('https://web.archive.org/web/20180701184606/http://www.hdpv.org');"/>
+		</div>
+		<div class="line_l"></div>
+		<div style="width:960px;font-size:12px">
+			<div style="float:left;">
+				<div class="foot_txt_b"><a href="zh-cn/aboutus.html" class="cursor_b">关于我们</a></div>
+				<div class="foot_txt"><a href="zh-cn/aboutus.html" class="cursor_b">关于SolarMAN</a></div>
+				<div class="foot_txt"><a href="zh-cn/contact.html" class="cursor_b">联系方式</a></div>
+				<div class="foot_txt"><a href="" class="cursor_b">SolarMAN博客</a></div>
+				<div class="foot_txt"><a href="zh-cn/subscibe.html" class="cursor_b">邮件订阅</a></div>
+			</div>
+			<div style="float:left;margin-left:120px">
+				<div class="foot_txt_b"><a href="zh-cn/product.html" class="cursor_b">产品</a></div>
+				<div class="foot_txt"><a href="zh-cn/product.html" class="cursor_b">产品概述</a></div>
+				<div class="foot_txt"><a href="zh-cn/invdatalogger.html" class="cursor_b">光伏数据采集器</a></div>
+				<div class="foot_txt"><a href="zh-cn/monequipment.html" class="cursor_b">配套监控设备</a></div>
+				<div class="foot_txt"><a href="zh-cn/solarmanweb.html" class="cursor_b">软件平台</a></div>
+			</div>
+			<div style="float:left;margin-left:120px">
+				<div class="foot_txt_b"><a href="zh-cn/solution.html" class="cursor_b">解决方案</a></div>
+				<div class="foot_txt"><a href="zh-cn/solution.html" class="cursor_b">概述</a></div>
+				<div class="foot_txt"><a href="zh-cn/solutionlarge.html" class="cursor_b">大型光伏电站监控</a></div>
+				<div class="foot_txt"><a href="zh-cn/solutioncom.html" class="cursor_b">商业屋顶光伏系统监控</a></div>
+				<div class="foot_txt"><a href="zh-cn/solutionuser.html" class="cursor_b">户用屋顶光伏系统监控</a></div>
+			</div>
+			<div style="float:left;margin-left:120px">
+				<div class="foot_txt_b"><a href="zh-cn/partner.html" class="cursor_b">合作</a></div>
+				<div class="foot_txt"><a href="zh-cn/partner.html" class="cursor_b">商务合作</a></div>
+				<div class="foot_txt"><a href="zh-cn/partner.html" class="cursor_b">渠道合作</a></div>
+				<div class="foot_txt"><a href="zh-cn/partner.html" class="cursor_b">ODM/OEM合作</a></div>
+			</div>
+			<div style="float:left;margin-left:120px">
+				<div class="foot_txt_b"><a href="zh-cn/document.html" class="cursor_b">技术支持</a></div>
+				<div class="foot_txt"><a href="zh-cn/faq.html" class="cursor_b">常见问题</a></div>
+				<div class="foot_txt"><a href="zh-cn/document.html" class="cursor_b">文档下载</a></div>
+			</div>
+		</div>
+		<div style="clear:left"></div>
+		<div class="line_l"></div>
+		<div style="width:960px;margin-top:20px;">
+			<div class="cpy tl">Copyright © 2009-2015 IGEN Tech Inc. All Rights Reserved. </div>
+			<div class="cpy tr"><img src="/web/20180701184606im_/http://www.solarmanpv.com/images/telephone.png" style="height:14px;margin-bottom:-2px"/>&nbsp;联系电话：0510-81816208&nbsp;&nbsp;&nbsp;<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/shuxian.png" style="margin-bottom:-4px"/>&nbsp;&nbsp;&nbsp;<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/tencent.png" style="height:14px;margin-bottom:-2px"/>&nbsp;QQ：877990716&nbsp;&nbsp;&nbsp;<img src="/web/20180701184606im_/http://www.solarmanpv.com/images/shuxian.png" style="margin-bottom:-4px"/>&nbsp;&nbsp;&nbsp;<div style="float:right;margin-top:3px"><script src="https://web.archive.org/web/20180701184606js_/http://s24.cnzz.com/stat.php?id=4279115&amp;web_id=4279115&amp;show=pic1" language="JavaScript"></script></div><div style="clear:right"></div></div>
+		</div>
+		<div style="clear:left"></div>
+	</div>
+	<script id="jsgovicon" src="https://web.archive.org/web/20180701184606js_/http://odr.jsdsgsxt.gov.cn:8081/mbm/app/main/electronic/js/govicon.js?siteId=fdf65dfe12104c46b76a716a2ee1b967&amp;width=100&amp;height=137&amp;type=1" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
+<!--
+     FILE ARCHIVED ON 18:46:06 Jul 01, 2018 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:39:35 May 08, 2026.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 0.419
+  exclusion.robots: 0.034
+  exclusion.robots.policy: 0.026
+  esindex: 0.007
+  cdx.remote: 24.584
+  LoadShardBlock: 83.545 (3)
+  PetaboxLoader3.datanode: 107.842 (4)
+  PetaboxLoader3.resolve: 542.956 (2)
+  load_resource: 616.394
+-->

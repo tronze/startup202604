@@ -1,0 +1,8 @@
+## 계층 3: 업계 보고서 및 데이터
+- **BloombergNEF (BNEF)** — 일반적인 시장 맥락에서 참조됨
+- **중국태양광산업협회(CPIA / 中國光伏行业协会)** — 설치 용량 증가에 대한 chinapv.org.cn 통계
+- **NEA(國家能源局)** — 누적 설치 용량 데이터(2016년 주택용 PV 0.9GW → 2020년 20GW)
+- **AIIB 블로그** — "햇빛 수확: 중국 농촌의 옥상 태양광 발전 역학"(aiib.org)
+- **세계자원연구소** — "중국의 분산형 태양광 발전: 성장과 과제"(wri.org)
+- **New Security Beat** — 중국 옥상 태양광 생태계에 대한 "No Home in the Dark" 기사(newsecuritybeat.org)
+- **PR Newswire** — SPI Solarbao 출시 발표(2015)

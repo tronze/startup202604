@@ -1,0 +1,1 @@
+**문제:** 4단계 회사 프로필 에이전트가 `data/raw/wayback/<slug>/`에서 Wayback 데이터를 검색했지만 실제 경로는 `data/raw/wayback-snapshots/<slug>/`입니다. 이 경로 불일치는 프로필 작성 중에 204개의 HTML 스냅샷이 참조되지 않았음을 의미합니다.

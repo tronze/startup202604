@@ -1,0 +1,102 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e6]:
+      - link "콘텐츠로 건너뛰기" [ref=e8] [cursor=pointer]:
+        - /url: "#main"
+        - generic [ref=e9]:
+          - text: 콘텐츠로 건너뛰기
+          - img [ref=e10]
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - progressbar [ref=e14]
+          - progressbar [ref=e15]
+        - progressbar [ref=e16]
+        - progressbar [ref=e17]
+        - progressbar [ref=e18]
+        - progressbar [ref=e19]
+        - progressbar [ref=e20]
+        - generic [ref=e21]:
+          - progressbar [ref=e22]
+          - progressbar [ref=e23]
+        - generic [ref=e24]:
+          - progressbar [ref=e25]
+          - progressbar [ref=e26]
+        - generic [ref=e27]:
+          - progressbar [ref=e28]
+          - progressbar [ref=e29]
+        - generic [ref=e30]:
+          - progressbar [ref=e31]
+          - progressbar [ref=e32]
+        - generic [ref=e33]:
+          - progressbar [ref=e34]
+          - progressbar [ref=e35]
+        - generic [ref=e36]:
+          - progressbar [ref=e37]
+          - progressbar [ref=e38]
+        - generic [ref=e39]:
+          - progressbar [ref=e40]
+          - progressbar [ref=e41]
+        - generic [ref=e42]:
+          - progressbar [ref=e43]
+          - progressbar [ref=e44]
+        - generic [ref=e45]:
+          - progressbar [ref=e46]
+          - progressbar [ref=e47]
+        - generic [ref=e48]:
+          - progressbar [ref=e49]
+          - progressbar [ref=e50]
+        - generic [ref=e51]:
+          - progressbar [ref=e52]
+          - progressbar [ref=e53]
+        - generic [ref=e54]:
+          - progressbar [ref=e55]
+          - progressbar [ref=e56]
+        - generic [ref=e57]:
+          - progressbar [ref=e58]
+          - progressbar [ref=e59]
+        - generic [ref=e60]:
+          - progressbar [ref=e61]
+          - progressbar [ref=e62]
+        - generic [ref=e63]:
+          - progressbar [ref=e64]
+          - progressbar [ref=e65]
+        - generic [ref=e66]:
+          - progressbar [ref=e67]
+          - progressbar [ref=e68]
+        - generic [ref=e69]:
+          - progressbar [ref=e70]
+          - progressbar [ref=e71]
+        - generic [ref=e72]:
+          - progressbar [ref=e73]
+          - progressbar [ref=e74]
+        - generic [ref=e75]:
+          - progressbar [ref=e76]
+          - progressbar [ref=e77]
+        - generic [ref=e78]:
+          - progressbar [ref=e79]
+          - progressbar [ref=e80]
+      - generic [ref=e81]:
+        - banner [ref=e82]
+        - main [ref=e84]:
+          - group [disabled] [ref=e87]:
+            - generic [ref=e89]:
+              - generic [ref=e92]:
+                - generic [ref=e93]:
+                  - button "댓글 추가" [disabled]:
+                    - img
+                    - text: 댓글 추가
+                - heading "중국 태양광 하류 기업들 데이터" [level=1] [ref=e97]
+              - generic [ref=e99]:
+                - generic [ref=e105]: 단순 데이터 수집 단계이지만 대략적인 태양광 업계에서의 이벤트들을 이해하는데에는 도움이 될수 있을것같습니다.
+                - figure [ref=e107]:
+                  - button "china-solar-downstream-research.zip 3.7 MiB" [disabled] [ref=e111] [cursor=pointer]:
+                    - generic [ref=e112]:
+                      - img [ref=e114]
+                      - generic [ref=e118]:
+                        - generic [ref=e119]: china-solar-downstream-research.zip
+                        - generic [ref=e120]: 3.7 MiB
+                - generic [ref=e126]: 데이터가 많기 때문에 PDF를 직접 읽기보다 md파일을 AI모델에 넣어 문답하는방식이 제일 효율적일것같습니다.
+    - status [ref=e134]
+    - alert [ref=e135]
+  - iframe [ref=e136]:
+    

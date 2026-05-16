@@ -1,18 +1,18 @@
 ﻿source_file,dataset_name,status,rows,columns,csv_path,parquet_path,note
-core_pipeline,supply_daily,processed,2202,9.0,data/processed/supply_daily.csv,data/processed/supply_daily.parquet,Generated from normalized core loaders.
+core_pipeline,supply_daily,processed,2192,9.0,data/processed/supply_daily.csv,,Generated from normalized core loaders.
 core_pipeline,smp_hourly,processed,52608,6.0,data/processed/smp_hourly.csv,data/processed/smp_hourly.parquet,Generated from normalized core loaders.
 core_pipeline,weather_daily,processed,18992,9.0,data/processed/weather_daily.csv,data/processed/weather_daily.parquet,Generated from normalized core loaders.
 core_pipeline,dr_hourly,processed,17544,8.0,data/processed/dr_hourly.csv,data/processed/dr_hourly.parquet,Generated from normalized core loaders.
-core_pipeline,load_hourly,processed,87672,4.0,data/processed/load_hourly.csv,data/processed/load_hourly.parquet,Generated from normalized core loaders.
+core_pipeline,load_hourly,processed,87648,4.0,data/processed/load_hourly.csv,,Generated from normalized core loaders.
 EPSIS_SMP_가중평균.csv,smp_weighted_monthly,processed,72,5.0,data/processed/smp_weighted_monthly.csv,data/processed/smp_weighted_monthly.parquet,"Monthly SMP summary for mainland, Jeju, and integrated values."
 EPSIS_재생에너지이용률.xlsx;EPSIS_신재생이용률.xlsx,renewable_utilization_monthly,processed,2828,5.0,data/processed/renewable_utilization_monthly.csv,data/processed/renewable_utilization_monthly.parquet,Combined monthly renewable utilization with source traceability.
-2013-2020-수요관리후-발전단-전력수요실적.csv;2021년-1-12월-수요관리후-발전단-수요실적.csv;한국전력거래소-시간별-전국-전력수요량-20221231.csv;시간별-전국-전력수요량-20231231.csv;한국전력거래소-시간별-전국-전력수요량-20241231.csv;KPX_시간별전국전력수요량_2025.csv;KPX_시간별전국전력수요량_2025_playwright.csv;한국전력거래소-시간별-전국-전력수요량-20251231.csv,load_hourly_all_sources,processed,131544,4.0,data/processed/load_hourly_all_sources.csv,data/processed/load_hourly_all_sources.parquet,Long-format hourly load table across all available nationwide load CSVs.
+2013-2020-수요관리후-발전단-전력수요실적.csv;2021년-1-12월-수요관리후-발전단-수요실적.csv;한국전력거래소-시간별-전국-전력수요량-20221231.csv;시간별-전국-전력수요량-20231231.csv;한국전력거래소-시간별-전국-전력수요량-20241231.csv;KPX_시간별전국전력수요량_2025.csv,load_hourly_all_sources,processed,113952,4.0,data/processed/load_hourly_all_sources.csv,,Long-format hourly load table across all available nationwide load CSVs.
 한국전력거래소-행정구역별-에너지사용량-통합데이터-20241231.csv,regional_energy_usage_2024,processed,2904,5.0,data/processed/regional_energy_usage_2024.csv,data/processed/regional_energy_usage_2024.parquet,Regional monthly energy usage by category and detailed use.
 한국전력공사-전력데이터서비스마켓-EDS-OPEN-API-서비스-목록-20250630.csv,kepco_api_catalog_20250630,processed,23,5.0,data/processed/kepco_api_catalog_20250630.csv,data/processed/kepco_api_catalog_20250630.parquet,KEPCO EDS open API service catalog.
-2022년도_전력시장통계.xlsx,2022년도_전력시장통계_sheets,processed,1930,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets exported individually into market_statistics_sheets.
-2023년도_전력시장통계.xlsx,2023년도_전력시장통계_sheets,processed,1941,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets exported individually into market_statistics_sheets.
-2024년도_전력시장통계.xlsx,2024년도_전력시장통계_sheets,processed,1887,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets exported individually into market_statistics_sheets.
-2025년도_전력시장통계.xlsx,2025년도_전력시장통계_sheets,processed,1920,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets exported individually into market_statistics_sheets.
+2022년도_전력시장통계.xlsx,2022년도_전력시장통계_sheets,processed,1930,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets indexed; source workbook retained for detailed inspection.
+2023년도_전력시장통계.xlsx,2023년도_전력시장통계_sheets,processed,1941,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets indexed; source workbook retained for detailed inspection.
+2024년도_전력시장통계.xlsx,2024년도_전력시장통계_sheets,processed,1887,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets indexed; source workbook retained for detailed inspection.
+2025년도_전력시장통계.xlsx,2025년도_전력시장통계_sheets,processed,1920,,data/processed/market_statistics_sheet_index.csv,,Workbook sheets indexed; source workbook retained for detailed inspection.
 플러스DR_경제성DR_입낙찰.xlsx,plus_dr_economic_schema,processed,4,15.0,data/processed/plus_dr_economic_schema.csv,data/processed/plus_dr_economic_schema.parquet,Legacy Plus DR workbook converted as field-definition metadata table.
 플러스DR_수요자원입낙찰.xlsx,plus_dr_resource_market_schema,processed,0,15.0,data/processed/plus_dr_resource_market_schema.csv,data/processed/plus_dr_resource_market_schema.parquet,Legacy Plus DR workbook converted as field-definition metadata table.
 플러스DR_제주플러스DR실적.xlsx,plus_dr_jeju_schema,processed,13,15.0,data/processed/plus_dr_jeju_schema.csv,data/processed/plus_dr_jeju_schema.parquet,Legacy Plus DR workbook converted as field-definition metadata table.
@@ -21,4 +21,4 @@ institution_request_queue.csv,institution_request_queue_normalized,processed,22,
 kpx_board0216_notices_playwright.csv,kpx_board0216_notices,processed,200,4.0,data/processed/kpx_board0216_notices.csv,data/processed/kpx_board0216_notices.parquet,KPX board data captured by Playwright (list/detail).
 kpx_output_related_notices_playwright.csv,kpx_output_related_notices,processed,200,4.0,data/processed/kpx_output_related_notices.csv,data/processed/kpx_output_related_notices.parquet,KPX board data captured by Playwright (list/detail).
 kpx_output_related_notice_details_playwright.csv,kpx_output_related_notice_details,processed,200,6.0,data/processed/kpx_output_related_notice_details.csv,data/processed/kpx_output_related_notice_details.parquet,KPX board data captured by Playwright (list/detail).
-raw_inventory,raw_processing_status,processed,30,3.0,data/processed/raw_processing_status.csv,data/processed/raw_processing_status.parquet,"Tracks which raw files were processed, blocked, or ignored."
+raw_inventory,raw_processing_status,processed,28,3.0,data/processed/raw_processing_status.csv,,"Tracks which raw files were processed, blocked, or ignored."

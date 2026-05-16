@@ -1,0 +1,9 @@
+### O&M 및 모니터링 부문 — 전력 구조
+| 계층 | 회사 | 경쟁 기반 |
+|------|-------------|------|
+| OEM 종속 리더 | Sungrow iSolarCloud(98GW), Growatt ShinePhone, Ginlong SolisCloud | 종속 하드웨어 사용자 기반 |
+| 독립 플랫폼 | SOLARMAN(220GW, 250만 시스템) | 다중 브랜드 설치 프로그램 충성도 |
+| 엔터프라이즈 SaaS | Guoneng Rixin (CNY 550M rev, 상장) | 그리드 운영자 예측 SaaS |
+| 하드웨어 O&M | Liansheng/Uper(10GW), Sunpure(13GW, 로봇공학) | 현장 작업 규모 + 로봇 |
+| AI 기반 BESS | Sigenergy(DESS 글로벌 점유율 24%), Guoxia(15배 성장) | AI 파견 최적화 |
+| 생태계 조력자 | Getech-PVOM (CNY 1B rev), Jinengyun | 산업용 AI + 태양광 포트폴리오 SaaS |

@@ -16,3 +16,5 @@ data/raw/tmp_motie/
 data/raw/playwright_batch_capture/*.html
 data/raw/playwright_batch_capture/*.png
 data/raw/institution_requests_by_owner/
+data/processed/*.sqlite
+data/processed/*.sqlite-*

@@ -1,0 +1,7 @@
+## Tier 1: 회사 공식 출처
+- 회사 "회사 소개" 페이지(예: chintanneng.com, Solarmanpv.com, Solarqt.com, uper-energy.com)
+- IPO 투자 설명서 및 규제 서류:
+  - 浙江晴天太阳能科技에 대한 SZSE 제출(reportdocs.static.szse.cn)
+  - 正泰安能数字能源에 대한 SSE 안내서(static.sse.com.cn)
+- 상장 기업의 연간 보고서 (300274.SZ Sungrow, 601778.SH Jinko Power, 300393.SZ Zhonglai)
+- Trinapower 회사 소개 PDF (trinapower.com)

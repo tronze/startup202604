@@ -1,0 +1,9 @@
+## 계층 4: 기업 데이터베이스
+- **企查查 (Qcc.com)** — 개념적으로 사용됩니다. 직접 접속되지 않음(로그인 벽에 의해 차단됨)
+- **天眼查 (Tyc.com)** — 개념적으로 사용됩니다. 직접적으로 접근하지 않음
+- **Crunchbase** — Chint Anneng, Seeder Clean Energy, Solarbe, Solarbao 프로필용 crunchbase.com
+- **Dealroom** — Chint Anneng용 app.dealroom.co, Seeder 자금 조달 데이터
+- **Tracxn** — Sungrow, Liansheng New Energy, SolisCloud, Skyworth PV 프로필을 위한 tracxn.com
+- **ENF Solar** — 회사 확인 및 창립 날짜를 확인할 수 있는 enfsolar.com 설치 프로그램 디렉토리
+- **PitchBook** — Hanergy Thin Film 프로필 참조
+- **Investing.com** — Guoneng Rixin (301162.SZ) 주식 상장 확인

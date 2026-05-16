@@ -12,17 +12,13 @@ import geopandas as gpd
 import rasterio
 from rasterio.mask import mask as rasterio_mask
 from rasterio.features import rasterize
-from rasterio.transform import from_bounds
 from shapely.geometry import mapping
 from tqdm import tqdm
 
 from solar_mvp.config import (
     CRS_ANALYSIS,
-    CRS_WGS84,
     DATA_DIR,
     OUTPUT_DIR,
-    MAX_SLOPE_DEG,
-    MAX_ELEVATION_M,
 )
 
 logger = logging.getLogger(__name__)
@@ -191,7 +187,10 @@ def sample_raster_for_parcel(
     else:
         valid = flat[~np.isnan(flat)]
 
-    return valid if len(valid) > 0 else None
+    # Remove NaN values introduced during slope/aspect computation
+    flat = flat[~np.isnan(flat)]
+
+    return flat if len(flat) > 0 else None
 
 
 # ---------------------------------------------------------------------------
@@ -243,7 +242,7 @@ def _loop_terrain(
             unique, counts = np.unique(aspect_labels[aspect_labels != ""], return_counts=True)
             if len(unique) == 0:
                 aspect_classes.append("")
-                aspect_south_flags.append(0)
+                aspect_south_flags.append(np.nan)
             else:
                 modal = unique[np.argmax(counts)]
                 aspect_classes.append(str(modal))
@@ -369,6 +368,15 @@ def enrich_terrain(
 
     # Load DEM
     elevation, meta = load_dem(dem_path)
+
+    # Validate DEM CRS
+    dem_epsg = meta["crs"].to_epsg() if meta["crs"] else None
+    if dem_epsg != 5179:
+        logger.warning(
+            "DEM CRS is EPSG:%s, expected EPSG:5179 (UTM-K). "
+            "Spatial sampling may produce incorrect results.", dem_epsg
+        )
+
     slope_arr, aspect_arr = compute_slope_aspect(elevation, meta["transform"], meta["nodata"])
 
     logger.info(

@@ -1,0 +1,6 @@
+| 계층 | 회사 | 경쟁 기반 |
+|------|-------------|------|
+| 지배적 | Chint Anneng(200만명 사용자), Skyworth Solar(29.3GW), Sungrow New Energy(54GW+) | 브랜드 + 자본 + 설치자 네트워크 |
+| 챌린저 | Trinapower Richome(사용자 기준 2위), Zhonglai Solar | OEM 상위 공급망 이점 |
+| 독립 틈새 시장 | Qingtian Solar(4.5GW O&M), Zhongling Xingneng | 순수 플레이 실행 속도 |
+| 종료 / 존재하지 않음 | Hanergy 모바일 에너지 | 거버넌스 실패 |

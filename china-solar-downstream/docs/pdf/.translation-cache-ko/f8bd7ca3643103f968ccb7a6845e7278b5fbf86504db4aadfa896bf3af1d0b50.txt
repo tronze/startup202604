@@ -1,0 +1,8 @@
+이 연구 프로젝트에서 도출된 중국 측 주장 및 회사 증거:
+- /Users/limthanh/Documents/startup202604/china-solar-downstream/docs/reports/synesis.md
+- /Users/limthanh/Documents/startup202604/china-solar-downstream/docs/reports/theoretical-frameworks.md
+- /Users/limthanh/Documents/startup202604/china-solar-downstream/docs/reports/policy-timeline.md
+- /Users/limthanh/Documents/startup202604/china-solar-downstream/docs/reports/company-profiles/sigenergy-technology.md
+- /Users/limthanh/Documents/startup202604/china-solar-downstream/docs/reports/company-profiles/chint-anneng.md
+- /Users/limthanh/Documents/startup202604/china-solar-downstream/docs/reports/company-profiles/huaxia-financial-leasing-solar.md
+- /Users/limthanh/Documents/startup202604/china-solar-downstream/docs/reports/company-profiles/skyworth-solar.md

@@ -1,0 +1,6 @@
+**이 데이터 세트의 예:**
+- Chint Anneng 지표(EqualOcean + Dealroom + 회사 웹사이트)
+- SOLARMAN 플랫폼 지표(회사 기업 공개, 자체 수치에 대해 권위 있음)
+- Huaxia Financial Leasing 규모(CLBA 연례 보고서 + 2차 언론)
+- Yuexiu New Energy 금융(Yuexiu Capital 공개를 인용한 OFWeek)
+- Skyworth Solar 수익(OFWeek + 회사 웹사이트)

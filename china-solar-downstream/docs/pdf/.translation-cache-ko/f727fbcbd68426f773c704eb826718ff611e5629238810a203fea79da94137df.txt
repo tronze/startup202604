@@ -1,0 +1,8 @@
+**이 데이터 세트의 예:**
+- Hoymiles STAR 시장 IPO 데이터(688032.SH 연례 보고서)
+- Sigenergy HKEX IPO 투자설명서 (6656.HK)
+- Guoxia Technology HKEX 투자설명서(2655.HK)
+- Guoneng Rixin ChiNext 연례 보고서(301162.SZ)
+- Jinko Power Technology SSE 연례 보고서(601778.SH)
+- Solarbao-SPI 사기: People's Energy News + SCMP + PRNewswire + 36Kr(4개의 독립 소스)
+- Hanergy SFC 시행실적 (공식 규제조치)
