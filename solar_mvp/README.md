@@ -29,7 +29,7 @@ solar_mvp/
 │   └── protected/           # Protected area shapefiles
 ├── cache/                    # Intermediate .parquet files
 ├── output/                   # Final results
-├── src/
+├── solar_mvp/
 │   └── config.py            # Central configuration
 └── tests/
     └── ...
