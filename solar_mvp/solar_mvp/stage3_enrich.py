@@ -3,14 +3,11 @@ from __future__ import annotations
 
 import argparse
 import logging
-import math
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import Point
 
 from solar_mvp.config import (
     CRS_ANALYSIS,
@@ -18,9 +15,7 @@ from solar_mvp.config import (
     DATA_DIR,
     OUTPUT_DIR,
     HAENAM_RESIDENTIAL_BUFFER_M,
-    REQUIRED_KW,
     MIN_ROAD_WIDTH_M,
-    LABEL_BUFFER_M,
     FEATURES_V2,
 )
 
@@ -69,14 +64,20 @@ HAENAM_EUP_MYEON = [
 # ---------------------------------------------------------------------------
 
 def _haversine_km(lat1: np.ndarray, lon1: np.ndarray,
-                  lat2: float, lon2: float) -> np.ndarray:
-    """Return great-circle distance in km between arrays of points and a single point."""
+                  lat2: np.ndarray | float, lon2: np.ndarray | float) -> np.ndarray:
+    """Vectorized haversine distance in km. All inputs in decimal degrees.
+
+    Computes great-circle distance between points.
+    - lat1, lon1: arrays or scalars (source points)
+    - lat2, lon2: arrays or scalars (target points)
+
+    Returns array of distances in km.
+    """
     R = 6371.0
-    dlat = np.radians(lat2 - lat1)
-    dlon = np.radians(lon2 - lon1)
-    rlat1 = np.radians(lat1)
-    rlat2 = math.radians(lat2)
-    a = np.sin(dlat / 2) ** 2 + np.cos(rlat1) * math.cos(rlat2) * np.sin(dlon / 2) ** 2
+    lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
     return R * 2 * np.arcsin(np.sqrt(a))
 
 
@@ -149,14 +150,8 @@ def _add_substation_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         coords_par = np.column_stack([cent_lat, cent_lon])
         tree = KDTree(coords_sub)
         _, idx = tree.query(coords_par)
-        # Convert angular distance to km with haversine for accuracy
-        dist_km = np.array([
-            _haversine_km(
-                np.array([cent_lat[i]]), np.array([cent_lon[i]]),
-                sub_lats[idx[i]], sub_lons[idx[i]]
-            )[0]
-            for i in range(len(cent_lat))
-        ])
+        # Convert angular distance to km with haversine for accuracy (vectorized)
+        dist_km = _haversine_km(cent_lat, cent_lon, sub_lats[idx], sub_lons[idx])
     except ImportError:
         logger.warning("scipy not available — computing substation distances with numpy")
         # Brute-force: (n_parcels, n_substations) distance matrix
@@ -307,7 +302,11 @@ def _add_agri_promotion_zone(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
         joined = gpd.sjoin(gdf_proj, agri_proj[["geometry"]], how="left", predicate="intersects")
         hit_idx = set(joined.loc[joined["index_right"].notna(), "_idx"].values)
-        gdf["in_agricultural_promotion_zone"] = [i in hit_idx for i in range(len(gdf))]
+        # Vectorized set lookup with numpy indexing
+        hit_mask = np.zeros(len(gdf), dtype=bool)
+        if hit_idx:
+            hit_mask[list(hit_idx)] = True
+        gdf["in_agricultural_promotion_zone"] = hit_mask
     else:
         logger.warning(
             "Agricultural promotion zone shapefile not found at %s — defaulting to False", shp_path
@@ -338,7 +337,11 @@ def _add_protected_area(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
             except Exception as exc:
                 logger.warning("Failed to load protected area file %s: %s", shp, exc)
 
-        gdf["intersects_protected_area"] = [i in hit_idx for i in range(len(gdf))]
+        # Vectorized set lookup with numpy indexing
+        hit_mask = np.zeros(len(gdf), dtype=bool)
+        if hit_idx:
+            hit_mask[list(hit_idx)] = True
+        gdf["intersects_protected_area"] = hit_mask
     else:
         logger.warning(
             "No protected area shapefiles found in %s — defaulting to False", protected_dir
@@ -405,7 +408,7 @@ def _add_eup_myeon(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         dist_matrix[:, j] = _haversine_km(cent_lat, cent_lon, em_lats[j], em_lons[j])
 
     best_idx = dist_matrix.argmin(axis=1)
-    gdf["eup_myeon"] = [names[i] for i in best_idx]
+    gdf["eup_myeon"] = np.array(names)[best_idx]
     return gdf
 
 
