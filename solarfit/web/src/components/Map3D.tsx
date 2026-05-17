@@ -30,7 +30,8 @@ export default function Map3D({ lat, lon }: Props) {
     }
 
     const script = document.createElement('script');
-    script.src = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}`;
+    const domain = encodeURIComponent(window.location.hostname || 'localhost');
+    script.src = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}&domain=${domain}`;
     script.async = true;
 
     script.onerror = () => {
@@ -39,37 +40,42 @@ export default function Map3D({ lat, lon }: Props) {
     };
 
     script.onload = () => {
-      if (!window.vw) {
-        setStatus('error');
-        setErrorMsg('VWorld API가 로드되지 않았습니다');
-        return;
-      }
-      try {
-        // VWorld WebGL Map 초기화 — vw.Map(containerId, options)
-        mapRef.current = new window.vw.Map(CONTAINER_ID, {
-          apiKey: key,
-          basemap: 'Satellite',
-          center: new window.vw.Point(lon, lat, 0),
-          zoom: 15,
-          shadows: true,
-        });
-        setStatus('ready');
-      } catch (e1) {
-        // fallback: vw.ol3.load 패턴 시도
-        try {
-          window.vw.ol3?.load?.({
-            mapDivId: CONTAINER_ID,
-            apiKey: key,
-            basemap: 'Satellite',
-          });
-          mapRef.current = window.vw.ol3?.map;
-          setStatus('ready');
-        } catch (e2) {
-          console.error('VWorld 3D init failed:', e1, e2);
+      // VWorld 3D initializes window.vw asynchronously after script load — poll up to 5s
+      let attempts = 0;
+      const timer = setInterval(() => {
+        attempts++;
+        if (window.vw) {
+          clearInterval(timer);
+          try {
+            mapRef.current = new window.vw.Map(CONTAINER_ID, {
+              apiKey: key,
+              basemap: 'Satellite',
+              center: new window.vw.Point(lon, lat, 0),
+              zoom: 15,
+              shadows: true,
+            });
+            setStatus('ready');
+          } catch (e1) {
+            try {
+              window.vw.ol3?.load?.({
+                mapDivId: CONTAINER_ID,
+                apiKey: key,
+                basemap: 'Satellite',
+              });
+              mapRef.current = window.vw.ol3?.map;
+              setStatus('ready');
+            } catch (e2) {
+              console.error('VWorld 3D init failed:', e1, e2);
+              setStatus('error');
+              setErrorMsg(`VWorld 3D 초기화 실패: ${(e1 as Error).message}`);
+            }
+          }
+        } else if (attempts >= 50) {
+          clearInterval(timer);
           setStatus('error');
-          setErrorMsg(`VWorld 3D 초기화 실패: ${(e1 as Error).message}`);
+          setErrorMsg('VWorld API가 로드되지 않았습니다 — VWorld 콘솔에서 localhost 도메인을 API 키에 등록하세요');
         }
-      }
+      }, 100);
     };
 
     document.head.appendChild(script);

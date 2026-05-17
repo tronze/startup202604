@@ -46,7 +46,7 @@ export default function AnalysisPanel({ result }: Props) {
 
   // 토지이음: 토지이용계획 + 개발 제한 확인 (PNU 직접 조회 지원)
   const registryUrl = parcel.pnu
-    ? `https://www.eum.go.kr/web/ar/lu/luLandDet.do?pnu=${parcel.pnu}`
+    ? `https://www.eum.go.kr/web/ar/lu/luLandDet.jsp?pnu=${parcel.pnu}`
     : null;
 
   return (
