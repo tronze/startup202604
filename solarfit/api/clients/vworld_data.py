@@ -30,6 +30,7 @@ def _get(data: str, geom_filter: str, attr_filter: str = "", size: int = 5) -> l
         params["attrFilter"] = attr_filter
     try:
         r = httpx.get(VWORLD_DATA_URL, params=params, timeout=10)
+        r.raise_for_status()
         body = r.json()
         fc = (
             body.get("response", {})
@@ -37,7 +38,7 @@ def _get(data: str, geom_filter: str, attr_filter: str = "", size: int = 5) -> l
             .get("featureCollection", {})
         )
         return fc.get("features", [])
-    except Exception:
+    except (httpx.TimeoutException, httpx.RequestError, httpx.HTTPStatusError, ValueError, KeyError):
         return []
 
 
@@ -53,7 +54,6 @@ def fetch_parcel_at(lat: float, lon: float) -> Optional[dict]:
         "jimok_name": props.get("jmcode_nm") or props.get("lndcgr_nm"),
         "area_m2": props.get("area") or props.get("lndar"),
         "address": props.get("addr") or props.get("lnm_addrss"),
-        "raw": props,
     }
 
 
