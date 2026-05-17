@@ -101,7 +101,7 @@ def run_pipeline(start_from: int = 1, end_at: int = 7, force: bool = False) -> d
     print(f"  Total time: {results['total_time_s']:.1f}s")
     if n_fail == 0:
         print(f"\n  Outputs:")
-        for f in sorted(OUTPUT_DIR.glob("*.csv")) + sorted(OUTPUT_DIR.glob("*.html")) + sorted(OUTPUT_DIR.glob("*.parquet")):
+        for f in sorted(OUTPUT_DIR.glob("*.csv")) + sorted(OUTPUT_DIR.glob("*.html")) + sorted(OUTPUT_DIR.glob("*.parquet")) + sorted(OUTPUT_DIR.glob("*.pkl")) + sorted(OUTPUT_DIR.glob("*.png")):
             size_kb = f.stat().st_size / 1024
             print(f"    {f.name} ({size_kb:.0f} KB)")
     print(f"{'='*60}\n")

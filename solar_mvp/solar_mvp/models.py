@@ -39,7 +39,7 @@ XGBOOST = ModelConfig(
         n_estimators=100,
         max_depth=4,
         learning_rate=0.1,
-        scale_pos_weight=None,  # set dynamically based on class ratio
+        scale_pos_weight=None,  # None: class imbalance handled via SMOTE
         eval_metric="aucpr",
         random_state=42,
     ),

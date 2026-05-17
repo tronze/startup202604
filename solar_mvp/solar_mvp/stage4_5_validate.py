@@ -534,16 +534,6 @@ def generate_validation_report(
         )
 
     # Top 20 installed parcels
-    installed_parcels = parcels[parcels["is_installed"].astype(bool)].copy()
-    installed_parcels["_rank"] = (
-        parcels.sort_values("score_rule", ascending=False, na_position="last")
-        .reset_index(drop=True)
-        .index[parcels.sort_values("score_rule", ascending=False, na_position="last")
-               ["is_installed"].astype(bool)]
-        if False  # skip complex rank calc; use simpler approach below
-        else np.nan
-    )
-
     sorted_all = parcels.sort_values("score_rule", ascending=False, na_position="last").reset_index()
     sorted_all["_rank"] = range(1, len(sorted_all) + 1)
     top20_installed = (

@@ -415,6 +415,19 @@ def tune_ml_weights(force: bool = False) -> gpd.GeoDataFrame:
     # Top PNU lists
     save_top_pnu_lists(parcels)
 
+    # Export top-100 ensemble candidates as GeoJSON
+    try:
+        geojson_path = OUTPUT_DIR / "top100_ensemble.geojson"
+        top100 = parcels.nlargest(100, "score_ensemble") if "score_ensemble" in parcels.columns else parcels.nlargest(100, "score_rule")
+        if top100.geometry.notna().any():
+            top100_wgs = top100.to_crs("EPSG:4326") if top100.crs and top100.crs.to_epsg() != 4326 else top100
+            top100_wgs[["pnu", "score_rule", "score_ml", "score_ensemble", "jimok", "area_m2", "geometry"]].to_file(
+                geojson_path, driver="GeoJSON"
+            )
+            logger.info("Saved top100_ensemble.geojson")
+    except Exception as exc:
+        logger.warning("GeoJSON export failed: %s", exc)
+
     # Print summary
     n_pass = int((parcels["passes_hard_filter"] == True).sum())
     n_installed = (
