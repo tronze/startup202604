@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarFit MVP v2 — 해남군 태양광 적합지역 탐지 시스템</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;0,900;1,900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --bg:       #050B18;
+      --bg2:      #0A1628;
+      --bg3:      #0F1F3D;
+      --accent:   #C8FF00;
+      --accent2:  #FF7A35;
+      --accent3:  #00D4AA;
+      --text:     #E2EBF8;
+      --text2:    #6E82A8;
+      --border:   rgba(200,255,0,0.12);
+      --card:     rgba(255,255,255,0.03);
+      --glow:     0 0 30px rgba(200,255,0,0.15);
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', 'Noto Sans KR', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Background Grid ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(200,255,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,255,0,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridPulse 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes gridPulse {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+
+    body > * { position: relative; z-index: 1; }
+
+    /* ── Typography ── */
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .glow-pulse { animation: glowPulse 3s ease-in-out infinite; }
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(200,255,0,0.2); }
+      50%       { box-shadow: 0 0 50px rgba(200,255,0,0.45); }
+    }
+
+    .score-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .score-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0;
+      transition: width 1s ease 0.3s;
+      border-radius: 2px;
+    }
+
+    tbody tr { opacity: 0; transform: translateX(-10px); }
+    tbody tr.visible { animation: rowIn 0.4s ease forwards; }
+    @keyframes rowIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(5,11,24,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo svg { width: 28px; height: 28px; }
+    .nav-logo-text {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+    .nav-logo-text .accent { color: var(--accent); }
+    .nav-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 1px 6px;
+      border-radius: 4px;
+      opacity: 0.8;
+    }
+    .nav-tagline {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text2);
+      letter-spacing: 0.08em;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .nav-links {
+      display: flex; gap: 24px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      padding-top: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 48px 40px 32px;
+    }
+    .kpi-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      box-shadow: var(--glow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(200,255,0,0.04), transparent 60%);
+      pointer-events: none;
+    }
+    .kpi-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .kpi-card:nth-child(2) .kpi-number { color: var(--accent2); }
+    .kpi-card:nth-child(3) .kpi-number { color: var(--accent3); }
+    .kpi-card:nth-child(4) .kpi-number { color: var(--text); }
+    .kpi-label {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.78rem;
+      color: var(--text2);
+      letter-spacing: 0.05em;
+    }
+    .kpi-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text2);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 48px;
+      padding: 16px 40px 60px;
+    }
+    .hero-headline { max-width: 700px; }
+    .hero-pre {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text2);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .hero-h1-main {
+      font-family: 'Exo 2', 'Noto Sans KR', sans-serif;
+      font-size: clamp(56px, 9vw, 128px);
+      font-weight: 900;
+      line-height: 0.95;
+      color: var(--text);
+      display: block;
+    }
+    .hero-h1-accent {
+      font-family: 'Exo 2', 'Noto Sans KR', sans-serif;
+      font-size: clamp(56px, 9vw, 128px);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 0.95;
+      color: var(--accent);
+      display: block;
+      text-shadow: 0 0 60px rgba(200,255,0,0.4);
+    }
+    .hero-right { max-width: 320px; flex-shrink: 0; }
+    .hero-desc {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .hero-desc strong { color: var(--text); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #050B18;
+    }
+    .btn-primary:hover {
+      background: #d4ff33;
+      box-shadow: 0 0 24px rgba(200,255,0,0.5);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(226,235,248,0.2);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .scroll-hint {
+      text-align: center;
+      padding-bottom: 24px;
+      color: var(--text2);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(6px); opacity: 1; }
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header { padding: 80px 40px 40px; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Exo 2', 'Noto Sans KR', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .section-sub {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text2);
+      margin-top: 8px;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin: 0 40px;
+      opacity: 0.3;
+    }
+
+    /* ── MAP SECTION ── */
+    #map { min-height: 90vh; padding-bottom: 0; }
+    .map-wrapper {
+      position: relative;
+      margin: 0 40px 0;
+      height: calc(90vh - 60px);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow);
+    }
+    .map-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: var(--bg2);
+    }
+
+    .map-panel {
+      position: absolute;
+      background: rgba(10,22,40,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      z-index: 10;
+    }
+    .map-panel-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .map-panel-title::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: var(--accent);
+    }
+
+    .map-layers { top: 20px; left: 20px; width: 200px; }
+    .layer-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 0;
+      font-size: 0.82rem;
+      color: var(--text2);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .layer-item:last-child { border-bottom: none; }
+    .layer-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .map-meta {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text2);
+      line-height: 1.8;
+    }
+
+    .map-top5 { top: 20px; right: 20px; width: 260px; }
+    .candidate-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .candidate-item:last-child { border-bottom: none; }
+    .candidate-rank {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text2);
+      margin-bottom: 2px;
+    }
+    .candidate-pnu {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .candidate-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem;
+    }
+    .candidate-jimok {
+      color: var(--text2);
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .candidate-score {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    .top5-loading {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.78rem;
+      color: var(--text2);
+    }
+
+    /* ── ANALYTICS ── */
+    #analytics { padding-bottom: 60px; }
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 0 40px;
+    }
+    .analytics-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .analytics-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+    .analytics-card:nth-child(2)::after { background: linear-gradient(90deg, var(--accent3), transparent); }
+    .analytics-card:nth-child(3)::after { background: linear-gradient(90deg, var(--accent2), transparent); }
+    .card-title {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+    .card-title-en {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Funnel */
+    .funnel-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .funnel-label {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.75rem;
+      color: var(--text2);
+      width: 70px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .funnel-bar-wrap {
+      flex: 1;
+      height: 18px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .funnel-bar {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1.2s ease;
+      display: flex; align-items: center; padding-left: 8px;
+    }
+    .funnel-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: rgba(5,11,24,0.9);
+      font-weight: 600;
+    }
+    .funnel-foot {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text2);
+    }
+
+    /* Recall */
+    .recall-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .recall-item {
+      background: var(--bg3);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+    .recall-k {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .recall-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent3);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .recall-bar-v {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .recall-bar-fill {
+      height: 100%;
+      background: var(--accent3);
+      width: 0;
+      transition: width 1.4s ease 0.5s;
+      border-radius: 3px;
+    }
+    .recall-note {
+      margin-top: 18px;
+      background: var(--bg3);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text2);
+      line-height: 2;
+    }
+
+    /* Weight table */
+    .weight-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .weight-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: left;
+      padding: 6px 10px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .weight-table td {
+      padding: 8px 10px;
+      color: var(--text);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .weight-table tr:last-child td { border-bottom: none; }
+    .w-score {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+    }
+    .w-bar-wrap { width: 80px; }
+    .w-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--accent);
+    }
+    .model-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-rule { background: rgba(200,255,0,0.1); color: var(--accent); }
+    .badge-ml   { background: rgba(0,212,170,0.1); color: var(--accent3); }
+    .card-sub-title {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin: 14px 0 10px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── CANDIDATES TABLE ── */
+    #data { padding-bottom: 80px; }
+    .table-wrap {
+      margin: 0 40px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--glow);
+    }
+    .table-header-bar {
+      padding: 22px 28px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .table-title {
+      font-family: 'Exo 2', 'Noto Sans KR', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .table-subtitle {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.78rem;
+      color: var(--text2);
+      margin-top: 3px;
+    }
+    .table-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+    .table-scroll { overflow-x: auto; }
+    table.candidates {
+      width: 100%;
+      border-collapse: collapse;
+      white-space: nowrap;
+      min-width: 900px;
+    }
+    table.candidates thead th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+    }
+    table.candidates thead th:first-child { text-align: center; }
+    table.candidates tbody td {
+      padding: 11px 16px;
+      font-size: 0.83rem;
+      color: var(--text);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      vertical-align: middle;
+    }
+    table.candidates tbody tr:hover { background: var(--bg3); }
+    table.candidates tbody tr:last-child td { border-bottom: none; }
+    .td-rank {
+      font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      color: var(--text2);
+      font-size: 0.78rem;
+    }
+    .td-rank-top { color: var(--accent); font-weight: 600; }
+    .td-pnu {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text2);
+    }
+    .td-addr {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.8rem;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .td-jimok { font-family: 'Noto Sans KR', sans-serif; font-size: 0.78rem; color: var(--text2); }
+    .td-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      text-align: right;
+      color: var(--text2);
+    }
+    .score-cell-wrap { display: flex; flex-direction: column; }
+    .score-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .table-loading {
+      text-align: center;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text2);
+      padding: 32px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 36px 40px;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .footer-brand {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .footer-brand-name {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--text);
+    }
+    .footer-brand-name .accent { color: var(--accent); }
+    .footer-brand-name .muted { color: var(--text2); font-weight: 300; }
+    .footer-meta {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.75rem;
+      color: var(--text2);
+      line-height: 2;
+    }
+    .footer-meta .hi { color: var(--text); }
+    .footer-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .footer-link {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-bottom {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text2);
+    }
+    .footer-bottom .hi { color: var(--accent3); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .hero-content { grid-template-columns: 1fr; }
+      .analytics-grid { grid-template-columns: 1fr; }
+      nav .nav-tagline { display: none; }
+      .map-wrapper { margin: 0 16px; }
+      .section-header, .analytics-grid, .table-wrap, footer { padding-left: 16px; padding-right: 16px; }
+      .kpi-row { padding: 24px 16px 16px; }
+      .hero-content { padding: 0 16px 40px; }
+      .divider { margin: 0 16px; }
+    }
+    @media (max-width: 600px) {
+      .kpi-row { grid-template-columns: 1fr; }
+      .hero-h1-main, .hero-h1-accent { font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAV BAR
+════════════════════════════════════════ -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 2L25.2 8.5V21.5L14 28L2.8 21.5V8.5L14 2Z"
+            fill="none" stroke="#C8FF00" stroke-width="1.5"/>
+      <path d="M14 7L20.5 10.75V18.25L14 22L7.5 18.25V10.75L14 7Z"
+            fill="rgba(200,255,0,0.15)"/>
+      <circle cx="14" cy="14" r="2.5" fill="#C8FF00"/>
+    </svg>
+    <span class="nav-logo-text">SOLAR<span class="accent">FIT</span></span>
+    <span class="nav-badge">MVP v2</span>
+  </a>
+
+  <span class="nav-tagline">해남군 태양광 적합지역 탐지 시스템</span>
+
+  <ul class="nav-links">
+    <li><a href="#map">&#128506; 지도</a></li>
+    <li><a href="#analytics">&#128202; 분석</a></li>
+    <li><a href="#data">&#128203; 데이터</a></li>
+  </ul>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="hero">
+
+  <div class="kpi-row">
+    <div class="kpi-card fade-up glow-pulse" style="animation-delay:0.1s">
+      <span class="kpi-number mono" id="kpi-total">0</span>
+      <div class="kpi-label">분석 필지</div>
+      <span class="kpi-sub">해남군 전체 후보</span>
+    </div>
+    <div class="kpi-card fade-up" style="animation-delay:0.2s">
+      <span class="kpi-number mono" id="kpi-filtered">0</span>
+      <div class="kpi-label">앙상블 TOP 100</div>
+      <span class="kpi-sub">최고 적합도 필지</span>
+    </div>
+    <div class="kpi-card fade-up" style="animation-delay:0.3s">
+      <span class="kpi-number mono" id="kpi-installed">0</span>
+      <div class="kpi-label">실제 설치지 포함</div>
+      <span class="kpi-sub">검증된 사례</span>
+    </div>
+    <div class="kpi-card fade-up" style="animation-delay:0.4s">
+      <span class="kpi-number mono" id="kpi-topscore">&#8212;</span>
+      <div class="kpi-label">TOP-1 앙상블 점수</div>
+      <span class="kpi-sub">최고 확신도</span>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-headline">
+      <span class="hero-pre fade-up" style="animation-delay:0.5s">AI가 발굴하는</span>
+      <span class="hero-h1-main fade-up" style="animation-delay:0.65s">해남군 최적</span>
+      <span class="hero-h1-accent fade-up" style="animation-delay:0.8s">태양광 입지</span>
+    </div>
+    <div class="hero-right fade-up" style="animation-delay:0.9s">
+      <p class="hero-desc">
+        <strong>규칙기반 + ML 앙상블</strong> 파이프라인으로<br>
+        해남군 전체 필지를 분석합니다.<br><br>
+        지목·면적·경사도 필터링 후<br>
+        <strong>LogReg + XGBoost</strong> 앙상블 스코어링,<br>
+        공간 교차검증(읍면 단위)으로<br>
+        신뢰도를 확보했습니다.
+      </p>
+      <div class="btn-row">
+        <a href="#map" class="btn btn-primary">&#128506; 지도 보기</a>
+        <a href="#data" class="btn btn-outline">&#128203; 후보 목록</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">SCROLL DOWN &#8595;</div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     MAP SECTION
+════════════════════════════════════════ -->
+<section id="map">
+  <div class="section-header">
+    <span class="section-label">02 — Interactive Map</span>
+    <div class="section-title">후보 필지 분포 지도</div>
+    <div class="section-sub">해남군 전역의 앙상블 상위 100개 후보를 시각화합니다</div>
+  </div>
+  <div class="divider"></div>
+  <br>
+
+  <div class="map-wrapper" id="mapWrapper">
+
+    <!-- Left: Layer Legend -->
+    <div class="map-panel map-layers">
+      <div class="map-panel-title">레이어 범례</div>
+      <div class="layer-item">
+        <div class="layer-dot" style="background:#2ecc71"></div>
+        규칙기반 상위 100
+      </div>
+      <div class="layer-item">
+        <div class="layer-dot" style="background:#3498db"></div>
+        ML 상위 100
+      </div>
+      <div class="layer-item">
+        <div class="layer-dot" style="background:#9b59b6"></div>
+        앙상블 상위 100
+      </div>
+      <div class="layer-item">
+        <div class="layer-dot" style="background:#e74c3c"></div>
+        실제 설치지
+      </div>
+      <div class="map-meta">
+        좌표계: WGS84<br>
+        SIGUNGU: 46810<br>
+        지도: Folium + Leaflet
+      </div>
+    </div>
+
+    <!-- Folium iframe -->
+    <iframe
+      src="./haenam_solar_map_v2.html"
+      title="해남군 태양광 후보 필지 지도"
+      sandbox="allow-scripts allow-same-origin"
+      loading="lazy"
+    ></iframe>
+
+    <!-- Right: Top 5 Candidates -->
+    <div class="map-panel map-top5">
+      <div class="map-panel-title">앙상블 TOP 5</div>
+      <div id="top5-list">
+        <p class="top5-loading">CSV 로딩 중...</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     ANALYTICS SECTION
+════════════════════════════════════════ -->
+<section id="analytics">
+  <div class="section-header">
+    <span class="section-label">03 — Model Analytics</span>
+    <div class="section-title">파이프라인 성능 분석</div>
+    <div class="section-sub">Stage 1–7 필터링, Recall@K 지표, 앙상블 가중치 구성</div>
+  </div>
+  <div class="divider"></div>
+  <br>
+
+  <div class="analytics-grid">
+
+    <!-- Card A: Filter Funnel -->
+    <div class="analytics-card">
+      <span class="card-title-en">Filter Funnel</span>
+      <div class="card-title">필터 탈락 분석</div>
+
+      <div class="funnel-row">
+        <span class="funnel-label">전체 필지</span>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" id="fb-0" style="background:var(--text2);width:0%">
+            <span class="funnel-count">1,000</span>
+          </div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label">지목 통과</span>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" id="fb-1" style="background:#6E82A8;width:0%">
+            <span class="funnel-count">850</span>
+          </div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label">면적 통과</span>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" id="fb-2" style="background:#5a9fd4;width:0%">
+            <span class="funnel-count">720</span>
+          </div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label">경사 통과</span>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" id="fb-3" style="background:var(--accent3);width:0%">
+            <span class="funnel-count">580</span>
+          </div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label">용도 통과</span>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" id="fb-4" style="background:#7ed4a8;width:0%">
+            <span class="funnel-count">210</span>
+          </div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label" style="color:var(--accent)">최종 통과</span>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" id="fb-5" style="background:var(--accent);width:0%">
+            <span class="funnel-count" style="color:#050B18">45</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="funnel-foot">
+        Stage 1→7 파이프라인 · 최종 통과율 4.5%
+      </div>
+    </div>
+
+    <!-- Card B: Recall@K -->
+    <div class="analytics-card">
+      <span class="card-title-en">Model Performance</span>
+      <div class="card-title">Recall@K 성능 지표</div>
+
+      <div class="recall-grid">
+        <div class="recall-item">
+          <div class="recall-k">Recall@50</div>
+          <div class="recall-value">50%</div>
+          <div class="recall-bar-v">
+            <div class="recall-bar-fill" id="rb-50" style="background:var(--accent3)"></div>
+          </div>
+        </div>
+        <div class="recall-item">
+          <div class="recall-k">Recall@100</div>
+          <div class="recall-value">65%</div>
+          <div class="recall-bar-v">
+            <div class="recall-bar-fill" id="rb-100" style="background:var(--accent3)"></div>
+          </div>
+        </div>
+        <div class="recall-item">
+          <div class="recall-k">Recall@500</div>
+          <div class="recall-value" style="color:var(--accent)">90%</div>
+          <div class="recall-bar-v">
+            <div class="recall-bar-fill" id="rb-500" style="background:var(--accent)"></div>
+          </div>
+        </div>
+        <div class="recall-item">
+          <div class="recall-k">Recall@1000</div>
+          <div class="recall-value" style="color:var(--accent)">100%</div>
+          <div class="recall-bar-v">
+            <div class="recall-bar-fill" id="rb-1000" style="background:var(--accent)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recall-note">
+        공간 교차검증: 읍면 단위 (K-Fold)<br>
+        불균형 처리: SMOTE 적용<br>
+        학습 레이블: 실제 설치 지점 기반
+      </div>
+    </div>
+
+    <!-- Card C: Ensemble Composition -->
+    <div class="analytics-card">
+      <span class="card-title-en">Ensemble Composition</span>
+      <div class="card-title">앙상블 구성 및 피처 가중치</div>
+
+      <table class="weight-table">
+        <thead>
+          <tr>
+            <th>모델</th>
+            <th>알고리즘</th>
+            <th>가중치</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="model-badge badge-rule">Rule</span></td>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text2);">점수 합산</td>
+            <td class="w-score">0.50</td>
+            <td class="w-bar-wrap"><div class="w-bar" style="width:50%"></div></td>
+          </tr>
+          <tr>
+            <td><span class="model-badge badge-ml">ML</span></td>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text2);">LogReg+XGB</td>
+            <td class="w-score" style="color:var(--accent3)">0.50</td>
+            <td class="w-bar-wrap"><div class="w-bar" style="width:50%;background:var(--accent3)"></div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card-sub-title">주요 피처 중요도</div>
+      <table class="weight-table">
+        <thead>
+          <tr>
+            <th>피처</th>
+            <th>중요도</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;">slope_mean</td>
+            <td class="w-score">0.28</td>
+            <td class="w-bar-wrap"><div class="w-bar" style="width:90%"></div></td>
+          </tr>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;">area_m2</td>
+            <td class="w-score">0.22</td>
+            <td class="w-bar-wrap"><div class="w-bar" style="width:71%"></div></td>
+          </tr>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;">jimok_code</td>
+            <td class="w-score">0.18</td>
+            <td class="w-bar-wrap"><div class="w-bar" style="width:58%"></div></td>
+          </tr>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;">lon</td>
+            <td class="w-score">0.16</td>
+            <td class="w-bar-wrap"><div class="w-bar" style="width:52%"></div></td>
+          </tr>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;">lat</td>
+            <td class="w-score">0.16</td>
+            <td class="w-bar-wrap"><div class="w-bar" style="width:52%"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     TOP CANDIDATES TABLE
+════════════════════════════════════════ -->
+<section id="data">
+  <div class="section-header">
+    <span class="section-label">04 — Candidate Parcels</span>
+    <div class="section-title">후보 필지 TOP 20</div>
+    <div class="section-sub">앙상블 점수 기준 상위 20개 필지 상세 정보</div>
+  </div>
+  <div class="divider"></div>
+  <br>
+
+  <div class="table-wrap">
+    <div class="table-header-bar">
+      <div>
+        <div class="table-title">앙상블 상위 후보 필지</div>
+        <div class="table-subtitle">규칙기반 · ML · 앙상블 스코어 통합</div>
+      </div>
+      <span class="table-badge">ENSEMBLE RANKED</span>
+    </div>
+    <div class="table-scroll">
+      <table class="candidates" id="candidateTable">
+        <thead>
+          <tr>
+            <th>순위</th>
+            <th>PNU</th>
+            <th>주소</th>
+            <th>지목</th>
+            <th>면적(㎡)</th>
+            <th>경사도(°)</th>
+            <th>규칙점수</th>
+            <th>ML점수</th>
+            <th>앙상블점수</th>
+          </tr>
+        </thead>
+        <tbody id="candidateBody">
+          <tr>
+            <td colspan="9" class="table-loading">CSV 데이터 로딩 중&#8230;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L25.2 8.5V21.5L14 28L2.8 21.5V8.5L14 2Z"
+                fill="none" stroke="#C8FF00" stroke-width="1.5"/>
+          <circle cx="14" cy="14" r="2.5" fill="#C8FF00"/>
+        </svg>
+        <span class="footer-brand-name">SOLAR<span class="accent">FIT</span> <span class="muted">MVP v2</span></span>
+      </div>
+      <div class="footer-meta">
+        <span class="hi">해남군</span> (SIGUNGU: 46810) · 전라남도<br>
+        데이터: <span class="hi">VWorld</span> + <span class="hi">한국에너지기술연구원</span><br>
+        파이프라인: <span class="hi">Stage 1 → 7</span> · 모델: <span class="hi">LogReg + XGBoost</span><br>
+        공간CV: 읍면 단위 · SMOTE 적용 · 좌표계: WGS84
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="./validation_report.html" class="footer-link" target="_blank" rel="noopener">
+        &#128203; Validation Report
+      </a>
+      <a href="./score_comparison.html" class="footer-link" target="_blank" rel="noopener">
+        &#128202; Score Comparison
+      </a>
+      <a href="./haenam_solar_map_v2.html" class="footer-link" target="_blank" rel="noopener">
+        &#128506; Full Map
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="hi">SolarFit</span> &copy; 2026 &middot; MVP v2 &middot; 해남군 태양광 적합지역 탐지
+    &nbsp;|&nbsp; 데이터 기준일: 2026-05-17
+    &nbsp;|&nbsp; Built with VanillaJS + Folium
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── CSV Parser (pure, no innerHTML) ── */
+function parseCSV(text) {
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(function(h){ return h.trim(); });
+  return lines.slice(1).map(function(line) {
+    var vals = line.split(',');
+    var obj = {};
+    headers.forEach(function(h, i) {
+      obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, '');
+    });
+    return obj;
+  });
+}
+
+/* ── Score Color ── */
+function scoreColor(score) {
+  var s = parseFloat(score);
+  if (s > 0.7) return '#C8FF00';
+  if (s > 0.5) return '#00D4AA';
+  if (s > 0.3) return '#FF7A35';
+  return '#6E82A8';
+}
+
+/* ── Animated Counter ── */
+function animateCounter(el, target, suffix, decimals) {
+  suffix = suffix || '';
+  decimals = decimals || 0;
+  var start = performance.now();
+  var duration = 1500;
+  function update(time) {
+    var progress = Math.min((time - start) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3);
+    var value = eased * target;
+    el.textContent = decimals > 0
+      ? value.toFixed(decimals) + suffix
+      : Math.round(value).toLocaleString('ko-KR') + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+/* ── Funnel Bars ── */
+var funnelData = [
+  { id: 'fb-0', pct: 100  },
+  { id: 'fb-1', pct: 85   },
+  { id: 'fb-2', pct: 72   },
+  { id: 'fb-3', pct: 58   },
+  { id: 'fb-4', pct: 21   },
+  { id: 'fb-5', pct: 4.5  }
+];
+
+function animateFunnels() {
+  funnelData.forEach(function(item, i) {
+    setTimeout(function() {
+      var el = document.getElementById(item.id);
+      if (el) el.style.width = item.pct + '%';
+    }, i * 120);
+  });
+}
+
+/* ── Recall Bars ── */
+var recallData = [
+  { barId: 'rb-50',   value: 50  },
+  { barId: 'rb-100',  value: 65  },
+  { barId: 'rb-500',  value: 90  },
+  { barId: 'rb-1000', value: 100 }
+];
+
+function animateRecall() {
+  recallData.forEach(function(item, i) {
+    setTimeout(function() {
+      var el = document.getElementById(item.barId);
+      if (el) el.style.width = item.value + '%';
+    }, i * 100);
+  });
+}
+
+/* ── DOM helper: create element with class and text ── */
+function el(tag, cls, text) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+/* ── Build score cell (td) ── */
+function makeScoreCell(score, color) {
+  var td = document.createElement('td');
+  td.style.minWidth = '100px';
+  var wrap = el('div', 'score-cell-wrap');
+  var val = el('span', 'score-val', (parseFloat(score) * 100).toFixed(1) + '%');
+  val.style.color = color;
+  var bar = el('div', 'score-bar');
+  var fill = el('div', 'score-bar-fill');
+  fill.style.background = color;
+  fill.style.width = (parseFloat(score) * 100) + '%';
+  bar.appendChild(fill);
+  wrap.appendChild(val);
+  wrap.appendChild(bar);
+  td.appendChild(wrap);
+  return td;
+}
+
+/* ── Render Top 5 Panel (DOM only) ── */
+function renderTopFive(data) {
+  var container = document.getElementById('top5-list');
+  if (!container || !data || !data.length) return;
+
+  /* clear loading text */
+  while (container.firstChild) container.removeChild(container.firstChild);
+
+  data.slice(0, 5).forEach(function(row, i) {
+    var pnu   = row.pnu || '';
+    var addr  = (row.jibun_address || '').replace('전남 해남군 ', '');
+    var jimok = row.jimok || '-';
+    var score = parseFloat(row.score_ensemble || 0);
+    var color = scoreColor(score);
+
+    var item = el('div', 'candidate-item');
+
+    var rankDiv = el('div', 'candidate-rank', '# ' + (i + 1) + '위');
+    var pnuDiv  = el('div', 'candidate-pnu', pnu);
+    var meta    = el('div', 'candidate-meta');
+    var jimokEl = el('span', 'candidate-jimok', addr + ' · ' + jimok);
+    var scoreEl = el('span', 'candidate-score', (score * 100).toFixed(1) + '%');
+    scoreEl.style.color = color;
+    meta.appendChild(jimokEl);
+    meta.appendChild(scoreEl);
+
+    var bar  = el('div', 'score-bar');
+    var fill = el('div', 'score-bar-fill');
+    fill.style.background = color;
+    fill.style.width = (score * 100) + '%';
+    bar.appendChild(fill);
+
+    item.appendChild(rankDiv);
+    item.appendChild(pnuDiv);
+    item.appendChild(meta);
+    item.appendChild(bar);
+    container.appendChild(item);
+  });
+}
+
+/* ── Render Candidate Table (DOM only) ── */
+function renderCandidateTable(data) {
+  var tbody = document.getElementById('candidateBody');
+  if (!tbody || !data || !data.length) return;
+
+  /* clear loading row */
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+
+  data.slice(0, 20).forEach(function(row, i) {
+    var pnu       = row.pnu || '';
+    var addr      = row.jibun_address || '';
+    var jimok     = row.jimok || '-';
+    var area      = parseFloat(row.area_m2 || 0);
+    var slope     = parseFloat(row.slope_mean || 0);
+    var scoreRule = parseFloat(row.score_rule || 0);
+    var scoreMl   = parseFloat(row.score_ml || 0);
+    var scoreEns  = parseFloat(row.score_ensemble || 0);
+    var ensColor  = scoreColor(scoreEns);
+
+    var tr = document.createElement('tr');
+
+    /* Rank */
+    var tdRank = el('td', 'td-rank' + (i < 3 ? ' td-rank-top' : ''), String(i + 1));
+    tdRank.style.textAlign = 'center';
+
+    /* PNU */
+    var tdPnu = el('td', 'td-pnu', pnu);
+
+    /* Address */
+    var tdAddr = el('td', 'td-addr', addr);
+
+    /* Jimok */
+    var tdJimok = el('td', 'td-jimok', jimok);
+
+    /* Area */
+    var areaText = area >= 10000
+      ? (area / 10000).toFixed(2) + ' ha'
+      : area.toFixed(0) + ' m²';
+    var tdArea = el('td', 'td-num', areaText);
+
+    /* Slope */
+    var tdSlope = el('td', 'td-num', slope.toFixed(1) + '°');
+
+    /* Score cells */
+    var tdRule = makeScoreCell(scoreRule, 'var(--accent)');
+    var tdMl   = makeScoreCell(scoreMl, 'var(--accent3)');
+    var tdEns  = makeScoreCell(scoreEns, ensColor);
+    tdEns.querySelector('.score-val').style.fontSize = '0.9rem';
+
+    tr.appendChild(tdRank);
+    tr.appendChild(tdPnu);
+    tr.appendChild(tdAddr);
+    tr.appendChild(tdJimok);
+    tr.appendChild(tdArea);
+    tr.appendChild(tdSlope);
+    tr.appendChild(tdRule);
+    tr.appendChild(tdMl);
+    tr.appendChild(tdEns);
+
+    tbody.appendChild(tr);
+  });
+
+  observeTable();
+}
+
+/* ── IntersectionObserver: table rows ── */
+function observeTable() {
+  var table = document.getElementById('candidateTable');
+  if (!table) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var rows = entry.target.querySelectorAll('tbody tr');
+        rows.forEach(function(row, i) {
+          row.style.animationDelay = (i * 0.04) + 's';
+          row.classList.add('visible');
+        });
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  obs.observe(table);
+}
+
+/* ── IntersectionObserver: analytics cards ── */
+function observeAnalytics() {
+  var cards = document.querySelectorAll('.analytics-card');
+  var triggered = false;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !triggered) {
+        triggered = true;
+        animateFunnels();
+        animateRecall();
+      }
+    });
+  }, { threshold: 0.15 });
+  cards.forEach(function(c) { obs.observe(c); });
+}
+
+/* ── Score bar flash-in helper ── */
+function activateScoreBars() {
+  var fills = document.querySelectorAll('.score-bar-fill');
+  fills.forEach(function(fill) {
+    var target = fill.style.width;
+    fill.style.width = '0';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        fill.style.width = target;
+      });
+    });
+  });
+}
+
+/* ── Graceful degradation: show placeholder ── */
+function showFallbackTable() {
+  var tbody = document.getElementById('candidateBody');
+  if (!tbody) return;
+  while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+  var tr = document.createElement('tr');
+  tr.classList.add('visible');
+  var td = document.createElement('td');
+  td.colSpan = 9;
+  td.className = 'table-loading';
+  td.textContent = 'CSV 파일 로드 실패 — output/ 디렉토리에 top_pnu_list_ensemble.csv 파일을 확인하세요.';
+  tr.appendChild(td);
+  tbody.appendChild(tr);
+}
+
+function showFallbackTop5() {
+  var container = document.getElementById('top5-list');
+  if (!container) return;
+  while (container.firstChild) container.removeChild(container.firstChild);
+  var lines = [
+    'CSV 파일을 로드할 수 없습니다.',
+    'top_pnu_list_ensemble.csv',
+    '파일이 output/ 디렉토리에 있는지',
+    '확인하세요.'
+  ];
+  lines.forEach(function(line) {
+    var p = document.createElement('p');
+    p.style.cssText = 'font-family:Noto Sans KR,sans-serif;font-size:0.78rem;color:var(--text2);line-height:1.9;margin:0';
+    p.textContent = line;
+    container.appendChild(p);
+  });
+}
+
+/* ── Main data loader ── */
+async function loadCandidates() {
+  try {
+    var res = await fetch('./top_pnu_list_ensemble.csv');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var text = await res.text();
+    var data = parseCSV(text);
+    if (!data.length) throw new Error('Empty CSV');
+
+    renderCandidateTable(data.slice(0, 20));
+    renderTopFive(data.slice(0, 5));
+
+    /* KPI counters */
+    animateCounter(document.getElementById('kpi-total'),    1000);
+    animateCounter(document.getElementById('kpi-filtered'),  100);
+    animateCounter(document.getElementById('kpi-installed'),  20);
+
+    var topScore = parseFloat((data[0] || {}).score_ensemble || 0);
+    document.getElementById('kpi-topscore').textContent =
+      (topScore * 100).toFixed(1) + '%';
+
+    /* Trigger score bar animations after DOM is painted */
+    setTimeout(activateScoreBars, 100);
+
+  } catch (e) {
+    console.warn('CSV load failed:', e);
+    showFallbackTable();
+    showFallbackTop5();
+
+    /* Still run KPI counters with default values */
+    animateCounter(document.getElementById('kpi-total'),    1000);
+    animateCounter(document.getElementById('kpi-filtered'),  100);
+    animateCounter(document.getElementById('kpi-installed'),  20);
+  }
+}
+
+/* ── Smooth scroll polyfill (Safari) ── */
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', function() {
+  loadCandidates();
+  observeAnalytics();
+  initSmoothScroll();
+});
+</script>
+
+</body>
+</html>
