@@ -5,11 +5,9 @@ import argparse
 import logging
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 import geopandas as gpd
 import folium
-from folium import plugins
 
 from solar_mvp.config import OUTPUT_DIR, CRS_WGS84
 
@@ -82,7 +80,8 @@ def parcel_to_marker(
     row: pd.Series,
     color: str,
     score_col: str | None = None,
-    popup_extra: str = ""
+    popup_extra: str = "",
+    radius: int = 8
 ) -> folium.CircleMarker | None:
     """
     Create a folium.CircleMarker for a single parcel row.
@@ -92,6 +91,7 @@ def parcel_to_marker(
         color: Marker color
         score_col: Optional score column name (for popup display)
         popup_extra: Extra text to add to popup
+        radius: Marker radius in pixels (default 8)
 
     Returns:
         folium.CircleMarker or None if geometry is missing
@@ -134,7 +134,7 @@ def parcel_to_marker(
     # Create marker
     marker = folium.CircleMarker(
         location=[lat, lon],
-        radius=8,
+        radius=radius,
         popup=popup,
         color=color,
         fill=True,
@@ -234,7 +234,7 @@ def build_map(parcels_final: gpd.GeoDataFrame) -> folium.Map:
                 popup_extra = ""
                 if "install_year" in row and pd.notna(row["install_year"]):
                     popup_extra = f"<b>설치년도:</b> {int(row['install_year'])}"
-                marker = parcel_to_marker(row, color, popup_extra=popup_extra)
+                marker = parcel_to_marker(row, color, popup_extra=popup_extra, radius=10)
                 if marker:
                     marker.add_to(layer_installed)
         else:
