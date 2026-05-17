@@ -1,0 +1,3274 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_71a4921c7b2c24b4d58c5afe8276c596 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+    <div style="position:fixed;top:10px;left:50px;z-index:1000;background:white;padding:15px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+      <b>SolarFit MVP v2 — 해남군 태양광 적합지역</b><br>
+      <span style="color:#1a7a1a">●</span> 규칙기반 상위 100 &nbsp;
+      <span style="color:#2196f3">●</span> ML 상위 100 &nbsp;
+      <span style="color:#9c27b0">●</span> 앙상블 상위 100 &nbsp;
+      <span style="color:#e53935">●</span> 실제 설치지
+    </div>
+    
+    
+            <div class="folium-map" id="map_71a4921c7b2c24b4d58c5afe8276c596" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_71a4921c7b2c24b4d58c5afe8276c596 = L.map(
+                "map_71a4921c7b2c24b4d58c5afe8276c596",
+                {
+                    center: [34.574, 126.599],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_2a5659680da5a6880188fadccc49852d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_2a5659680da5a6880188fadccc49852d.addTo(map_71a4921c7b2c24b4d58c5afe8276c596);
+        
+    
+            var feature_group_58eae70b7a5a245d8b59817b9edaeef1 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_c727274b158957b3f63660a29ed8d0c5 = L.circleMarker(
+                [34.44824193548388, 126.51050000000001],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_231715ae3fb410e79eb93b994f9edf8d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8da970409bc43a7461fb2c555b9b49a7 = $(`<div id="html_8da970409bc43a7461fb2c555b9b49a7" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000229<br><b>score_rule:</b> 0.727<br><b>지목:</b> 답<br><b>면적:</b> 26,798 ㎡<br><b>경사:</b> 3.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_231715ae3fb410e79eb93b994f9edf8d.setContent(html_8da970409bc43a7461fb2c555b9b49a7);
+            
+        
+
+        circle_marker_c727274b158957b3f63660a29ed8d0c5.bindPopup(popup_231715ae3fb410e79eb93b994f9edf8d)
+        ;
+
+        
+    
+    
+            var circle_marker_3a395c6d0fee0fe4a698cae2c41bec20 = L.circleMarker(
+                [34.661145161290314, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_902255de8df6f3c379372ab2c2b94d35 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e2be8b24e7d58ac1ba3ffe272971b5bf = $(`<div id="html_e2be8b24e7d58ac1ba3ffe272971b5bf" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000951<br><b>score_rule:</b> 0.702<br><b>지목:</b> 목장용지<br><b>면적:</b> 12,065 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_902255de8df6f3c379372ab2c2b94d35.setContent(html_e2be8b24e7d58ac1ba3ffe272971b5bf);
+            
+        
+
+        circle_marker_3a395c6d0fee0fe4a698cae2c41bec20.bindPopup(popup_902255de8df6f3c379372ab2c2b94d35)
+        ;
+
+        
+    
+    
+            var circle_marker_8099f8d67a97b6733ba16b1bd7eb185e = L.circleMarker(
+                [34.62243548387097, 126.76050000000002],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_b3238b9788a0837c96f93008c0a8d3b2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e0cc1e9f9161cc97382050534357c8a4 = $(`<div id="html_e0cc1e9f9161cc97382050534357c8a4" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000830<br><b>score_rule:</b> 0.695<br><b>지목:</b> 임야<br><b>면적:</b> 3,396 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_b3238b9788a0837c96f93008c0a8d3b2.setContent(html_e0cc1e9f9161cc97382050534357c8a4);
+            
+        
+
+        circle_marker_8099f8d67a97b6733ba16b1bd7eb185e.bindPopup(popup_b3238b9788a0837c96f93008c0a8d3b2)
+        ;
+
+        
+    
+    
+            var circle_marker_f1f529d90f71c84b903786fcf75947a1 = L.circleMarker(
+                [34.44824193548388, 126.6505],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_61c229ac1636f7a7ef055af234fc6c97 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8236af86556b73f76b449c5da9c988b5 = $(`<div id="html_8236af86556b73f76b449c5da9c988b5" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000243<br><b>score_rule:</b> 0.672<br><b>지목:</b> 임야<br><b>면적:</b> 7,201 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_61c229ac1636f7a7ef055af234fc6c97.setContent(html_8236af86556b73f76b449c5da9c988b5);
+            
+        
+
+        circle_marker_f1f529d90f71c84b903786fcf75947a1.bindPopup(popup_61c229ac1636f7a7ef055af234fc6c97)
+        ;
+
+        
+    
+    
+            var circle_marker_860aaa14ebab93cd2a7312c18a1e2384 = L.circleMarker(
+                [34.593403225806455, 126.7005],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_7d300d5c0f75e2ab8698bba5b65b0d73 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5a49a5e9bd18daca8d81c4b8dbf45d9c = $(`<div id="html_5a49a5e9bd18daca8d81c4b8dbf45d9c" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000728<br><b>score_rule:</b> 0.655<br><b>지목:</b> 답<br><b>면적:</b> 1,153 ㎡<br><b>경사:</b> 11.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_7d300d5c0f75e2ab8698bba5b65b0d73.setContent(html_5a49a5e9bd18daca8d81c4b8dbf45d9c);
+            
+        
+
+        circle_marker_860aaa14ebab93cd2a7312c18a1e2384.bindPopup(popup_7d300d5c0f75e2ab8698bba5b65b0d73)
+        ;
+
+        
+    
+    
+            var circle_marker_6f7b0cbbda76325378d942a34ce943f9 = L.circleMarker(
+                [34.49662903225807, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_3813d636cb3415274897641c4433cddb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a3fd4c6c9e72e0834981b96d282947c7 = $(`<div id="html_a3fd4c6c9e72e0834981b96d282947c7" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000409<br><b>score_rule:</b> 0.634<br><b>지목:</b> 임야<br><b>면적:</b> 2,825 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_3813d636cb3415274897641c4433cddb.setContent(html_a3fd4c6c9e72e0834981b96d282947c7);
+            
+        
+
+        circle_marker_6f7b0cbbda76325378d942a34ce943f9.bindPopup(popup_3813d636cb3415274897641c4433cddb)
+        ;
+
+        
+    
+    
+            var circle_marker_d3e1dd0f5e7ac2947916c2377e134fc7 = L.circleMarker(
+                [34.65146774193548, 126.66049999999998],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_47d3c91a15839fdaa9ea3e3b86336491 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5c11274e5e397c0c1630da8bd56a7717 = $(`<div id="html_5c11274e5e397c0c1630da8bd56a7717" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000916<br><b>score_rule:</b> 0.627<br><b>지목:</b> 전<br><b>면적:</b> 7,689 ㎡<br><b>경사:</b> 13.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_47d3c91a15839fdaa9ea3e3b86336491.setContent(html_5c11274e5e397c0c1630da8bd56a7717);
+            
+        
+
+        circle_marker_d3e1dd0f5e7ac2947916c2377e134fc7.bindPopup(popup_47d3c91a15839fdaa9ea3e3b86336491)
+        ;
+
+        
+    
+    
+            var circle_marker_6bd0e3363f51eec728ea0df98b582c89 = L.circleMarker(
+                [34.3805, 126.78049999999999],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_1cb6ad4663eeb30856cd43fac0f64703 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_78a88388f111bf99d3c7758a2004473f = $(`<div id="html_78a88388f111bf99d3c7758a2004473f" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000032<br><b>score_rule:</b> 0.610<br><b>지목:</b> 임야<br><b>면적:</b> 3,811 ㎡<br><b>경사:</b> 6.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_1cb6ad4663eeb30856cd43fac0f64703.setContent(html_78a88388f111bf99d3c7758a2004473f);
+            
+        
+
+        circle_marker_6bd0e3363f51eec728ea0df98b582c89.bindPopup(popup_1cb6ad4663eeb30856cd43fac0f64703)
+        ;
+
+        
+    
+    
+            var circle_marker_d5a44581ef344f6bf34b9076d2bab30c = L.circleMarker(
+                [34.46759677419355, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_63f8494f5fe8c5d4970e13f3ec1da293 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a6fc92abf9dc4e6f20dffcc2071b5e97 = $(`<div id="html_a6fc92abf9dc4e6f20dffcc2071b5e97" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000319<br><b>score_rule:</b> 0.608<br><b>지목:</b> 전<br><b>면적:</b> 13,699 ㎡<br><b>경사:</b> 12.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_63f8494f5fe8c5d4970e13f3ec1da293.setContent(html_a6fc92abf9dc4e6f20dffcc2071b5e97);
+            
+        
+
+        circle_marker_d5a44581ef344f6bf34b9076d2bab30c.bindPopup(popup_63f8494f5fe8c5d4970e13f3ec1da293)
+        ;
+
+        
+    
+    
+            var circle_marker_c1dee7a325ed157e8b51896933fddca0 = L.circleMarker(
+                [34.62243548387097, 126.54050000000002],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_d7b72db9c14447d8491431a43d2d1e1f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6cc6b1a3f0862d58ff6b93e3e23f7bda = $(`<div id="html_6cc6b1a3f0862d58ff6b93e3e23f7bda" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000808<br><b>score_rule:</b> 0.607<br><b>지목:</b> 전<br><b>면적:</b> 2,489 ㎡<br><b>경사:</b> 1.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_d7b72db9c14447d8491431a43d2d1e1f.setContent(html_6cc6b1a3f0862d58ff6b93e3e23f7bda);
+            
+        
+
+        circle_marker_c1dee7a325ed157e8b51896933fddca0.bindPopup(popup_d7b72db9c14447d8491431a43d2d1e1f)
+        ;
+
+        
+    
+    
+            var circle_marker_2b3770891f852abc44f2f609d5b162b8 = L.circleMarker(
+                [34.593403225806455, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_80da5d8b575d973599d9b76a246209cf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7904945217f15d98083d16dba930c4df = $(`<div id="html_7904945217f15d98083d16dba930c4df" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000720<br><b>score_rule:</b> 0.604<br><b>지목:</b> 잡종지<br><b>면적:</b> 4,461 ㎡<br><b>경사:</b> 2.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_80da5d8b575d973599d9b76a246209cf.setContent(html_7904945217f15d98083d16dba930c4df);
+            
+        
+
+        circle_marker_2b3770891f852abc44f2f609d5b162b8.bindPopup(popup_80da5d8b575d973599d9b76a246209cf)
+        ;
+
+        
+    
+    
+            var circle_marker_05b742905d2a9e2bd604bf3e36d5682f = L.circleMarker(
+                [34.390177419354835, 126.7505],
+                {"bubblingMouseEvents": true, "color": "#4caf50", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4caf50", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_42613d78b81ea50441f70dafd7c1ea60 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_827ef0deb7b3edd09cfb420542f752af = $(`<div id="html_827ef0deb7b3edd09cfb420542f752af" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000061<br><b>score_rule:</b> 0.604<br><b>지목:</b> 답<br><b>면적:</b> 5,593 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_42613d78b81ea50441f70dafd7c1ea60.setContent(html_827ef0deb7b3edd09cfb420542f752af);
+            
+        
+
+        circle_marker_05b742905d2a9e2bd604bf3e36d5682f.bindPopup(popup_42613d78b81ea50441f70dafd7c1ea60)
+        ;
+
+        
+    
+    
+            var circle_marker_2685261de520e2e0a053ad19af01bd72 = L.circleMarker(
+                [34.55469354838709, 126.78049999999999],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_e474462a437917b433f49c5797889b3b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_72de2cfece916c52bce64926edef4b59 = $(`<div id="html_72de2cfece916c52bce64926edef4b59" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000608<br><b>score_rule:</b> 0.600<br><b>지목:</b> 임야<br><b>면적:</b> 5,536 ㎡<br><b>경사:</b> 10.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e474462a437917b433f49c5797889b3b.setContent(html_72de2cfece916c52bce64926edef4b59);
+            
+        
+
+        circle_marker_2685261de520e2e0a053ad19af01bd72.bindPopup(popup_e474462a437917b433f49c5797889b3b)
+        ;
+
+        
+    
+    
+            var circle_marker_a2f0b4f36a24d15b4635fde76077e9ba = L.circleMarker(
+                [34.661145161290314, 126.7205],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_cb0217a3745eaf76149003f0acfefa68 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bb870aa5fa70a63c36a5c43cb55c1ba6 = $(`<div id="html_bb870aa5fa70a63c36a5c43cb55c1ba6" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000954<br><b>score_rule:</b> 0.594<br><b>지목:</b> 답<br><b>면적:</b> 16,262 ㎡<br><b>경사:</b> 2.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_cb0217a3745eaf76149003f0acfefa68.setContent(html_bb870aa5fa70a63c36a5c43cb55c1ba6);
+            
+        
+
+        circle_marker_a2f0b4f36a24d15b4635fde76077e9ba.bindPopup(popup_cb0217a3745eaf76149003f0acfefa68)
+        ;
+
+        
+    
+    
+            var circle_marker_478f5d08b3a7a87f43bec5074f928e48 = L.circleMarker(
+                [34.64179032258065, 126.54050000000002],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_9e51927ced3e03ccd42729fb2bc77156 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c0f5b64767d5084b4045630ef97e76b4 = $(`<div id="html_c0f5b64767d5084b4045630ef97e76b4" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000872<br><b>score_rule:</b> 0.593<br><b>지목:</b> 답<br><b>면적:</b> 10,116 ㎡<br><b>경사:</b> 3.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_9e51927ced3e03ccd42729fb2bc77156.setContent(html_c0f5b64767d5084b4045630ef97e76b4);
+            
+        
+
+        circle_marker_478f5d08b3a7a87f43bec5074f928e48.bindPopup(popup_9e51927ced3e03ccd42729fb2bc77156)
+        ;
+
+        
+    
+    
+            var circle_marker_d730f5fcfe4c5f91af031fc6829938a1 = L.circleMarker(
+                [34.390177419354835, 126.49050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_28d564c14214b391f1783aeddeffc02b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e07d23a74c4b63d0651adc7a7e69e2ba = $(`<div id="html_e07d23a74c4b63d0651adc7a7e69e2ba" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000035<br><b>score_rule:</b> 0.584<br><b>지목:</b> 잡종지<br><b>면적:</b> 12,494 ㎡<br><b>경사:</b> 11.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_28d564c14214b391f1783aeddeffc02b.setContent(html_e07d23a74c4b63d0651adc7a7e69e2ba);
+            
+        
+
+        circle_marker_d730f5fcfe4c5f91af031fc6829938a1.bindPopup(popup_28d564c14214b391f1783aeddeffc02b)
+        ;
+
+        
+    
+    
+            var circle_marker_efb46523e0acee69e95714e4223ca23d = L.circleMarker(
+                [34.574048387096774, 126.58050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_540bb4146eb03254f18a1402de0b0ee8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6bd64c82754a9d5872818fd8fc48a50a = $(`<div id="html_6bd64c82754a9d5872818fd8fc48a50a" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000652<br><b>score_rule:</b> 0.577<br><b>지목:</b> 임야<br><b>면적:</b> 3,191 ㎡<br><b>경사:</b> 7.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_540bb4146eb03254f18a1402de0b0ee8.setContent(html_6bd64c82754a9d5872818fd8fc48a50a);
+            
+        
+
+        circle_marker_efb46523e0acee69e95714e4223ca23d.bindPopup(popup_540bb4146eb03254f18a1402de0b0ee8)
+        ;
+
+        
+    
+    
+            var circle_marker_ffd8726af9cdc0e7a350377aafd62199 = L.circleMarker(
+                [34.58372580645162, 126.47050000000002],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_497917f4e780d13623ba24a03dc12313 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4cf97710fc9e0ab5a28abadde6960e7f = $(`<div id="html_4cf97710fc9e0ab5a28abadde6960e7f" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000673<br><b>score_rule:</b> 0.567<br><b>지목:</b> 전<br><b>면적:</b> 2,665 ㎡<br><b>경사:</b> 4.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_497917f4e780d13623ba24a03dc12313.setContent(html_4cf97710fc9e0ab5a28abadde6960e7f);
+            
+        
+
+        circle_marker_ffd8726af9cdc0e7a350377aafd62199.bindPopup(popup_497917f4e780d13623ba24a03dc12313)
+        ;
+
+        
+    
+    
+            var circle_marker_3bb744e2f00561699ce34a95fcaaf7e6 = L.circleMarker(
+                [34.61275806451613, 126.63049999999997],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_38de04ff76190c8b81f6e48a9243d5d4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_db187555291ded78706ae6bd876adaf8 = $(`<div id="html_db187555291ded78706ae6bd876adaf8" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000785<br><b>score_rule:</b> 0.563<br><b>지목:</b> 답<br><b>면적:</b> 3,175 ㎡<br><b>경사:</b> 8.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_38de04ff76190c8b81f6e48a9243d5d4.setContent(html_db187555291ded78706ae6bd876adaf8);
+            
+        
+
+        circle_marker_3bb744e2f00561699ce34a95fcaaf7e6.bindPopup(popup_38de04ff76190c8b81f6e48a9243d5d4)
+        ;
+
+        
+    
+    
+            var circle_marker_1c63cd2040ae9019fd8eb84841a07a13 = L.circleMarker(
+                [34.54501612903226, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_a610466f0c0acf6ab999a9e89fa5a329 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d3509f61e5ab1b26e878ded868e3620e = $(`<div id="html_d3509f61e5ab1b26e878ded868e3620e" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000575<br><b>score_rule:</b> 0.551<br><b>지목:</b> 임야<br><b>면적:</b> 2,552 ㎡<br><b>경사:</b> 8.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_a610466f0c0acf6ab999a9e89fa5a329.setContent(html_d3509f61e5ab1b26e878ded868e3620e);
+            
+        
+
+        circle_marker_1c63cd2040ae9019fd8eb84841a07a13.bindPopup(popup_a610466f0c0acf6ab999a9e89fa5a329)
+        ;
+
+        
+    
+    
+            var circle_marker_1c042bdd41ccc4aff3e08ffaf7c09939 = L.circleMarker(
+                [34.54501612903226, 126.5905],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_5c44b0c7676567320526fe1129dd54da = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9f2c9519dfa715a46f25dd82b689fc09 = $(`<div id="html_9f2c9519dfa715a46f25dd82b689fc09" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000557<br><b>score_rule:</b> 0.546<br><b>지목:</b> 전<br><b>면적:</b> 6,199 ㎡<br><b>경사:</b> 4.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_5c44b0c7676567320526fe1129dd54da.setContent(html_9f2c9519dfa715a46f25dd82b689fc09);
+            
+        
+
+        circle_marker_1c042bdd41ccc4aff3e08ffaf7c09939.bindPopup(popup_5c44b0c7676567320526fe1129dd54da)
+        ;
+
+        
+    
+    
+            var circle_marker_87b9531e0b3a64d65685881503b71864 = L.circleMarker(
+                [34.50630645161291, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_58cfcfdbdd1fc445e9445c2d1aaa67c7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3e502b92d333f8c25d288a215d46302c = $(`<div id="html_3e502b92d333f8c25d288a215d46302c" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000441<br><b>score_rule:</b> 0.542<br><b>지목:</b> 전<br><b>면적:</b> 2,457 ㎡<br><b>경사:</b> 7.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_58cfcfdbdd1fc445e9445c2d1aaa67c7.setContent(html_3e502b92d333f8c25d288a215d46302c);
+            
+        
+
+        circle_marker_87b9531e0b3a64d65685881503b71864.bindPopup(popup_58cfcfdbdd1fc445e9445c2d1aaa67c7)
+        ;
+
+        
+    
+    
+            var circle_marker_7aa0d2f095a0adfcba2079d39ab1184d = L.circleMarker(
+                [34.44824193548388, 126.5305],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_c54008dee9d42e679abcb417a189875b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9231563c63a86f81f2cd570421315fb8 = $(`<div id="html_9231563c63a86f81f2cd570421315fb8" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000231<br><b>score_rule:</b> 0.528<br><b>지목:</b> 임야<br><b>면적:</b> 4,000 ㎡<br><b>경사:</b> 0.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_c54008dee9d42e679abcb417a189875b.setContent(html_9231563c63a86f81f2cd570421315fb8);
+            
+        
+
+        circle_marker_7aa0d2f095a0adfcba2079d39ab1184d.bindPopup(popup_c54008dee9d42e679abcb417a189875b)
+        ;
+
+        
+    
+    
+            var circle_marker_b9a5d829c8b22af9e0af0408a0e3a417 = L.circleMarker(
+                [34.409532258064516, 126.6505],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_e71cc6b53c3593e099ead7e09e244a42 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_93c3f905f920cf9c54a1bb7006f5c859 = $(`<div id="html_93c3f905f920cf9c54a1bb7006f5c859" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000115<br><b>score_rule:</b> 0.525<br><b>지목:</b> 전<br><b>면적:</b> 8,989 ㎡<br><b>경사:</b> 8.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e71cc6b53c3593e099ead7e09e244a42.setContent(html_93c3f905f920cf9c54a1bb7006f5c859);
+            
+        
+
+        circle_marker_b9a5d829c8b22af9e0af0408a0e3a417.bindPopup(popup_e71cc6b53c3593e099ead7e09e244a42)
+        ;
+
+        
+    
+    
+            var circle_marker_7bb21686518b241881b98b1720b0e901 = L.circleMarker(
+                [34.41920967741935, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_4edd3304f0cbccab103a48daf0e8a467 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_66a435c3901122915d794d10da2c948e = $(`<div id="html_66a435c3901122915d794d10da2c948e" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000153<br><b>score_rule:</b> 0.522<br><b>지목:</b> 목장용지<br><b>면적:</b> 3,853 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_4edd3304f0cbccab103a48daf0e8a467.setContent(html_66a435c3901122915d794d10da2c948e);
+            
+        
+
+        circle_marker_7bb21686518b241881b98b1720b0e901.bindPopup(popup_4edd3304f0cbccab103a48daf0e8a467)
+        ;
+
+        
+    
+    
+            var circle_marker_e93e70c9ede5d44b72454bd52cb3e191 = L.circleMarker(
+                [34.390177419354835, 126.57050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_6a2265dd83f92ef99d4c112227d0bb66 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b476e8c5f064a4b19e7e6a8f754a8c04 = $(`<div id="html_b476e8c5f064a4b19e7e6a8f754a8c04" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000043<br><b>score_rule:</b> 0.520<br><b>지목:</b> 전<br><b>면적:</b> 10,658 ㎡<br><b>경사:</b> 4.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_6a2265dd83f92ef99d4c112227d0bb66.setContent(html_b476e8c5f064a4b19e7e6a8f754a8c04);
+            
+        
+
+        circle_marker_e93e70c9ede5d44b72454bd52cb3e191.bindPopup(popup_6a2265dd83f92ef99d4c112227d0bb66)
+        ;
+
+        
+    
+    
+            var circle_marker_625ca528666e071da121ee4436cfde9f = L.circleMarker(
+                [34.49662903225807, 126.7305],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_d91aa563b161d99870bebfe2627c2096 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_61f3c8e9a7deba17b0950020c6da36d6 = $(`<div id="html_61f3c8e9a7deba17b0950020c6da36d6" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000411<br><b>score_rule:</b> 0.519<br><b>지목:</b> 답<br><b>면적:</b> 3,625 ㎡<br><b>경사:</b> 0.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_d91aa563b161d99870bebfe2627c2096.setContent(html_61f3c8e9a7deba17b0950020c6da36d6);
+            
+        
+
+        circle_marker_625ca528666e071da121ee4436cfde9f.bindPopup(popup_d91aa563b161d99870bebfe2627c2096)
+        ;
+
+        
+    
+    
+            var circle_marker_25820652391b74bbae476842ffdaa5fa = L.circleMarker(
+                [34.61275806451613, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_815bc8667de592b42c160f96aaf741d7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5a414484655d7b4d05cff6c0c329947d = $(`<div id="html_5a414484655d7b4d05cff6c0c329947d" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000791<br><b>score_rule:</b> 0.510<br><b>지목:</b> 잡종지<br><b>면적:</b> 6,597 ㎡<br><b>경사:</b> 4.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_815bc8667de592b42c160f96aaf741d7.setContent(html_5a414484655d7b4d05cff6c0c329947d);
+            
+        
+
+        circle_marker_25820652391b74bbae476842ffdaa5fa.bindPopup(popup_815bc8667de592b42c160f96aaf741d7)
+        ;
+
+        
+    
+    
+            var circle_marker_27cf5aa83491932a698d9d156857b908 = L.circleMarker(
+                [34.670822580645165, 126.56050000000002],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_f7e7f5df5e9871ecbc0a67f73c18eb78 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1392fad60c197234586e76ff1226f665 = $(`<div id="html_1392fad60c197234586e76ff1226f665" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000970<br><b>score_rule:</b> 0.506<br><b>지목:</b> 임야<br><b>면적:</b> 4,320 ㎡<br><b>경사:</b> 8.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_f7e7f5df5e9871ecbc0a67f73c18eb78.setContent(html_1392fad60c197234586e76ff1226f665);
+            
+        
+
+        circle_marker_27cf5aa83491932a698d9d156857b908.bindPopup(popup_f7e7f5df5e9871ecbc0a67f73c18eb78)
+        ;
+
+        
+    
+    
+            var circle_marker_ee0a61b91a9e4da8f6da67fa0fbb35db = L.circleMarker(
+                [34.409532258064516, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_5a6f01fd29291a555ef913b50611f119 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b94e5cd1d1c9dfc6faaa3bfb493aff7a = $(`<div id="html_b94e5cd1d1c9dfc6faaa3bfb493aff7a" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000112<br><b>score_rule:</b> 0.496<br><b>지목:</b> 잡종지<br><b>면적:</b> 2,554 ㎡<br><b>경사:</b> 9.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_5a6f01fd29291a555ef913b50611f119.setContent(html_b94e5cd1d1c9dfc6faaa3bfb493aff7a);
+            
+        
+
+        circle_marker_ee0a61b91a9e4da8f6da67fa0fbb35db.bindPopup(popup_5a6f01fd29291a555ef913b50611f119)
+        ;
+
+        
+    
+    
+            var circle_marker_8645605e88b0ad9b8739552f5c659a7f = L.circleMarker(
+                [34.515983870967744, 126.5905],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_3d8324d8a2afee12d26c760200d2c748 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9c82a1b7a502401dc6435ff9c0701c6a = $(`<div id="html_9c82a1b7a502401dc6435ff9c0701c6a" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000461<br><b>score_rule:</b> 0.491<br><b>지목:</b> 답<br><b>면적:</b> 9,685 ㎡<br><b>경사:</b> 9.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_3d8324d8a2afee12d26c760200d2c748.setContent(html_9c82a1b7a502401dc6435ff9c0701c6a);
+            
+        
+
+        circle_marker_8645605e88b0ad9b8739552f5c659a7f.bindPopup(popup_3d8324d8a2afee12d26c760200d2c748)
+        ;
+
+        
+    
+    
+            var circle_marker_f075d0c3233151d9a1c60aa77e21c3c0 = L.circleMarker(
+                [34.593403225806455, 126.7405],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_26b9538b639b6fb6b930003de3be610a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6a0a53cc4f73f07f6301347c7a094581 = $(`<div id="html_6a0a53cc4f73f07f6301347c7a094581" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000732<br><b>score_rule:</b> 0.482<br><b>지목:</b> 전<br><b>면적:</b> 6,889 ㎡<br><b>경사:</b> 8.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_26b9538b639b6fb6b930003de3be610a.setContent(html_6a0a53cc4f73f07f6301347c7a094581);
+            
+        
+
+        circle_marker_f075d0c3233151d9a1c60aa77e21c3c0.bindPopup(popup_26b9538b639b6fb6b930003de3be610a)
+        ;
+
+        
+    
+    
+            var circle_marker_bb29af513a57250d60aa4593c365428e = L.circleMarker(
+                [34.58372580645162, 126.6105],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_d0ce7f2fb411ff014c101c9472723045 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9bb609d6aea9d8f1af327473f7f5bac3 = $(`<div id="html_9bb609d6aea9d8f1af327473f7f5bac3" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000687<br><b>score_rule:</b> 0.478<br><b>지목:</b> 임야<br><b>면적:</b> 3,689 ㎡<br><b>경사:</b> 12.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_d0ce7f2fb411ff014c101c9472723045.setContent(html_9bb609d6aea9d8f1af327473f7f5bac3);
+            
+        
+
+        circle_marker_bb29af513a57250d60aa4593c365428e.bindPopup(popup_d0ce7f2fb411ff014c101c9472723045)
+        ;
+
+        
+    
+    
+            var circle_marker_ec3e3a42ec9d8e5d219db46f6cc0d730 = L.circleMarker(
+                [34.64179032258065, 126.68050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_78350d6d3803a7680f6062de4ed3f65b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_16bde9e5ebdd28ac4b3037c1259f6b69 = $(`<div id="html_16bde9e5ebdd28ac4b3037c1259f6b69" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000886<br><b>score_rule:</b> 0.462<br><b>지목:</b> 잡종지<br><b>면적:</b> 1,371 ㎡<br><b>경사:</b> 9.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_78350d6d3803a7680f6062de4ed3f65b.setContent(html_16bde9e5ebdd28ac4b3037c1259f6b69);
+            
+        
+
+        circle_marker_ec3e3a42ec9d8e5d219db46f6cc0d730.bindPopup(popup_78350d6d3803a7680f6062de4ed3f65b)
+        ;
+
+        
+    
+    
+            var circle_marker_09ace4e5dd77a347615a81aabb8e50f1 = L.circleMarker(
+                [34.50630645161291, 126.56050000000002],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_bdc73c0c60d1e65c301e8c0630d152a3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_43710f8e8fb18db713fd5cd0e302fbe6 = $(`<div id="html_43710f8e8fb18db713fd5cd0e302fbe6" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000426<br><b>score_rule:</b> 0.456<br><b>지목:</b> 임야<br><b>면적:</b> 4,728 ㎡<br><b>경사:</b> 6.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_bdc73c0c60d1e65c301e8c0630d152a3.setContent(html_43710f8e8fb18db713fd5cd0e302fbe6);
+            
+        
+
+        circle_marker_09ace4e5dd77a347615a81aabb8e50f1.bindPopup(popup_bdc73c0c60d1e65c301e8c0630d152a3)
+        ;
+
+        
+    
+    
+            var circle_marker_735daf69ac41c8636fd48c1b2c50ed67 = L.circleMarker(
+                [34.515983870967744, 126.49050000000001],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_857b460c56dea09e104bbf39f5fb23f1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_35d124a150fbc7cd62795af81d1edd12 = $(`<div id="html_35d124a150fbc7cd62795af81d1edd12" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000451<br><b>score_rule:</b> 0.454<br><b>지목:</b> 전<br><b>면적:</b> 8,796 ㎡<br><b>경사:</b> 7.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_857b460c56dea09e104bbf39f5fb23f1.setContent(html_35d124a150fbc7cd62795af81d1edd12);
+            
+        
+
+        circle_marker_735daf69ac41c8636fd48c1b2c50ed67.bindPopup(popup_857b460c56dea09e104bbf39f5fb23f1)
+        ;
+
+        
+    
+    
+            var circle_marker_310a2037223d6dc52636ae53d2f4d9cf = L.circleMarker(
+                [34.64179032258065, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_a385026ab0d6b4a1f0d13ed773ea3b28 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_af65c5d68834c0b5116dfb6d761736ef = $(`<div id="html_af65c5d68834c0b5116dfb6d761736ef" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000895<br><b>score_rule:</b> 0.451<br><b>지목:</b> 답<br><b>면적:</b> 5,306 ㎡<br><b>경사:</b> 6.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_a385026ab0d6b4a1f0d13ed773ea3b28.setContent(html_af65c5d68834c0b5116dfb6d761736ef);
+            
+        
+
+        circle_marker_310a2037223d6dc52636ae53d2f4d9cf.bindPopup(popup_a385026ab0d6b4a1f0d13ed773ea3b28)
+        ;
+
+        
+    
+    
+            var circle_marker_6819687b20895fd60226033f8b7fb3f0 = L.circleMarker(
+                [34.574048387096774, 126.6405],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_e58c39095d45d6b234165b915a683a94 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3c7b54d2bc9b756bb44a1d2d79c050ca = $(`<div id="html_3c7b54d2bc9b756bb44a1d2d79c050ca" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000658<br><b>score_rule:</b> 0.449<br><b>지목:</b> 잡종지<br><b>면적:</b> 2,399 ㎡<br><b>경사:</b> 8.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e58c39095d45d6b234165b915a683a94.setContent(html_3c7b54d2bc9b756bb44a1d2d79c050ca);
+            
+        
+
+        circle_marker_6819687b20895fd60226033f8b7fb3f0.bindPopup(popup_e58c39095d45d6b234165b915a683a94)
+        ;
+
+        
+    
+    
+            var circle_marker_87acc795f3eba38f3d56b65ea1c996b4 = L.circleMarker(
+                [34.54501612903226, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_71be612c7f923b2113fe783aa4e29550 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0f65a9be0f6e6320cce2a6abab4ffeff = $(`<div id="html_0f65a9be0f6e6320cce2a6abab4ffeff" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000560<br><b>score_rule:</b> 0.431<br><b>지목:</b> 전<br><b>면적:</b> 4,884 ㎡<br><b>경사:</b> 3.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_71be612c7f923b2113fe783aa4e29550.setContent(html_0f65a9be0f6e6320cce2a6abab4ffeff);
+            
+        
+
+        circle_marker_87acc795f3eba38f3d56b65ea1c996b4.bindPopup(popup_71be612c7f923b2113fe783aa4e29550)
+        ;
+
+        
+    
+    
+            var circle_marker_b5307d82bcc256d7d4522a5bdeee8c85 = L.circleMarker(
+                [34.55469354838709, 126.47050000000002],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_ee8766e2c493105c934e4c60a083fac0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fa42f3b7c313ae189fa7789a0930b8d9 = $(`<div id="html_fa42f3b7c313ae189fa7789a0930b8d9" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000577<br><b>score_rule:</b> 0.430<br><b>지목:</b> 답<br><b>면적:</b> 2,858 ㎡<br><b>경사:</b> 14.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_ee8766e2c493105c934e4c60a083fac0.setContent(html_fa42f3b7c313ae189fa7789a0930b8d9);
+            
+        
+
+        circle_marker_b5307d82bcc256d7d4522a5bdeee8c85.bindPopup(popup_ee8766e2c493105c934e4c60a083fac0)
+        ;
+
+        
+    
+    
+            var circle_marker_6c2a1731499b679fc3b97b8f192c592f = L.circleMarker(
+                [34.65146774193548, 126.63049999999997],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_bb12924acd0ab9ee713bdc8fec45b53e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cc2c8c5524da56b27fb7551377c086e6 = $(`<div id="html_cc2c8c5524da56b27fb7551377c086e6" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000913<br><b>score_rule:</b> 0.430<br><b>지목:</b> 임야<br><b>면적:</b> 17,574 ㎡<br><b>경사:</b> 10.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_bb12924acd0ab9ee713bdc8fec45b53e.setContent(html_cc2c8c5524da56b27fb7551377c086e6);
+            
+        
+
+        circle_marker_6c2a1731499b679fc3b97b8f192c592f.bindPopup(popup_bb12924acd0ab9ee713bdc8fec45b53e)
+        ;
+
+        
+    
+    
+            var circle_marker_7577b3633179880584d1c03efc939ae2 = L.circleMarker(
+                [34.61275806451613, 126.6405],
+                {"bubblingMouseEvents": true, "color": "#cddc39", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#cddc39", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_1e682db76d194b8776a997e49cabb836 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f974cae8e31c1390a6cfe1f740910921 = $(`<div id="html_f974cae8e31c1390a6cfe1f740910921" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000786<br><b>score_rule:</b> 0.421<br><b>지목:</b> 전<br><b>면적:</b> 5,672 ㎡<br><b>경사:</b> 9.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_1e682db76d194b8776a997e49cabb836.setContent(html_f974cae8e31c1390a6cfe1f740910921);
+            
+        
+
+        circle_marker_7577b3633179880584d1c03efc939ae2.bindPopup(popup_1e682db76d194b8776a997e49cabb836)
+        ;
+
+        
+    
+    
+            var circle_marker_0f1931f6f16710a2fb53f8f3a5156224 = L.circleMarker(
+                [34.574048387096774, 126.5305],
+                {"bubblingMouseEvents": true, "color": "#ff9800", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff9800", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_79f7073cfa3b1aab84f0c84155bc77a4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f33785ac7b2b8411d4a94d59b0280cab = $(`<div id="html_f33785ac7b2b8411d4a94d59b0280cab" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000647<br><b>score_rule:</b> 0.384<br><b>지목:</b> 임야<br><b>면적:</b> 4,753 ㎡<br><b>경사:</b> 11.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_79f7073cfa3b1aab84f0c84155bc77a4.setContent(html_f33785ac7b2b8411d4a94d59b0280cab);
+            
+        
+
+        circle_marker_0f1931f6f16710a2fb53f8f3a5156224.bindPopup(popup_79f7073cfa3b1aab84f0c84155bc77a4)
+        ;
+
+        
+    
+    
+            var circle_marker_2027adde14c88700220c19157c055e69 = L.circleMarker(
+                [34.593403225806455, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#ff9800", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff9800", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_132e6077876fd0acca14f90cb2bc8b7e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_28900b5ca7152d8bc5dfb3e77824d589 = $(`<div id="html_28900b5ca7152d8bc5dfb3e77824d589" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000727<br><b>score_rule:</b> 0.354<br><b>지목:</b> 전<br><b>면적:</b> 3,321 ㎡<br><b>경사:</b> 9.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_132e6077876fd0acca14f90cb2bc8b7e.setContent(html_28900b5ca7152d8bc5dfb3e77824d589);
+            
+        
+
+        circle_marker_2027adde14c88700220c19157c055e69.bindPopup(popup_132e6077876fd0acca14f90cb2bc8b7e)
+        ;
+
+        
+    
+    
+            var circle_marker_8c43d761edfd1ba306701bc8974d9e30 = L.circleMarker(
+                [34.49662903225807, 126.76050000000002],
+                {"bubblingMouseEvents": true, "color": "#ff9800", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff9800", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_58eae70b7a5a245d8b59817b9edaeef1);
+        
+    
+        var popup_310da7c7c1abf7d0aba27d577d3a4c5f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8342f53d613df3d30b3167863648e511 = $(`<div id="html_8342f53d613df3d30b3167863648e511" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000414<br><b>score_rule:</b> 0.276<br><b>지목:</b> 임야<br><b>면적:</b> 1,335 ㎡<br><b>경사:</b> 11.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_310da7c7c1abf7d0aba27d577d3a4c5f.setContent(html_8342f53d613df3d30b3167863648e511);
+            
+        
+
+        circle_marker_8c43d761edfd1ba306701bc8974d9e30.bindPopup(popup_310da7c7c1abf7d0aba27d577d3a4c5f)
+        ;
+
+        
+    
+    
+            feature_group_58eae70b7a5a245d8b59817b9edaeef1.addTo(map_71a4921c7b2c24b4d58c5afe8276c596);
+        
+    
+            var feature_group_7f106c0115beb2b5b5a0628479f586da = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_4ef468c54a309c706892a640e061507b = L.circleMarker(
+                [34.44824193548388, 126.51050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_9d3b208191116aaddc617e59944dbaa7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a0ec8b10c832f6819a77f07ca7880b1a = $(`<div id="html_a0ec8b10c832f6819a77f07ca7880b1a" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000229<br><b>score_ml:</b> 0.727<br><b>지목:</b> 답<br><b>면적:</b> 26,798 ㎡<br><b>경사:</b> 3.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_9d3b208191116aaddc617e59944dbaa7.setContent(html_a0ec8b10c832f6819a77f07ca7880b1a);
+            
+        
+
+        circle_marker_4ef468c54a309c706892a640e061507b.bindPopup(popup_9d3b208191116aaddc617e59944dbaa7)
+        ;
+
+        
+    
+    
+            var circle_marker_947e4b58ff04192b9c5c66371a70a38b = L.circleMarker(
+                [34.661145161290314, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_e66586eb855ac0edd2ecd91e6acdecb1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a6ed3adb28df074890453b549daaf7e6 = $(`<div id="html_a6ed3adb28df074890453b549daaf7e6" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000951<br><b>score_ml:</b> 0.702<br><b>지목:</b> 목장용지<br><b>면적:</b> 12,065 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e66586eb855ac0edd2ecd91e6acdecb1.setContent(html_a6ed3adb28df074890453b549daaf7e6);
+            
+        
+
+        circle_marker_947e4b58ff04192b9c5c66371a70a38b.bindPopup(popup_e66586eb855ac0edd2ecd91e6acdecb1)
+        ;
+
+        
+    
+    
+            var circle_marker_c2e9fed087a8d4df8c04e9b0b9d65eec = L.circleMarker(
+                [34.62243548387097, 126.76050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_76f999cde241088d251ea4a1261c30df = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9463321809a51828b3fc419c58392b04 = $(`<div id="html_9463321809a51828b3fc419c58392b04" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000830<br><b>score_ml:</b> 0.695<br><b>지목:</b> 임야<br><b>면적:</b> 3,396 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_76f999cde241088d251ea4a1261c30df.setContent(html_9463321809a51828b3fc419c58392b04);
+            
+        
+
+        circle_marker_c2e9fed087a8d4df8c04e9b0b9d65eec.bindPopup(popup_76f999cde241088d251ea4a1261c30df)
+        ;
+
+        
+    
+    
+            var circle_marker_23d47ea575f2a1fd88a71f650c45e0b2 = L.circleMarker(
+                [34.44824193548388, 126.6505],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_06279bc117c990cbe353e61ee637c838 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5aa79fa3bdc9a8c3e9c4f7ce5870fada = $(`<div id="html_5aa79fa3bdc9a8c3e9c4f7ce5870fada" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000243<br><b>score_ml:</b> 0.672<br><b>지목:</b> 임야<br><b>면적:</b> 7,201 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_06279bc117c990cbe353e61ee637c838.setContent(html_5aa79fa3bdc9a8c3e9c4f7ce5870fada);
+            
+        
+
+        circle_marker_23d47ea575f2a1fd88a71f650c45e0b2.bindPopup(popup_06279bc117c990cbe353e61ee637c838)
+        ;
+
+        
+    
+    
+            var circle_marker_85c849412338b6a494b4a58404d96cac = L.circleMarker(
+                [34.593403225806455, 126.7005],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_ac6fe05792389dee94c6904d760fd063 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a3d85771eb838bc551aa34f5f9412ccb = $(`<div id="html_a3d85771eb838bc551aa34f5f9412ccb" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000728<br><b>score_ml:</b> 0.655<br><b>지목:</b> 답<br><b>면적:</b> 1,153 ㎡<br><b>경사:</b> 11.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_ac6fe05792389dee94c6904d760fd063.setContent(html_a3d85771eb838bc551aa34f5f9412ccb);
+            
+        
+
+        circle_marker_85c849412338b6a494b4a58404d96cac.bindPopup(popup_ac6fe05792389dee94c6904d760fd063)
+        ;
+
+        
+    
+    
+            var circle_marker_408b16f0d22ef1d975aa410febf3e7a0 = L.circleMarker(
+                [34.49662903225807, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_d53da0a52ab2debfffeb64bdc636a0ef = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d1ed0be72629be37007909041080f3f0 = $(`<div id="html_d1ed0be72629be37007909041080f3f0" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000409<br><b>score_ml:</b> 0.634<br><b>지목:</b> 임야<br><b>면적:</b> 2,825 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_d53da0a52ab2debfffeb64bdc636a0ef.setContent(html_d1ed0be72629be37007909041080f3f0);
+            
+        
+
+        circle_marker_408b16f0d22ef1d975aa410febf3e7a0.bindPopup(popup_d53da0a52ab2debfffeb64bdc636a0ef)
+        ;
+
+        
+    
+    
+            var circle_marker_997ad3f2f284ab38f924a884e097037b = L.circleMarker(
+                [34.65146774193548, 126.66049999999998],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_7a1ed051cf6e542f6f5bd54c9cbb60a4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bb83b0eeccf262e69bcd3f90dc7233c3 = $(`<div id="html_bb83b0eeccf262e69bcd3f90dc7233c3" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000916<br><b>score_ml:</b> 0.627<br><b>지목:</b> 전<br><b>면적:</b> 7,689 ㎡<br><b>경사:</b> 13.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_7a1ed051cf6e542f6f5bd54c9cbb60a4.setContent(html_bb83b0eeccf262e69bcd3f90dc7233c3);
+            
+        
+
+        circle_marker_997ad3f2f284ab38f924a884e097037b.bindPopup(popup_7a1ed051cf6e542f6f5bd54c9cbb60a4)
+        ;
+
+        
+    
+    
+            var circle_marker_48010967cdf6ebc14bb574d7695463c0 = L.circleMarker(
+                [34.3805, 126.78049999999999],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_4c91ef48883e5dcc30628644aa065f48 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1830f682524e7c67a40a6a6850b42b9d = $(`<div id="html_1830f682524e7c67a40a6a6850b42b9d" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000032<br><b>score_ml:</b> 0.610<br><b>지목:</b> 임야<br><b>면적:</b> 3,811 ㎡<br><b>경사:</b> 6.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_4c91ef48883e5dcc30628644aa065f48.setContent(html_1830f682524e7c67a40a6a6850b42b9d);
+            
+        
+
+        circle_marker_48010967cdf6ebc14bb574d7695463c0.bindPopup(popup_4c91ef48883e5dcc30628644aa065f48)
+        ;
+
+        
+    
+    
+            var circle_marker_a10952e8061af18df50f328d9c064751 = L.circleMarker(
+                [34.46759677419355, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_94b2e4913be9a532f4139cddf7d0cc92 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bec0d2efad30c2c3b2720556bdddf57c = $(`<div id="html_bec0d2efad30c2c3b2720556bdddf57c" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000319<br><b>score_ml:</b> 0.608<br><b>지목:</b> 전<br><b>면적:</b> 13,699 ㎡<br><b>경사:</b> 12.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_94b2e4913be9a532f4139cddf7d0cc92.setContent(html_bec0d2efad30c2c3b2720556bdddf57c);
+            
+        
+
+        circle_marker_a10952e8061af18df50f328d9c064751.bindPopup(popup_94b2e4913be9a532f4139cddf7d0cc92)
+        ;
+
+        
+    
+    
+            var circle_marker_a850d35fc0039043fa8e781e64ed8429 = L.circleMarker(
+                [34.62243548387097, 126.54050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_40ae2cd248b005e10b1afedc36e191e9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_69ac4f40b2b703021f790025e51c87a2 = $(`<div id="html_69ac4f40b2b703021f790025e51c87a2" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000808<br><b>score_ml:</b> 0.607<br><b>지목:</b> 전<br><b>면적:</b> 2,489 ㎡<br><b>경사:</b> 1.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_40ae2cd248b005e10b1afedc36e191e9.setContent(html_69ac4f40b2b703021f790025e51c87a2);
+            
+        
+
+        circle_marker_a850d35fc0039043fa8e781e64ed8429.bindPopup(popup_40ae2cd248b005e10b1afedc36e191e9)
+        ;
+
+        
+    
+    
+            var circle_marker_b860c08076ffcf20ceb7aa5e5fcd6c11 = L.circleMarker(
+                [34.593403225806455, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_ff6c3356a87ffe371598569df205d01c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_17cf32a5d8cf9ba38c96888446aab294 = $(`<div id="html_17cf32a5d8cf9ba38c96888446aab294" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000720<br><b>score_ml:</b> 0.604<br><b>지목:</b> 잡종지<br><b>면적:</b> 4,461 ㎡<br><b>경사:</b> 2.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_ff6c3356a87ffe371598569df205d01c.setContent(html_17cf32a5d8cf9ba38c96888446aab294);
+            
+        
+
+        circle_marker_b860c08076ffcf20ceb7aa5e5fcd6c11.bindPopup(popup_ff6c3356a87ffe371598569df205d01c)
+        ;
+
+        
+    
+    
+            var circle_marker_a8fa606f10ee981abbedfec6bf1b7daa = L.circleMarker(
+                [34.390177419354835, 126.7505],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_9b835f5e573e7968b3c3badbceb827d4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_75610d09962f7334bd8d40582edee17b = $(`<div id="html_75610d09962f7334bd8d40582edee17b" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000061<br><b>score_ml:</b> 0.604<br><b>지목:</b> 답<br><b>면적:</b> 5,593 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_9b835f5e573e7968b3c3badbceb827d4.setContent(html_75610d09962f7334bd8d40582edee17b);
+            
+        
+
+        circle_marker_a8fa606f10ee981abbedfec6bf1b7daa.bindPopup(popup_9b835f5e573e7968b3c3badbceb827d4)
+        ;
+
+        
+    
+    
+            var circle_marker_570375e26636dd75c2934fcc7805d99d = L.circleMarker(
+                [34.55469354838709, 126.78049999999999],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_200a7fac6c2fc7eba72c11c8ad74dad1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_228d82332e2e69b224b58f9c1041e0b4 = $(`<div id="html_228d82332e2e69b224b58f9c1041e0b4" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000608<br><b>score_ml:</b> 0.600<br><b>지목:</b> 임야<br><b>면적:</b> 5,536 ㎡<br><b>경사:</b> 10.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_200a7fac6c2fc7eba72c11c8ad74dad1.setContent(html_228d82332e2e69b224b58f9c1041e0b4);
+            
+        
+
+        circle_marker_570375e26636dd75c2934fcc7805d99d.bindPopup(popup_200a7fac6c2fc7eba72c11c8ad74dad1)
+        ;
+
+        
+    
+    
+            var circle_marker_1eade5d1b0247efebb4b12761b3af923 = L.circleMarker(
+                [34.661145161290314, 126.7205],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_8480dca10dfc2326fe1ce633e329a667 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b9ac2a2ce72701a341220cc85d6272a4 = $(`<div id="html_b9ac2a2ce72701a341220cc85d6272a4" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000954<br><b>score_ml:</b> 0.594<br><b>지목:</b> 답<br><b>면적:</b> 16,262 ㎡<br><b>경사:</b> 2.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_8480dca10dfc2326fe1ce633e329a667.setContent(html_b9ac2a2ce72701a341220cc85d6272a4);
+            
+        
+
+        circle_marker_1eade5d1b0247efebb4b12761b3af923.bindPopup(popup_8480dca10dfc2326fe1ce633e329a667)
+        ;
+
+        
+    
+    
+            var circle_marker_246da74cdfd3b6195376ee156bd7b4cd = L.circleMarker(
+                [34.64179032258065, 126.54050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_7c74e1b3275787c547bf2618f40ea501 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_971b58ea93a744f33c2e02c85333ec0e = $(`<div id="html_971b58ea93a744f33c2e02c85333ec0e" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000872<br><b>score_ml:</b> 0.593<br><b>지목:</b> 답<br><b>면적:</b> 10,116 ㎡<br><b>경사:</b> 3.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_7c74e1b3275787c547bf2618f40ea501.setContent(html_971b58ea93a744f33c2e02c85333ec0e);
+            
+        
+
+        circle_marker_246da74cdfd3b6195376ee156bd7b4cd.bindPopup(popup_7c74e1b3275787c547bf2618f40ea501)
+        ;
+
+        
+    
+    
+            var circle_marker_118c913c981bbd7e7e4e2085a57fb486 = L.circleMarker(
+                [34.390177419354835, 126.49050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_4c519eed9e16e5f70df9ad51dff3ff40 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d245e6c955540a88cb2fd71fc270ab47 = $(`<div id="html_d245e6c955540a88cb2fd71fc270ab47" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000035<br><b>score_ml:</b> 0.584<br><b>지목:</b> 잡종지<br><b>면적:</b> 12,494 ㎡<br><b>경사:</b> 11.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_4c519eed9e16e5f70df9ad51dff3ff40.setContent(html_d245e6c955540a88cb2fd71fc270ab47);
+            
+        
+
+        circle_marker_118c913c981bbd7e7e4e2085a57fb486.bindPopup(popup_4c519eed9e16e5f70df9ad51dff3ff40)
+        ;
+
+        
+    
+    
+            var circle_marker_a6b7410c0dcd7d5ceffa6c9dff648851 = L.circleMarker(
+                [34.574048387096774, 126.58050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_c935b8e4f08315b8feff043ec2dae975 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_63bf306c05512ef3724d6f3d40ae6e50 = $(`<div id="html_63bf306c05512ef3724d6f3d40ae6e50" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000652<br><b>score_ml:</b> 0.577<br><b>지목:</b> 임야<br><b>면적:</b> 3,191 ㎡<br><b>경사:</b> 7.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_c935b8e4f08315b8feff043ec2dae975.setContent(html_63bf306c05512ef3724d6f3d40ae6e50);
+            
+        
+
+        circle_marker_a6b7410c0dcd7d5ceffa6c9dff648851.bindPopup(popup_c935b8e4f08315b8feff043ec2dae975)
+        ;
+
+        
+    
+    
+            var circle_marker_d798c55655b59df714a05edcc6ea6e12 = L.circleMarker(
+                [34.58372580645162, 126.47050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_d51df82d50e8afa8f7111524fa79450c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cbec44105838fd5e660da1173ebc4a7c = $(`<div id="html_cbec44105838fd5e660da1173ebc4a7c" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000673<br><b>score_ml:</b> 0.567<br><b>지목:</b> 전<br><b>면적:</b> 2,665 ㎡<br><b>경사:</b> 4.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_d51df82d50e8afa8f7111524fa79450c.setContent(html_cbec44105838fd5e660da1173ebc4a7c);
+            
+        
+
+        circle_marker_d798c55655b59df714a05edcc6ea6e12.bindPopup(popup_d51df82d50e8afa8f7111524fa79450c)
+        ;
+
+        
+    
+    
+            var circle_marker_00c1e72c5961d2df0385c21e04c648ef = L.circleMarker(
+                [34.61275806451613, 126.63049999999997],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_f1f6c4bcc165dbe6d4790e0993525b70 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fcc2f0cc2e02e5888675846a4fd48f6f = $(`<div id="html_fcc2f0cc2e02e5888675846a4fd48f6f" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000785<br><b>score_ml:</b> 0.563<br><b>지목:</b> 답<br><b>면적:</b> 3,175 ㎡<br><b>경사:</b> 8.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_f1f6c4bcc165dbe6d4790e0993525b70.setContent(html_fcc2f0cc2e02e5888675846a4fd48f6f);
+            
+        
+
+        circle_marker_00c1e72c5961d2df0385c21e04c648ef.bindPopup(popup_f1f6c4bcc165dbe6d4790e0993525b70)
+        ;
+
+        
+    
+    
+            var circle_marker_0ee9306fc8a1d559f441cbd8a26d7219 = L.circleMarker(
+                [34.54501612903226, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_f9139f559d1751fd9e935b1d07bca1a7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_540d20eb18966f7f1b33e6ed8fda7e89 = $(`<div id="html_540d20eb18966f7f1b33e6ed8fda7e89" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000575<br><b>score_ml:</b> 0.551<br><b>지목:</b> 임야<br><b>면적:</b> 2,552 ㎡<br><b>경사:</b> 8.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_f9139f559d1751fd9e935b1d07bca1a7.setContent(html_540d20eb18966f7f1b33e6ed8fda7e89);
+            
+        
+
+        circle_marker_0ee9306fc8a1d559f441cbd8a26d7219.bindPopup(popup_f9139f559d1751fd9e935b1d07bca1a7)
+        ;
+
+        
+    
+    
+            var circle_marker_4d3aa4aed0a33ec5efc2c77d5538273e = L.circleMarker(
+                [34.54501612903226, 126.5905],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_d0b1824002762f73507edc3e41bc2b49 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5d4376f35277fb102e5b9f261cb8d671 = $(`<div id="html_5d4376f35277fb102e5b9f261cb8d671" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000557<br><b>score_ml:</b> 0.546<br><b>지목:</b> 전<br><b>면적:</b> 6,199 ㎡<br><b>경사:</b> 4.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_d0b1824002762f73507edc3e41bc2b49.setContent(html_5d4376f35277fb102e5b9f261cb8d671);
+            
+        
+
+        circle_marker_4d3aa4aed0a33ec5efc2c77d5538273e.bindPopup(popup_d0b1824002762f73507edc3e41bc2b49)
+        ;
+
+        
+    
+    
+            var circle_marker_dc2b758ed9445843abf9ae0a863ef0ba = L.circleMarker(
+                [34.50630645161291, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_94a843361f1aca2e7b5faa26c5d8d08a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2a3f0c1ada70ce8bdfc416c46c64bd17 = $(`<div id="html_2a3f0c1ada70ce8bdfc416c46c64bd17" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000441<br><b>score_ml:</b> 0.542<br><b>지목:</b> 전<br><b>면적:</b> 2,457 ㎡<br><b>경사:</b> 7.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_94a843361f1aca2e7b5faa26c5d8d08a.setContent(html_2a3f0c1ada70ce8bdfc416c46c64bd17);
+            
+        
+
+        circle_marker_dc2b758ed9445843abf9ae0a863ef0ba.bindPopup(popup_94a843361f1aca2e7b5faa26c5d8d08a)
+        ;
+
+        
+    
+    
+            var circle_marker_d06d1e1ce4f441e8eeb5210e679c0474 = L.circleMarker(
+                [34.44824193548388, 126.5305],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_8220f654d57aa4aaec8e473d270c9fba = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c0ec88c4893a21a7404a75d75692c6e1 = $(`<div id="html_c0ec88c4893a21a7404a75d75692c6e1" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000231<br><b>score_ml:</b> 0.528<br><b>지목:</b> 임야<br><b>면적:</b> 4,000 ㎡<br><b>경사:</b> 0.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_8220f654d57aa4aaec8e473d270c9fba.setContent(html_c0ec88c4893a21a7404a75d75692c6e1);
+            
+        
+
+        circle_marker_d06d1e1ce4f441e8eeb5210e679c0474.bindPopup(popup_8220f654d57aa4aaec8e473d270c9fba)
+        ;
+
+        
+    
+    
+            var circle_marker_0a67ff8911af77f5da0e0a939c2a4bb7 = L.circleMarker(
+                [34.409532258064516, 126.6505],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_9b44143676e1af39975a453859611354 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6dc6e12788c00876b36989cdfa432d60 = $(`<div id="html_6dc6e12788c00876b36989cdfa432d60" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000115<br><b>score_ml:</b> 0.525<br><b>지목:</b> 전<br><b>면적:</b> 8,989 ㎡<br><b>경사:</b> 8.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_9b44143676e1af39975a453859611354.setContent(html_6dc6e12788c00876b36989cdfa432d60);
+            
+        
+
+        circle_marker_0a67ff8911af77f5da0e0a939c2a4bb7.bindPopup(popup_9b44143676e1af39975a453859611354)
+        ;
+
+        
+    
+    
+            var circle_marker_6d9571fce1e04dabfee1db0b0dc68496 = L.circleMarker(
+                [34.41920967741935, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_c411181ab36d69a6dc8b1fdc852a5c46 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1accc373b57dd86d63fddb83ef7c5ab9 = $(`<div id="html_1accc373b57dd86d63fddb83ef7c5ab9" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000153<br><b>score_ml:</b> 0.522<br><b>지목:</b> 목장용지<br><b>면적:</b> 3,853 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_c411181ab36d69a6dc8b1fdc852a5c46.setContent(html_1accc373b57dd86d63fddb83ef7c5ab9);
+            
+        
+
+        circle_marker_6d9571fce1e04dabfee1db0b0dc68496.bindPopup(popup_c411181ab36d69a6dc8b1fdc852a5c46)
+        ;
+
+        
+    
+    
+            var circle_marker_fdf1f077855f004a30a9185d87ce8c94 = L.circleMarker(
+                [34.390177419354835, 126.57050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_f2c202b8ff01239ece721058825300fb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_32ee475d4a41adcb020b2d580e1cae3d = $(`<div id="html_32ee475d4a41adcb020b2d580e1cae3d" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000043<br><b>score_ml:</b> 0.520<br><b>지목:</b> 전<br><b>면적:</b> 10,658 ㎡<br><b>경사:</b> 4.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_f2c202b8ff01239ece721058825300fb.setContent(html_32ee475d4a41adcb020b2d580e1cae3d);
+            
+        
+
+        circle_marker_fdf1f077855f004a30a9185d87ce8c94.bindPopup(popup_f2c202b8ff01239ece721058825300fb)
+        ;
+
+        
+    
+    
+            var circle_marker_199cf708c99f751287ae20fe53f7ea9d = L.circleMarker(
+                [34.49662903225807, 126.7305],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_086247103f2cd0cb73c15763fb4eb25f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_84bb0ca3c552f0dfd6b9de979fc07602 = $(`<div id="html_84bb0ca3c552f0dfd6b9de979fc07602" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000411<br><b>score_ml:</b> 0.519<br><b>지목:</b> 답<br><b>면적:</b> 3,625 ㎡<br><b>경사:</b> 0.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_086247103f2cd0cb73c15763fb4eb25f.setContent(html_84bb0ca3c552f0dfd6b9de979fc07602);
+            
+        
+
+        circle_marker_199cf708c99f751287ae20fe53f7ea9d.bindPopup(popup_086247103f2cd0cb73c15763fb4eb25f)
+        ;
+
+        
+    
+    
+            var circle_marker_92b3761f35a5ff07f23d3d123008af44 = L.circleMarker(
+                [34.61275806451613, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_75044ac0b99468308060f7776f72cf7e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6c578cee044642cb5346eb4f5656aee7 = $(`<div id="html_6c578cee044642cb5346eb4f5656aee7" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000791<br><b>score_ml:</b> 0.510<br><b>지목:</b> 잡종지<br><b>면적:</b> 6,597 ㎡<br><b>경사:</b> 4.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_75044ac0b99468308060f7776f72cf7e.setContent(html_6c578cee044642cb5346eb4f5656aee7);
+            
+        
+
+        circle_marker_92b3761f35a5ff07f23d3d123008af44.bindPopup(popup_75044ac0b99468308060f7776f72cf7e)
+        ;
+
+        
+    
+    
+            var circle_marker_a2434dbeb97cf08135018566671ac574 = L.circleMarker(
+                [34.670822580645165, 126.56050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_ad0e2679acce7e2916efc3e0fa6730e1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6443a5a0b9b8f612fad02f5618636f45 = $(`<div id="html_6443a5a0b9b8f612fad02f5618636f45" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000970<br><b>score_ml:</b> 0.506<br><b>지목:</b> 임야<br><b>면적:</b> 4,320 ㎡<br><b>경사:</b> 8.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_ad0e2679acce7e2916efc3e0fa6730e1.setContent(html_6443a5a0b9b8f612fad02f5618636f45);
+            
+        
+
+        circle_marker_a2434dbeb97cf08135018566671ac574.bindPopup(popup_ad0e2679acce7e2916efc3e0fa6730e1)
+        ;
+
+        
+    
+    
+            var circle_marker_eaac4db0b40bd35c8f807af25fd79e7c = L.circleMarker(
+                [34.409532258064516, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_64895b05cfea33039b47073aca50fddb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_da03e51cc575d2663771581969e49eee = $(`<div id="html_da03e51cc575d2663771581969e49eee" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000112<br><b>score_ml:</b> 0.496<br><b>지목:</b> 잡종지<br><b>면적:</b> 2,554 ㎡<br><b>경사:</b> 9.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_64895b05cfea33039b47073aca50fddb.setContent(html_da03e51cc575d2663771581969e49eee);
+            
+        
+
+        circle_marker_eaac4db0b40bd35c8f807af25fd79e7c.bindPopup(popup_64895b05cfea33039b47073aca50fddb)
+        ;
+
+        
+    
+    
+            var circle_marker_1d86065ab40f948820445cbf2a7a10f5 = L.circleMarker(
+                [34.515983870967744, 126.5905],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_a92ea3624afe5c27fd3fcffc85f7540f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9222b42d2b2fe56c9209b990bc43e49d = $(`<div id="html_9222b42d2b2fe56c9209b990bc43e49d" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000461<br><b>score_ml:</b> 0.491<br><b>지목:</b> 답<br><b>면적:</b> 9,685 ㎡<br><b>경사:</b> 9.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_a92ea3624afe5c27fd3fcffc85f7540f.setContent(html_9222b42d2b2fe56c9209b990bc43e49d);
+            
+        
+
+        circle_marker_1d86065ab40f948820445cbf2a7a10f5.bindPopup(popup_a92ea3624afe5c27fd3fcffc85f7540f)
+        ;
+
+        
+    
+    
+            var circle_marker_200f2493965e04975095779eb3d1c551 = L.circleMarker(
+                [34.593403225806455, 126.7405],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_050b7eb934d63c758a6d9ab237ce7c76 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_430d60b7fae299bec3c380a6c59a9b9a = $(`<div id="html_430d60b7fae299bec3c380a6c59a9b9a" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000732<br><b>score_ml:</b> 0.482<br><b>지목:</b> 전<br><b>면적:</b> 6,889 ㎡<br><b>경사:</b> 8.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_050b7eb934d63c758a6d9ab237ce7c76.setContent(html_430d60b7fae299bec3c380a6c59a9b9a);
+            
+        
+
+        circle_marker_200f2493965e04975095779eb3d1c551.bindPopup(popup_050b7eb934d63c758a6d9ab237ce7c76)
+        ;
+
+        
+    
+    
+            var circle_marker_cf1514d731060b399ff01ded7fef5d5b = L.circleMarker(
+                [34.58372580645162, 126.6105],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_cd829251a4690d3e7fa8538e8af32900 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bab68e199845cf729bcd486ad54b31bc = $(`<div id="html_bab68e199845cf729bcd486ad54b31bc" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000687<br><b>score_ml:</b> 0.478<br><b>지목:</b> 임야<br><b>면적:</b> 3,689 ㎡<br><b>경사:</b> 12.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_cd829251a4690d3e7fa8538e8af32900.setContent(html_bab68e199845cf729bcd486ad54b31bc);
+            
+        
+
+        circle_marker_cf1514d731060b399ff01ded7fef5d5b.bindPopup(popup_cd829251a4690d3e7fa8538e8af32900)
+        ;
+
+        
+    
+    
+            var circle_marker_b49b0b379753b6d91eec83059b61cf1a = L.circleMarker(
+                [34.64179032258065, 126.68050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_b595900d934229511c636316d62345fb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0c2ee04de27fd60aeda15cf36fe68f18 = $(`<div id="html_0c2ee04de27fd60aeda15cf36fe68f18" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000886<br><b>score_ml:</b> 0.462<br><b>지목:</b> 잡종지<br><b>면적:</b> 1,371 ㎡<br><b>경사:</b> 9.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_b595900d934229511c636316d62345fb.setContent(html_0c2ee04de27fd60aeda15cf36fe68f18);
+            
+        
+
+        circle_marker_b49b0b379753b6d91eec83059b61cf1a.bindPopup(popup_b595900d934229511c636316d62345fb)
+        ;
+
+        
+    
+    
+            var circle_marker_ef68ca5aa73b99b645a48d907293bdb6 = L.circleMarker(
+                [34.50630645161291, 126.56050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_5e8074f3a7bfd686224ffe4889f90b25 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_89f01852dbd035733303ee293aa1770d = $(`<div id="html_89f01852dbd035733303ee293aa1770d" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000426<br><b>score_ml:</b> 0.456<br><b>지목:</b> 임야<br><b>면적:</b> 4,728 ㎡<br><b>경사:</b> 6.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_5e8074f3a7bfd686224ffe4889f90b25.setContent(html_89f01852dbd035733303ee293aa1770d);
+            
+        
+
+        circle_marker_ef68ca5aa73b99b645a48d907293bdb6.bindPopup(popup_5e8074f3a7bfd686224ffe4889f90b25)
+        ;
+
+        
+    
+    
+            var circle_marker_6a40e1181503299123be8cd10e2022b9 = L.circleMarker(
+                [34.515983870967744, 126.49050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_440196131f393e8bf451f39b5505b907 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1db72dbde5870584878ffbe690905c8b = $(`<div id="html_1db72dbde5870584878ffbe690905c8b" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000451<br><b>score_ml:</b> 0.454<br><b>지목:</b> 전<br><b>면적:</b> 8,796 ㎡<br><b>경사:</b> 7.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_440196131f393e8bf451f39b5505b907.setContent(html_1db72dbde5870584878ffbe690905c8b);
+            
+        
+
+        circle_marker_6a40e1181503299123be8cd10e2022b9.bindPopup(popup_440196131f393e8bf451f39b5505b907)
+        ;
+
+        
+    
+    
+            var circle_marker_033813b7614fba27bd2e1031eb0ce43c = L.circleMarker(
+                [34.64179032258065, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_afb427ab3e682de8b91043b6970607a7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_317bc41ba44b4315ae595859edd3c210 = $(`<div id="html_317bc41ba44b4315ae595859edd3c210" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000895<br><b>score_ml:</b> 0.451<br><b>지목:</b> 답<br><b>면적:</b> 5,306 ㎡<br><b>경사:</b> 6.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_afb427ab3e682de8b91043b6970607a7.setContent(html_317bc41ba44b4315ae595859edd3c210);
+            
+        
+
+        circle_marker_033813b7614fba27bd2e1031eb0ce43c.bindPopup(popup_afb427ab3e682de8b91043b6970607a7)
+        ;
+
+        
+    
+    
+            var circle_marker_b2f9a255f4d0f0844c4591c97e5d51b6 = L.circleMarker(
+                [34.574048387096774, 126.6405],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_a3f723b62b758e8d40234ee3ae7e1783 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b8f75062147e9f7b7715218d7631d490 = $(`<div id="html_b8f75062147e9f7b7715218d7631d490" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000658<br><b>score_ml:</b> 0.449<br><b>지목:</b> 잡종지<br><b>면적:</b> 2,399 ㎡<br><b>경사:</b> 8.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_a3f723b62b758e8d40234ee3ae7e1783.setContent(html_b8f75062147e9f7b7715218d7631d490);
+            
+        
+
+        circle_marker_b2f9a255f4d0f0844c4591c97e5d51b6.bindPopup(popup_a3f723b62b758e8d40234ee3ae7e1783)
+        ;
+
+        
+    
+    
+            var circle_marker_35c8fece448738d1783191f5dd6a7b1c = L.circleMarker(
+                [34.54501612903226, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_38193f44d91cda311b3140d202b59490 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e1c7d19287191ac5d6083b5ab194c9b3 = $(`<div id="html_e1c7d19287191ac5d6083b5ab194c9b3" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000560<br><b>score_ml:</b> 0.431<br><b>지목:</b> 전<br><b>면적:</b> 4,884 ㎡<br><b>경사:</b> 3.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_38193f44d91cda311b3140d202b59490.setContent(html_e1c7d19287191ac5d6083b5ab194c9b3);
+            
+        
+
+        circle_marker_35c8fece448738d1783191f5dd6a7b1c.bindPopup(popup_38193f44d91cda311b3140d202b59490)
+        ;
+
+        
+    
+    
+            var circle_marker_f8b81c876c1f3740643e31f823c966fa = L.circleMarker(
+                [34.55469354838709, 126.47050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_249caf6aa455bb98665e8e8842e216f0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f97c2ec833567c98385333d589e71618 = $(`<div id="html_f97c2ec833567c98385333d589e71618" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000577<br><b>score_ml:</b> 0.430<br><b>지목:</b> 답<br><b>면적:</b> 2,858 ㎡<br><b>경사:</b> 14.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_249caf6aa455bb98665e8e8842e216f0.setContent(html_f97c2ec833567c98385333d589e71618);
+            
+        
+
+        circle_marker_f8b81c876c1f3740643e31f823c966fa.bindPopup(popup_249caf6aa455bb98665e8e8842e216f0)
+        ;
+
+        
+    
+    
+            var circle_marker_0ea298f136cd50ab71f2ad18d718ac05 = L.circleMarker(
+                [34.65146774193548, 126.63049999999997],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_54a7056f162d02ed0a7d402aef4c2959 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d7660753d945b7cbb6c4814e9113ed39 = $(`<div id="html_d7660753d945b7cbb6c4814e9113ed39" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000913<br><b>score_ml:</b> 0.430<br><b>지목:</b> 임야<br><b>면적:</b> 17,574 ㎡<br><b>경사:</b> 10.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_54a7056f162d02ed0a7d402aef4c2959.setContent(html_d7660753d945b7cbb6c4814e9113ed39);
+            
+        
+
+        circle_marker_0ea298f136cd50ab71f2ad18d718ac05.bindPopup(popup_54a7056f162d02ed0a7d402aef4c2959)
+        ;
+
+        
+    
+    
+            var circle_marker_f552d6615cc0b231b7b7fdce874185fd = L.circleMarker(
+                [34.61275806451613, 126.6405],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_bcbf583380b1fde12c3364873af30acb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_38048c41bd7022b1a4b44061a23f1dbe = $(`<div id="html_38048c41bd7022b1a4b44061a23f1dbe" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000786<br><b>score_ml:</b> 0.421<br><b>지목:</b> 전<br><b>면적:</b> 5,672 ㎡<br><b>경사:</b> 9.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_bcbf583380b1fde12c3364873af30acb.setContent(html_38048c41bd7022b1a4b44061a23f1dbe);
+            
+        
+
+        circle_marker_f552d6615cc0b231b7b7fdce874185fd.bindPopup(popup_bcbf583380b1fde12c3364873af30acb)
+        ;
+
+        
+    
+    
+            var circle_marker_7e2a2a2306e454a00215bc0a5cbfd460 = L.circleMarker(
+                [34.574048387096774, 126.5305],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_b7313cd2448df735c286f964e4dcd3e3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_191408c653255bb52535da89ddd78e1b = $(`<div id="html_191408c653255bb52535da89ddd78e1b" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000647<br><b>score_ml:</b> 0.384<br><b>지목:</b> 임야<br><b>면적:</b> 4,753 ㎡<br><b>경사:</b> 11.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_b7313cd2448df735c286f964e4dcd3e3.setContent(html_191408c653255bb52535da89ddd78e1b);
+            
+        
+
+        circle_marker_7e2a2a2306e454a00215bc0a5cbfd460.bindPopup(popup_b7313cd2448df735c286f964e4dcd3e3)
+        ;
+
+        
+    
+    
+            var circle_marker_c4f37e04f2030a40540858231ee9702c = L.circleMarker(
+                [34.593403225806455, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_a295adc08cec3ac18a50bc87fba23a3e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1102275c04b70e9c06fdf1fb3f7fdacf = $(`<div id="html_1102275c04b70e9c06fdf1fb3f7fdacf" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000727<br><b>score_ml:</b> 0.354<br><b>지목:</b> 전<br><b>면적:</b> 3,321 ㎡<br><b>경사:</b> 9.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_a295adc08cec3ac18a50bc87fba23a3e.setContent(html_1102275c04b70e9c06fdf1fb3f7fdacf);
+            
+        
+
+        circle_marker_c4f37e04f2030a40540858231ee9702c.bindPopup(popup_a295adc08cec3ac18a50bc87fba23a3e)
+        ;
+
+        
+    
+    
+            var circle_marker_756f3bfd0395fd355a9c73b0cfd35527 = L.circleMarker(
+                [34.49662903225807, 126.76050000000002],
+                {"bubblingMouseEvents": true, "color": "#2196f3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196f3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_7f106c0115beb2b5b5a0628479f586da);
+        
+    
+        var popup_1d467e70483233a87fd2dc687d17b13a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ff931c1100bb8200984503163512cfab = $(`<div id="html_ff931c1100bb8200984503163512cfab" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000414<br><b>score_ml:</b> 0.276<br><b>지목:</b> 임야<br><b>면적:</b> 1,335 ㎡<br><b>경사:</b> 11.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_1d467e70483233a87fd2dc687d17b13a.setContent(html_ff931c1100bb8200984503163512cfab);
+            
+        
+
+        circle_marker_756f3bfd0395fd355a9c73b0cfd35527.bindPopup(popup_1d467e70483233a87fd2dc687d17b13a)
+        ;
+
+        
+    
+    
+            feature_group_7f106c0115beb2b5b5a0628479f586da.addTo(map_71a4921c7b2c24b4d58c5afe8276c596);
+        
+    
+            var feature_group_d6e9cd200e811fb085bb24d72315411c = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_dfe1afaf947a7865d8625a33e3d266d8 = L.circleMarker(
+                [34.44824193548388, 126.51050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_e308e65898ec4ea2707a1e3a61cbc925 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_33d25c36ce6a2ac19d85c1815af00325 = $(`<div id="html_33d25c36ce6a2ac19d85c1815af00325" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000229<br><b>score_ensemble:</b> 1.000<br><b>지목:</b> 답<br><b>면적:</b> 26,798 ㎡<br><b>경사:</b> 3.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e308e65898ec4ea2707a1e3a61cbc925.setContent(html_33d25c36ce6a2ac19d85c1815af00325);
+            
+        
+
+        circle_marker_dfe1afaf947a7865d8625a33e3d266d8.bindPopup(popup_e308e65898ec4ea2707a1e3a61cbc925)
+        ;
+
+        
+    
+    
+            var circle_marker_c7fc93b5ca4a5da3134714b91c1bcbbe = L.circleMarker(
+                [34.661145161290314, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_1867323dcad96e09a755edcc40bf73d5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_37ec86756075b7b915ade6468db589da = $(`<div id="html_37ec86756075b7b915ade6468db589da" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000951<br><b>score_ensemble:</b> 0.944<br><b>지목:</b> 목장용지<br><b>면적:</b> 12,065 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_1867323dcad96e09a755edcc40bf73d5.setContent(html_37ec86756075b7b915ade6468db589da);
+            
+        
+
+        circle_marker_c7fc93b5ca4a5da3134714b91c1bcbbe.bindPopup(popup_1867323dcad96e09a755edcc40bf73d5)
+        ;
+
+        
+    
+    
+            var circle_marker_88666834a8ccf5da97df932a7f1c1a29 = L.circleMarker(
+                [34.62243548387097, 126.76050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_816dadcc21456c8ade3188d61b551027 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7b834ccca4492039d9a217b25c220e1a = $(`<div id="html_7b834ccca4492039d9a217b25c220e1a" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000830<br><b>score_ensemble:</b> 0.928<br><b>지목:</b> 임야<br><b>면적:</b> 3,396 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_816dadcc21456c8ade3188d61b551027.setContent(html_7b834ccca4492039d9a217b25c220e1a);
+            
+        
+
+        circle_marker_88666834a8ccf5da97df932a7f1c1a29.bindPopup(popup_816dadcc21456c8ade3188d61b551027)
+        ;
+
+        
+    
+    
+            var circle_marker_d1b56cbe03b661d8180eb5aae9f1d897 = L.circleMarker(
+                [34.44824193548388, 126.6505],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_f673ff705634d198dd08d6636efaff3e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f1d3fbd87f7ff6becb7ce85c301460dc = $(`<div id="html_f1d3fbd87f7ff6becb7ce85c301460dc" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000243<br><b>score_ensemble:</b> 0.878<br><b>지목:</b> 임야<br><b>면적:</b> 7,201 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_f673ff705634d198dd08d6636efaff3e.setContent(html_f1d3fbd87f7ff6becb7ce85c301460dc);
+            
+        
+
+        circle_marker_d1b56cbe03b661d8180eb5aae9f1d897.bindPopup(popup_f673ff705634d198dd08d6636efaff3e)
+        ;
+
+        
+    
+    
+            var circle_marker_cfd3e9466b89333b8b2d2ef88bd8a30d = L.circleMarker(
+                [34.593403225806455, 126.7005],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_96a705e34709e7cb3e049a6b251282be = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_75b04b1eb8b09b3a2e1f6dd2c909a89f = $(`<div id="html_75b04b1eb8b09b3a2e1f6dd2c909a89f" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000728<br><b>score_ensemble:</b> 0.841<br><b>지목:</b> 답<br><b>면적:</b> 1,153 ㎡<br><b>경사:</b> 11.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_96a705e34709e7cb3e049a6b251282be.setContent(html_75b04b1eb8b09b3a2e1f6dd2c909a89f);
+            
+        
+
+        circle_marker_cfd3e9466b89333b8b2d2ef88bd8a30d.bindPopup(popup_96a705e34709e7cb3e049a6b251282be)
+        ;
+
+        
+    
+    
+            var circle_marker_e46c4ad9ead9e6fd18fd66ee3c6a5ca4 = L.circleMarker(
+                [34.49662903225807, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_e28cac90125a3a26af1dd4be524d98c8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a137c0ed4ebba4eae9cf44869de06b2b = $(`<div id="html_a137c0ed4ebba4eae9cf44869de06b2b" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000409<br><b>score_ensemble:</b> 0.793<br><b>지목:</b> 임야<br><b>면적:</b> 2,825 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e28cac90125a3a26af1dd4be524d98c8.setContent(html_a137c0ed4ebba4eae9cf44869de06b2b);
+            
+        
+
+        circle_marker_e46c4ad9ead9e6fd18fd66ee3c6a5ca4.bindPopup(popup_e28cac90125a3a26af1dd4be524d98c8)
+        ;
+
+        
+    
+    
+            var circle_marker_a81424c869133ed8147f50ae67b437e1 = L.circleMarker(
+                [34.65146774193548, 126.66049999999998],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_eca2e555781ad667e65515a7a7ce722c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2eecac2cb67e756d361a1b861fd9b5f5 = $(`<div id="html_2eecac2cb67e756d361a1b861fd9b5f5" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000916<br><b>score_ensemble:</b> 0.778<br><b>지목:</b> 전<br><b>면적:</b> 7,689 ㎡<br><b>경사:</b> 13.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_eca2e555781ad667e65515a7a7ce722c.setContent(html_2eecac2cb67e756d361a1b861fd9b5f5);
+            
+        
+
+        circle_marker_a81424c869133ed8147f50ae67b437e1.bindPopup(popup_eca2e555781ad667e65515a7a7ce722c)
+        ;
+
+        
+    
+    
+            var circle_marker_dc047ecf75a89062402c8c154e207e29 = L.circleMarker(
+                [34.3805, 126.78049999999999],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_b7462a80d21896d650d8dbdd17b1c76b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9ddd20158b33e507218fc59d490379b2 = $(`<div id="html_9ddd20158b33e507218fc59d490379b2" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000032<br><b>score_ensemble:</b> 0.740<br><b>지목:</b> 임야<br><b>면적:</b> 3,811 ㎡<br><b>경사:</b> 6.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_b7462a80d21896d650d8dbdd17b1c76b.setContent(html_9ddd20158b33e507218fc59d490379b2);
+            
+        
+
+        circle_marker_dc047ecf75a89062402c8c154e207e29.bindPopup(popup_b7462a80d21896d650d8dbdd17b1c76b)
+        ;
+
+        
+    
+    
+            var circle_marker_37eaa275a04983a4cc0f9cc875f5fcba = L.circleMarker(
+                [34.46759677419355, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_86627eb2a779a115213795226966855e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_978c48ef18f758bcb39a34a76a90d25c = $(`<div id="html_978c48ef18f758bcb39a34a76a90d25c" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000319<br><b>score_ensemble:</b> 0.737<br><b>지목:</b> 전<br><b>면적:</b> 13,699 ㎡<br><b>경사:</b> 12.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_86627eb2a779a115213795226966855e.setContent(html_978c48ef18f758bcb39a34a76a90d25c);
+            
+        
+
+        circle_marker_37eaa275a04983a4cc0f9cc875f5fcba.bindPopup(popup_86627eb2a779a115213795226966855e)
+        ;
+
+        
+    
+    
+            var circle_marker_3a8518df81ce0b18f6fde7790b6562f0 = L.circleMarker(
+                [34.62243548387097, 126.54050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_4a2b1d891232b650723cf29a859d644f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_37f675ba70aae47aa56f29cea1183996 = $(`<div id="html_37f675ba70aae47aa56f29cea1183996" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000808<br><b>score_ensemble:</b> 0.734<br><b>지목:</b> 전<br><b>면적:</b> 2,489 ㎡<br><b>경사:</b> 1.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_4a2b1d891232b650723cf29a859d644f.setContent(html_37f675ba70aae47aa56f29cea1183996);
+            
+        
+
+        circle_marker_3a8518df81ce0b18f6fde7790b6562f0.bindPopup(popup_4a2b1d891232b650723cf29a859d644f)
+        ;
+
+        
+    
+    
+            var circle_marker_791e9909c39273b8e0ea4230d25017b5 = L.circleMarker(
+                [34.593403225806455, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_a72d65eccc0472e3200fba600012e823 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0cf4f002b4aa42c007c63ac0b4e7db0c = $(`<div id="html_0cf4f002b4aa42c007c63ac0b4e7db0c" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000720<br><b>score_ensemble:</b> 0.728<br><b>지목:</b> 잡종지<br><b>면적:</b> 4,461 ㎡<br><b>경사:</b> 2.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_a72d65eccc0472e3200fba600012e823.setContent(html_0cf4f002b4aa42c007c63ac0b4e7db0c);
+            
+        
+
+        circle_marker_791e9909c39273b8e0ea4230d25017b5.bindPopup(popup_a72d65eccc0472e3200fba600012e823)
+        ;
+
+        
+    
+    
+            var circle_marker_d3a4d460b0b7806ad98de0f96fbdb0bd = L.circleMarker(
+                [34.390177419354835, 126.7505],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_ba5d47d471de454136a4d35cd2fc6ba4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7bb1b5be820b62e0f9521839f8302397 = $(`<div id="html_7bb1b5be820b62e0f9521839f8302397" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000061<br><b>score_ensemble:</b> 0.727<br><b>지목:</b> 답<br><b>면적:</b> 5,593 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_ba5d47d471de454136a4d35cd2fc6ba4.setContent(html_7bb1b5be820b62e0f9521839f8302397);
+            
+        
+
+        circle_marker_d3a4d460b0b7806ad98de0f96fbdb0bd.bindPopup(popup_ba5d47d471de454136a4d35cd2fc6ba4)
+        ;
+
+        
+    
+    
+            var circle_marker_e5fe6499473a536107cb204b320013c6 = L.circleMarker(
+                [34.55469354838709, 126.78049999999999],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_7448a9badc94a793e0e040f5a3ab760d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c1a7d856934a3d8b29f7930425868833 = $(`<div id="html_c1a7d856934a3d8b29f7930425868833" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000608<br><b>score_ensemble:</b> 0.718<br><b>지목:</b> 임야<br><b>면적:</b> 5,536 ㎡<br><b>경사:</b> 10.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_7448a9badc94a793e0e040f5a3ab760d.setContent(html_c1a7d856934a3d8b29f7930425868833);
+            
+        
+
+        circle_marker_e5fe6499473a536107cb204b320013c6.bindPopup(popup_7448a9badc94a793e0e040f5a3ab760d)
+        ;
+
+        
+    
+    
+            var circle_marker_b2e03ba7758308e99081191440f367e2 = L.circleMarker(
+                [34.661145161290314, 126.7205],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_f6106be55107ced0f7c9e423886ffa71 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a1631aa6b427b8ee5222eb7aed4f29cf = $(`<div id="html_a1631aa6b427b8ee5222eb7aed4f29cf" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000954<br><b>score_ensemble:</b> 0.706<br><b>지목:</b> 답<br><b>면적:</b> 16,262 ㎡<br><b>경사:</b> 2.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_f6106be55107ced0f7c9e423886ffa71.setContent(html_a1631aa6b427b8ee5222eb7aed4f29cf);
+            
+        
+
+        circle_marker_b2e03ba7758308e99081191440f367e2.bindPopup(popup_f6106be55107ced0f7c9e423886ffa71)
+        ;
+
+        
+    
+    
+            var circle_marker_f2988936e2bddda001d2f01184b2634b = L.circleMarker(
+                [34.64179032258065, 126.54050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_13ea33de8c31fa1e2fa847565e04ed91 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2b28c75829b6010f47a48c2684e8e5e0 = $(`<div id="html_2b28c75829b6010f47a48c2684e8e5e0" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000872<br><b>score_ensemble:</b> 0.702<br><b>지목:</b> 답<br><b>면적:</b> 10,116 ㎡<br><b>경사:</b> 3.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_13ea33de8c31fa1e2fa847565e04ed91.setContent(html_2b28c75829b6010f47a48c2684e8e5e0);
+            
+        
+
+        circle_marker_f2988936e2bddda001d2f01184b2634b.bindPopup(popup_13ea33de8c31fa1e2fa847565e04ed91)
+        ;
+
+        
+    
+    
+            var circle_marker_0d44f9723222cbaafa6f5ab492317a9f = L.circleMarker(
+                [34.390177419354835, 126.49050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_26e127b9ad161d1fdfde424ca79fba82 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_20d4abf12872c7761c6c4ef588421211 = $(`<div id="html_20d4abf12872c7761c6c4ef588421211" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000035<br><b>score_ensemble:</b> 0.683<br><b>지목:</b> 잡종지<br><b>면적:</b> 12,494 ㎡<br><b>경사:</b> 11.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_26e127b9ad161d1fdfde424ca79fba82.setContent(html_20d4abf12872c7761c6c4ef588421211);
+            
+        
+
+        circle_marker_0d44f9723222cbaafa6f5ab492317a9f.bindPopup(popup_26e127b9ad161d1fdfde424ca79fba82)
+        ;
+
+        
+    
+    
+            var circle_marker_eeb04120c0028eccc0a458863878d685 = L.circleMarker(
+                [34.574048387096774, 126.58050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_66904cb1f5fdbc8d323b50ac140bafa8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0137f690cce4ce961cabca8125a5449b = $(`<div id="html_0137f690cce4ce961cabca8125a5449b" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000652<br><b>score_ensemble:</b> 0.667<br><b>지목:</b> 임야<br><b>면적:</b> 3,191 ㎡<br><b>경사:</b> 7.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_66904cb1f5fdbc8d323b50ac140bafa8.setContent(html_0137f690cce4ce961cabca8125a5449b);
+            
+        
+
+        circle_marker_eeb04120c0028eccc0a458863878d685.bindPopup(popup_66904cb1f5fdbc8d323b50ac140bafa8)
+        ;
+
+        
+    
+    
+            var circle_marker_92dd841cd657a3c04e326d865d829478 = L.circleMarker(
+                [34.58372580645162, 126.47050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_f8a0d0165f76f342cccd56ea0b10ae9b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_020616d1c641a39ce14bd4276a147875 = $(`<div id="html_020616d1c641a39ce14bd4276a147875" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000673<br><b>score_ensemble:</b> 0.645<br><b>지목:</b> 전<br><b>면적:</b> 2,665 ㎡<br><b>경사:</b> 4.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_f8a0d0165f76f342cccd56ea0b10ae9b.setContent(html_020616d1c641a39ce14bd4276a147875);
+            
+        
+
+        circle_marker_92dd841cd657a3c04e326d865d829478.bindPopup(popup_f8a0d0165f76f342cccd56ea0b10ae9b)
+        ;
+
+        
+    
+    
+            var circle_marker_1dd35af9dd5239d5a3c5cf3b48491542 = L.circleMarker(
+                [34.61275806451613, 126.63049999999997],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_54ae3921701e637bbb554ec3daacd3d5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_583a87361fd85669429f1c642494a7b9 = $(`<div id="html_583a87361fd85669429f1c642494a7b9" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000785<br><b>score_ensemble:</b> 0.637<br><b>지목:</b> 답<br><b>면적:</b> 3,175 ㎡<br><b>경사:</b> 8.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_54ae3921701e637bbb554ec3daacd3d5.setContent(html_583a87361fd85669429f1c642494a7b9);
+            
+        
+
+        circle_marker_1dd35af9dd5239d5a3c5cf3b48491542.bindPopup(popup_54ae3921701e637bbb554ec3daacd3d5)
+        ;
+
+        
+    
+    
+            var circle_marker_8093e40f2a24e54ebb189cc3283af176 = L.circleMarker(
+                [34.54501612903226, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_d1e2d24868732ef49f35535cb52d2e06 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0d899e02eda7232eb656dfc167b6da2a = $(`<div id="html_0d899e02eda7232eb656dfc167b6da2a" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000575<br><b>score_ensemble:</b> 0.610<br><b>지목:</b> 임야<br><b>면적:</b> 2,552 ㎡<br><b>경사:</b> 8.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_d1e2d24868732ef49f35535cb52d2e06.setContent(html_0d899e02eda7232eb656dfc167b6da2a);
+            
+        
+
+        circle_marker_8093e40f2a24e54ebb189cc3283af176.bindPopup(popup_d1e2d24868732ef49f35535cb52d2e06)
+        ;
+
+        
+    
+    
+            var circle_marker_8d1624a98a8cfd7a8f6e6319a768afd4 = L.circleMarker(
+                [34.54501612903226, 126.5905],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_63ab102dca4322ea3b514e151c50cdac = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dd244e7dbac5f5e3801c6f60166311f1 = $(`<div id="html_dd244e7dbac5f5e3801c6f60166311f1" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000557<br><b>score_ensemble:</b> 0.599<br><b>지목:</b> 전<br><b>면적:</b> 6,199 ㎡<br><b>경사:</b> 4.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_63ab102dca4322ea3b514e151c50cdac.setContent(html_dd244e7dbac5f5e3801c6f60166311f1);
+            
+        
+
+        circle_marker_8d1624a98a8cfd7a8f6e6319a768afd4.bindPopup(popup_63ab102dca4322ea3b514e151c50cdac)
+        ;
+
+        
+    
+    
+            var circle_marker_3126c111614562e3800712e835a174a6 = L.circleMarker(
+                [34.50630645161291, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_aff121d240c596ca27a21c4c3f18550a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5f71cc8c9176f6fc1ea905a9b778ec02 = $(`<div id="html_5f71cc8c9176f6fc1ea905a9b778ec02" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000441<br><b>score_ensemble:</b> 0.590<br><b>지목:</b> 전<br><b>면적:</b> 2,457 ㎡<br><b>경사:</b> 7.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_aff121d240c596ca27a21c4c3f18550a.setContent(html_5f71cc8c9176f6fc1ea905a9b778ec02);
+            
+        
+
+        circle_marker_3126c111614562e3800712e835a174a6.bindPopup(popup_aff121d240c596ca27a21c4c3f18550a)
+        ;
+
+        
+    
+    
+            var circle_marker_410d9e3743ff04dce728a38abc77c04e = L.circleMarker(
+                [34.44824193548388, 126.5305],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_7c4d61d142a89a8a0ce79daf57a9f712 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5fe3ec39b3d5cfdf8576e7e7d17e4fa9 = $(`<div id="html_5fe3ec39b3d5cfdf8576e7e7d17e4fa9" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000231<br><b>score_ensemble:</b> 0.558<br><b>지목:</b> 임야<br><b>면적:</b> 4,000 ㎡<br><b>경사:</b> 0.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_7c4d61d142a89a8a0ce79daf57a9f712.setContent(html_5fe3ec39b3d5cfdf8576e7e7d17e4fa9);
+            
+        
+
+        circle_marker_410d9e3743ff04dce728a38abc77c04e.bindPopup(popup_7c4d61d142a89a8a0ce79daf57a9f712)
+        ;
+
+        
+    
+    
+            var circle_marker_f1ce7a7275274d3f174e398556059d64 = L.circleMarker(
+                [34.409532258064516, 126.6505],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_b6beb642c3acea3f7b3c3d7221fffa25 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_81f60945d925a2ca3145194b99f7057e = $(`<div id="html_81f60945d925a2ca3145194b99f7057e" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000115<br><b>score_ensemble:</b> 0.551<br><b>지목:</b> 전<br><b>면적:</b> 8,989 ㎡<br><b>경사:</b> 8.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_b6beb642c3acea3f7b3c3d7221fffa25.setContent(html_81f60945d925a2ca3145194b99f7057e);
+            
+        
+
+        circle_marker_f1ce7a7275274d3f174e398556059d64.bindPopup(popup_b6beb642c3acea3f7b3c3d7221fffa25)
+        ;
+
+        
+    
+    
+            var circle_marker_fa94c00c9b8f780bbb85a12a469a6568 = L.circleMarker(
+                [34.41920967741935, 126.71050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_e0328ad351c1668a202f299e3a7da2e5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9830db741299ec85e5b173e14e479b05 = $(`<div id="html_9830db741299ec85e5b173e14e479b05" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000153<br><b>score_ensemble:</b> 0.545<br><b>지목:</b> 목장용지<br><b>면적:</b> 3,853 ㎡<br><b>경사:</b> 0.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e0328ad351c1668a202f299e3a7da2e5.setContent(html_9830db741299ec85e5b173e14e479b05);
+            
+        
+
+        circle_marker_fa94c00c9b8f780bbb85a12a469a6568.bindPopup(popup_e0328ad351c1668a202f299e3a7da2e5)
+        ;
+
+        
+    
+    
+            var circle_marker_cd0f52ad67a121864db8f294f8cb7817 = L.circleMarker(
+                [34.390177419354835, 126.57050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_9adc0514f5bb85b96b321132ebb73ac6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_de71ba94039131f7b05ffbb7db58ce93 = $(`<div id="html_de71ba94039131f7b05ffbb7db58ce93" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000043<br><b>score_ensemble:</b> 0.540<br><b>지목:</b> 전<br><b>면적:</b> 10,658 ㎡<br><b>경사:</b> 4.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_9adc0514f5bb85b96b321132ebb73ac6.setContent(html_de71ba94039131f7b05ffbb7db58ce93);
+            
+        
+
+        circle_marker_cd0f52ad67a121864db8f294f8cb7817.bindPopup(popup_9adc0514f5bb85b96b321132ebb73ac6)
+        ;
+
+        
+    
+    
+            var circle_marker_d2cf7fb2963171fe850ed48b88862504 = L.circleMarker(
+                [34.49662903225807, 126.7305],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_534b8096d823457e69ff1e3cf13f297b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_397e86de3e5cf84f30f6531eadb06bbf = $(`<div id="html_397e86de3e5cf84f30f6531eadb06bbf" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000411<br><b>score_ensemble:</b> 0.539<br><b>지목:</b> 답<br><b>면적:</b> 3,625 ㎡<br><b>경사:</b> 0.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_534b8096d823457e69ff1e3cf13f297b.setContent(html_397e86de3e5cf84f30f6531eadb06bbf);
+            
+        
+
+        circle_marker_d2cf7fb2963171fe850ed48b88862504.bindPopup(popup_534b8096d823457e69ff1e3cf13f297b)
+        ;
+
+        
+    
+    
+            var circle_marker_a6cd77498a0ed15cbc9ae45febc0d372 = L.circleMarker(
+                [34.61275806451613, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_1cf867945ca08873d164fda458fb06e5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_af2147d0340a28fcef331bf2131cb0da = $(`<div id="html_af2147d0340a28fcef331bf2131cb0da" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000791<br><b>score_ensemble:</b> 0.518<br><b>지목:</b> 잡종지<br><b>면적:</b> 6,597 ㎡<br><b>경사:</b> 4.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_1cf867945ca08873d164fda458fb06e5.setContent(html_af2147d0340a28fcef331bf2131cb0da);
+            
+        
+
+        circle_marker_a6cd77498a0ed15cbc9ae45febc0d372.bindPopup(popup_1cf867945ca08873d164fda458fb06e5)
+        ;
+
+        
+    
+    
+            var circle_marker_d1047265120ec6c6d154e800dd8e6dc5 = L.circleMarker(
+                [34.670822580645165, 126.56050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_7096e3a8e4dada89d992196f197063c9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_426f638e1458845ec2dc6a2b89450840 = $(`<div id="html_426f638e1458845ec2dc6a2b89450840" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000970<br><b>score_ensemble:</b> 0.509<br><b>지목:</b> 임야<br><b>면적:</b> 4,320 ㎡<br><b>경사:</b> 8.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_7096e3a8e4dada89d992196f197063c9.setContent(html_426f638e1458845ec2dc6a2b89450840);
+            
+        
+
+        circle_marker_d1047265120ec6c6d154e800dd8e6dc5.bindPopup(popup_7096e3a8e4dada89d992196f197063c9)
+        ;
+
+        
+    
+    
+            var circle_marker_e7e7df7e7d82780cfa59ce333e267d55 = L.circleMarker(
+                [34.409532258064516, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_494c34604e9920b1229daec38d0b7660 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_760684f0123153a431d5ed8a8adf28aa = $(`<div id="html_760684f0123153a431d5ed8a8adf28aa" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000112<br><b>score_ensemble:</b> 0.489<br><b>지목:</b> 잡종지<br><b>면적:</b> 2,554 ㎡<br><b>경사:</b> 9.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_494c34604e9920b1229daec38d0b7660.setContent(html_760684f0123153a431d5ed8a8adf28aa);
+            
+        
+
+        circle_marker_e7e7df7e7d82780cfa59ce333e267d55.bindPopup(popup_494c34604e9920b1229daec38d0b7660)
+        ;
+
+        
+    
+    
+            var circle_marker_899ac51db4b4bf5dc920e17ed64fcd61 = L.circleMarker(
+                [34.515983870967744, 126.5905],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_b73f04f259b096f49e0145c2c45cfa6e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bf29f4675b22d65b8dc65078407f7166 = $(`<div id="html_bf29f4675b22d65b8dc65078407f7166" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000461<br><b>score_ensemble:</b> 0.476<br><b>지목:</b> 답<br><b>면적:</b> 9,685 ㎡<br><b>경사:</b> 9.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_b73f04f259b096f49e0145c2c45cfa6e.setContent(html_bf29f4675b22d65b8dc65078407f7166);
+            
+        
+
+        circle_marker_899ac51db4b4bf5dc920e17ed64fcd61.bindPopup(popup_b73f04f259b096f49e0145c2c45cfa6e)
+        ;
+
+        
+    
+    
+            var circle_marker_bb5a03dc96e5824eafd239b9fd91f09e = L.circleMarker(
+                [34.593403225806455, 126.7405],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_be7b640e34e5f250c5f98024485b836c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_94a3621deedb4321a3d67bd9601a1d4d = $(`<div id="html_94a3621deedb4321a3d67bd9601a1d4d" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000732<br><b>score_ensemble:</b> 0.457<br><b>지목:</b> 전<br><b>면적:</b> 6,889 ㎡<br><b>경사:</b> 8.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_be7b640e34e5f250c5f98024485b836c.setContent(html_94a3621deedb4321a3d67bd9601a1d4d);
+            
+        
+
+        circle_marker_bb5a03dc96e5824eafd239b9fd91f09e.bindPopup(popup_be7b640e34e5f250c5f98024485b836c)
+        ;
+
+        
+    
+    
+            var circle_marker_0fcb44453ea9e848aaf9bc159e439937 = L.circleMarker(
+                [34.58372580645162, 126.6105],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_32b3c4b2ff1348d52327f7a8ebe688d2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b7203bfdb7248ad242eea6e3e4b6694d = $(`<div id="html_b7203bfdb7248ad242eea6e3e4b6694d" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000687<br><b>score_ensemble:</b> 0.449<br><b>지목:</b> 임야<br><b>면적:</b> 3,689 ㎡<br><b>경사:</b> 12.0°<br><b>판정:</b> 통과</div>`)[0];
+                popup_32b3c4b2ff1348d52327f7a8ebe688d2.setContent(html_b7203bfdb7248ad242eea6e3e4b6694d);
+            
+        
+
+        circle_marker_0fcb44453ea9e848aaf9bc159e439937.bindPopup(popup_32b3c4b2ff1348d52327f7a8ebe688d2)
+        ;
+
+        
+    
+    
+            var circle_marker_909b8ca288c155c9e884e77faa72db79 = L.circleMarker(
+                [34.64179032258065, 126.68050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_7270ef4eb40fe1040fb813f6536889e4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9200e204549ca9e2d88b60a2b318467e = $(`<div id="html_9200e204549ca9e2d88b60a2b318467e" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000886<br><b>score_ensemble:</b> 0.412<br><b>지목:</b> 잡종지<br><b>면적:</b> 1,371 ㎡<br><b>경사:</b> 9.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_7270ef4eb40fe1040fb813f6536889e4.setContent(html_9200e204549ca9e2d88b60a2b318467e);
+            
+        
+
+        circle_marker_909b8ca288c155c9e884e77faa72db79.bindPopup(popup_7270ef4eb40fe1040fb813f6536889e4)
+        ;
+
+        
+    
+    
+            var circle_marker_063213032563ab976c71fb82f59c03ae = L.circleMarker(
+                [34.50630645161291, 126.56050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_c9c5ae3f9cb5eacac4d3c6b1839078ed = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_652d3ef3a1e23273b80fac580db21ae0 = $(`<div id="html_652d3ef3a1e23273b80fac580db21ae0" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000426<br><b>score_ensemble:</b> 0.400<br><b>지목:</b> 임야<br><b>면적:</b> 4,728 ㎡<br><b>경사:</b> 6.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_c9c5ae3f9cb5eacac4d3c6b1839078ed.setContent(html_652d3ef3a1e23273b80fac580db21ae0);
+            
+        
+
+        circle_marker_063213032563ab976c71fb82f59c03ae.bindPopup(popup_c9c5ae3f9cb5eacac4d3c6b1839078ed)
+        ;
+
+        
+    
+    
+            var circle_marker_c420581bff5277d306bfb6d19d490743 = L.circleMarker(
+                [34.515983870967744, 126.49050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_867a1c7b7fcd49d4bd3daca39820f7db = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_92eb79f6e9bab7777bab928726c232a1 = $(`<div id="html_92eb79f6e9bab7777bab928726c232a1" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000451<br><b>score_ensemble:</b> 0.394<br><b>지목:</b> 전<br><b>면적:</b> 8,796 ㎡<br><b>경사:</b> 7.3°<br><b>판정:</b> 통과</div>`)[0];
+                popup_867a1c7b7fcd49d4bd3daca39820f7db.setContent(html_92eb79f6e9bab7777bab928726c232a1);
+            
+        
+
+        circle_marker_c420581bff5277d306bfb6d19d490743.bindPopup(popup_867a1c7b7fcd49d4bd3daca39820f7db)
+        ;
+
+        
+    
+    
+            var circle_marker_9ffb0c0a70368903cd1b35be8c685da0 = L.circleMarker(
+                [34.64179032258065, 126.77049999999998],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_c3af731f1f3a6d8207abbb57a03fe623 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2d69fa85045a862fa7216f185dde45db = $(`<div id="html_2d69fa85045a862fa7216f185dde45db" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000895<br><b>score_ensemble:</b> 0.388<br><b>지목:</b> 답<br><b>면적:</b> 5,306 ㎡<br><b>경사:</b> 6.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_c3af731f1f3a6d8207abbb57a03fe623.setContent(html_2d69fa85045a862fa7216f185dde45db);
+            
+        
+
+        circle_marker_9ffb0c0a70368903cd1b35be8c685da0.bindPopup(popup_c3af731f1f3a6d8207abbb57a03fe623)
+        ;
+
+        
+    
+    
+            var circle_marker_c45f5fe63ae169062eac255771e7ba72 = L.circleMarker(
+                [34.574048387096774, 126.6405],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_8751c97af0e0f9e7ca839c42e68397b4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4f852f057694a077049a407d48ce4b31 = $(`<div id="html_4f852f057694a077049a407d48ce4b31" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000658<br><b>score_ensemble:</b> 0.383<br><b>지목:</b> 잡종지<br><b>면적:</b> 2,399 ㎡<br><b>경사:</b> 8.9°<br><b>판정:</b> 통과</div>`)[0];
+                popup_8751c97af0e0f9e7ca839c42e68397b4.setContent(html_4f852f057694a077049a407d48ce4b31);
+            
+        
+
+        circle_marker_c45f5fe63ae169062eac255771e7ba72.bindPopup(popup_8751c97af0e0f9e7ca839c42e68397b4)
+        ;
+
+        
+    
+    
+            var circle_marker_df4dda0321586009efa04d3a09336855 = L.circleMarker(
+                [34.54501612903226, 126.6205],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_6fbcb2ea0ab6b78051b01c7b0106650f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8a0ec414c5db745319a614cc671bbeaa = $(`<div id="html_8a0ec414c5db745319a614cc671bbeaa" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000560<br><b>score_ensemble:</b> 0.343<br><b>지목:</b> 전<br><b>면적:</b> 4,884 ㎡<br><b>경사:</b> 3.6°<br><b>판정:</b> 통과</div>`)[0];
+                popup_6fbcb2ea0ab6b78051b01c7b0106650f.setContent(html_8a0ec414c5db745319a614cc671bbeaa);
+            
+        
+
+        circle_marker_df4dda0321586009efa04d3a09336855.bindPopup(popup_6fbcb2ea0ab6b78051b01c7b0106650f)
+        ;
+
+        
+    
+    
+            var circle_marker_f51d232e6b97b689a76e2277f312ba38 = L.circleMarker(
+                [34.55469354838709, 126.47050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_b89c0e3463e68360efaa08e6d49ee2fa = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_52bca6a7e3bdd158c5eb7c26a274aff2 = $(`<div id="html_52bca6a7e3bdd158c5eb7c26a274aff2" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000577<br><b>score_ensemble:</b> 0.342<br><b>지목:</b> 답<br><b>면적:</b> 2,858 ㎡<br><b>경사:</b> 14.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_b89c0e3463e68360efaa08e6d49ee2fa.setContent(html_52bca6a7e3bdd158c5eb7c26a274aff2);
+            
+        
+
+        circle_marker_f51d232e6b97b689a76e2277f312ba38.bindPopup(popup_b89c0e3463e68360efaa08e6d49ee2fa)
+        ;
+
+        
+    
+    
+            var circle_marker_8e0a49b75ab9a93447fc91e568f48725 = L.circleMarker(
+                [34.65146774193548, 126.63049999999997],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_a8cc168f093629e57bba215f933ef4be = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2ddc2290b3838e18aa2938954721974e = $(`<div id="html_2ddc2290b3838e18aa2938954721974e" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000913<br><b>score_ensemble:</b> 0.340<br><b>지목:</b> 임야<br><b>면적:</b> 17,574 ㎡<br><b>경사:</b> 10.8°<br><b>판정:</b> 통과</div>`)[0];
+                popup_a8cc168f093629e57bba215f933ef4be.setContent(html_2ddc2290b3838e18aa2938954721974e);
+            
+        
+
+        circle_marker_8e0a49b75ab9a93447fc91e568f48725.bindPopup(popup_a8cc168f093629e57bba215f933ef4be)
+        ;
+
+        
+    
+    
+            var circle_marker_af779d84cc43b002dd0a472330e299cf = L.circleMarker(
+                [34.61275806451613, 126.6405],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_e28632c6830852d36afd0a5b29fa21e4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_26b7a2643069ac4596cff5507666015e = $(`<div id="html_26b7a2643069ac4596cff5507666015e" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000786<br><b>score_ensemble:</b> 0.322<br><b>지목:</b> 전<br><b>면적:</b> 5,672 ㎡<br><b>경사:</b> 9.2°<br><b>판정:</b> 통과</div>`)[0];
+                popup_e28632c6830852d36afd0a5b29fa21e4.setContent(html_26b7a2643069ac4596cff5507666015e);
+            
+        
+
+        circle_marker_af779d84cc43b002dd0a472330e299cf.bindPopup(popup_e28632c6830852d36afd0a5b29fa21e4)
+        ;
+
+        
+    
+    
+            var circle_marker_aeeb04981582dc0f1793824f09cb04a1 = L.circleMarker(
+                [34.574048387096774, 126.5305],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_54e815da462b285baa86ef6da8f02536 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_522b6b45fc81f3751f10c28f10ac05c7 = $(`<div id="html_522b6b45fc81f3751f10c28f10ac05c7" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000647<br><b>score_ensemble:</b> 0.239<br><b>지목:</b> 임야<br><b>면적:</b> 4,753 ㎡<br><b>경사:</b> 11.1°<br><b>판정:</b> 통과</div>`)[0];
+                popup_54e815da462b285baa86ef6da8f02536.setContent(html_522b6b45fc81f3751f10c28f10ac05c7);
+            
+        
+
+        circle_marker_aeeb04981582dc0f1793824f09cb04a1.bindPopup(popup_54e815da462b285baa86ef6da8f02536)
+        ;
+
+        
+    
+    
+            var circle_marker_ba106cd0eacc26df23f714dd268959ba = L.circleMarker(
+                [34.593403225806455, 126.69050000000001],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_80e07710f076b0a9ad66fa3ffff5ffaf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ef3a925e2de0a2900d4da54ad91093e3 = $(`<div id="html_ef3a925e2de0a2900d4da54ad91093e3" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000727<br><b>score_ensemble:</b> 0.173<br><b>지목:</b> 전<br><b>면적:</b> 3,321 ㎡<br><b>경사:</b> 9.4°<br><b>판정:</b> 통과</div>`)[0];
+                popup_80e07710f076b0a9ad66fa3ffff5ffaf.setContent(html_ef3a925e2de0a2900d4da54ad91093e3);
+            
+        
+
+        circle_marker_ba106cd0eacc26df23f714dd268959ba.bindPopup(popup_80e07710f076b0a9ad66fa3ffff5ffaf)
+        ;
+
+        
+    
+    
+            var circle_marker_69d9a7396b38b46d4e9e4f5bfd071dcc = L.circleMarker(
+                [34.49662903225807, 126.76050000000002],
+                {"bubblingMouseEvents": true, "color": "#9c27b0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9c27b0", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 1}
+            ).addTo(feature_group_d6e9cd200e811fb085bb24d72315411c);
+        
+    
+        var popup_0941c0b10d2052b6a3f3467aa8362db9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3d7070994eaeca9e23a583c8501187e5 = $(`<div id="html_3d7070994eaeca9e23a583c8501187e5" style="width: 100.0%; height: 100.0%;"><b>PNU:</b> 46810000000414<br><b>score_ensemble:</b> 0.000<br><b>지목:</b> 임야<br><b>면적:</b> 1,335 ㎡<br><b>경사:</b> 11.7°<br><b>판정:</b> 통과</div>`)[0];
+                popup_0941c0b10d2052b6a3f3467aa8362db9.setContent(html_3d7070994eaeca9e23a583c8501187e5);
+            
+        
+
+        circle_marker_69d9a7396b38b46d4e9e4f5bfd071dcc.bindPopup(popup_0941c0b10d2052b6a3f3467aa8362db9)
+        ;
+
+        
+    
+    
+            feature_group_d6e9cd200e811fb085bb24d72315411c.addTo(map_71a4921c7b2c24b4d58c5afe8276c596);
+        
+    
+            var feature_group_3addd5ef10388ee5a4ad1555468d44f7 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            feature_group_3addd5ef10388ee5a4ad1555468d44f7.addTo(map_71a4921c7b2c24b4d58c5afe8276c596);
+        
+    
+            var layer_control_6ab7eca634b66bfc9ffa0203b6694546_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_2a5659680da5a6880188fadccc49852d,
+                },
+                overlays :  {
+                    "\uaddc\uce59\uae30\ubc18 \uc0c1\uc704 100" : feature_group_58eae70b7a5a245d8b59817b9edaeef1,
+                    "ML \uc0c1\uc704 100" : feature_group_7f106c0115beb2b5b5a0628479f586da,
+                    "\uc559\uc0c1\ube14 \uc0c1\uc704 100" : feature_group_d6e9cd200e811fb085bb24d72315411c,
+                    "\uc2e4\uc81c \uc124\uce58\uc9c0" : feature_group_3addd5ef10388ee5a4ad1555468d44f7,
+                },
+            };
+            let layer_control_6ab7eca634b66bfc9ffa0203b6694546 = L.control.layers(
+                layer_control_6ab7eca634b66bfc9ffa0203b6694546_layers.base_layers,
+                layer_control_6ab7eca634b66bfc9ffa0203b6694546_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_71a4921c7b2c24b4d58c5afe8276c596);
+
+        
+</script>
+</html>

@@ -17,6 +17,15 @@ from solar_mvp.config import (
     HAENAM_RESIDENTIAL_BUFFER_M,
     MIN_ROAD_WIDTH_M,
     FEATURES_V2,
+    GRID_SATURATION_RADIUS_KM,
+    HVLINE_SETBACK_M,
+    HV_LINE_SETBACK_DEFAULT_M,
+)
+from solar_mvp.kepco_grid import (
+    fetch_substations,
+    fetch_powerlines,
+    fetch_existing_solar,
+    compute_solar_density,
 )
 
 logger = logging.getLogger(__name__)
@@ -25,12 +34,6 @@ logger = logging.getLogger(__name__)
 # Constants
 # ---------------------------------------------------------------------------
 
-SYNTHETIC_SUBSTATIONS = [
-    {"name": "해남변전소",  "lat": 34.5745, "lon": 126.5991, "remaining_kw": 15000},
-    {"name": "화원변전소",  "lat": 34.6327, "lon": 126.5109, "remaining_kw":  8000},
-    {"name": "북평변전소",  "lat": 34.4897, "lon": 126.7092, "remaining_kw":  5000},
-    {"name": "완도변전소",  "lat": 34.3389, "lon": 126.7540, "remaining_kw": 20000},
-]
 
 JIMOK_LAND_PRICE_KRW: dict[str, int] = {
     "임야":    5_000,
@@ -118,53 +121,145 @@ def _add_area_m2(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
 
 def _add_substation_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
-    """Add dist_to_substation_km and substation_remaining_kw."""
-    sub_csv = DATA_DIR / "substations.csv"
-    substations = []
-    if sub_csv.exists():
-        logger.info("Loading substations from %s", sub_csv)
-        df = pd.read_csv(sub_csv)
-        required = {"lat", "lon", "remaining_kw"}
-        if required.issubset(df.columns):
-            substations = df[["lat", "lon", "remaining_kw"]].to_dict("records")
-        else:
-            logger.warning("substations.csv missing columns — using synthetic fallback")
-    if not substations:
-        logger.warning("Using synthetic Haenam substation data (4 stations)")
-        substations = SYNTHETIC_SUBSTATIONS
+    """Add dist_to_substation_km and substation_remaining_kw.
 
-    # Build arrays for KD-tree lookup
-    sub_lats = np.array([s["lat"] for s in substations])
-    sub_lons = np.array([s["lon"] for s in substations])
-    sub_kw   = np.array([s["remaining_kw"] for s in substations])
+    Data source priority (via kepco_grid.fetch_substations):
+      1. VWorld WFS lp_pa_elec_ltfac
+      2. data.go.kr 변전소 현황
+      3. synthetic fallback (4 Haenam substations)
+    """
+    # Local CSV override (manual data takes precedence over APIs)
+    sub_csv = DATA_DIR / "substations.csv"
+    if sub_csv.exists():
+        logger.info("Loading substations from local %s (overrides API)", sub_csv)
+        df_sub = pd.read_csv(sub_csv)
+        if {"lat", "lon", "remaining_kw"}.issubset(df_sub.columns):
+            sub_df = df_sub[["lat", "lon", "remaining_kw"]]
+        else:
+            logger.warning("substations.csv missing columns — falling back to API/synthetic")
+            sub_df = fetch_substations()
+    else:
+        sub_df = fetch_substations()
+
+    sub_lats = sub_df["lat"].values.astype(float)
+    sub_lons = sub_df["lon"].values.astype(float)
+    sub_kw   = sub_df["remaining_kw"].values.astype(float)
 
     centroids_wgs = gdf.to_crs(CRS_WGS84).geometry.centroid
     cent_lat = centroids_wgs.y.values
     cent_lon = centroids_wgs.x.values
 
-    # For each parcel, compute distance to all substations and pick nearest
-    # Use scipy KDTree on (lat, lon) — approximate but fine for ~100 km region
     try:
         from scipy.spatial import KDTree
-        coords_sub = np.column_stack([sub_lats, sub_lons])
-        coords_par = np.column_stack([cent_lat, cent_lon])
-        tree = KDTree(coords_sub)
-        _, idx = tree.query(coords_par)
-        # Convert angular distance to km with haversine for accuracy (vectorized)
+        tree = KDTree(np.column_stack([sub_lats, sub_lons]))
+        _, idx = tree.query(np.column_stack([cent_lat, cent_lon]))
         dist_km = _haversine_km(cent_lat, cent_lon, sub_lats[idx], sub_lons[idx])
     except ImportError:
-        logger.warning("scipy not available — computing substation distances with numpy")
-        # Brute-force: (n_parcels, n_substations) distance matrix
-        n = len(cent_lat)
-        m = len(sub_lats)
-        dist_matrix = np.zeros((n, m))
-        for j in range(m):
-            dist_matrix[:, j] = _haversine_km(cent_lat, cent_lon, sub_lats[j], sub_lons[j])
+        n, m = len(cent_lat), len(sub_lats)
+        dist_matrix = np.stack(
+            [_haversine_km(cent_lat, cent_lon, sub_lats[j], sub_lons[j]) for j in range(m)],
+            axis=1,
+        )
         idx = dist_matrix.argmin(axis=1)
         dist_km = dist_matrix[np.arange(n), idx]
 
     gdf["dist_to_substation_km"] = dist_km
     gdf["substation_remaining_kw"] = sub_kw[idx]
+    return gdf
+
+
+def _add_powerline_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Add dist_to_powerline_m and intersects_hvline_buffer.
+
+    Data source: VWorld lt_l_clfla → if unavailable, dist_to_road_m proxy.
+
+    intersects_hvline_buffer: True if parcel is within hard-filter setback
+    distance of a high-voltage line (154kV+).  When no voltage attribute
+    is available on the line, uses HV_LINE_SETBACK_DEFAULT_M (33 m).
+    """
+    centroids_wgs = gdf.to_crs(CRS_WGS84).geometry.centroid
+    cent_lat = centroids_wgs.y.values
+    cent_lon = centroids_wgs.x.values
+
+    powerlines = fetch_powerlines()
+
+    if powerlines is not None and not powerlines.empty:
+        logger.info("Computing powerline distances from %d VWorld line segments", len(powerlines))
+        gdf_proj = gdf.to_crs(CRS_ANALYSIS)
+        lines_proj = powerlines.to_crs(CRS_ANALYSIS)
+
+        from shapely.ops import unary_union
+        lines_union = unary_union(lines_proj.geometry)
+        dist_m = gdf_proj.geometry.distance(lines_union)
+        gdf["dist_to_powerline_m"] = dist_m.values
+
+        # High-voltage setback: check per-segment voltage attribute
+        voltage_col = next(
+            (c for c in ("voltage", "vol_val", "전압", "VOLTAGE") if c in powerlines.columns),
+            None,
+        )
+        if voltage_col is not None:
+            hv_lines = powerlines[
+                powerlines[voltage_col].astype(str).str.contains("154|345|765", na=False)
+            ]
+            if not hv_lines.empty:
+                hv_proj = hv_lines.to_crs(CRS_ANALYSIS)
+                hv_union = unary_union(hv_proj.geometry)
+                hv_dist_m = gdf_proj.geometry.distance(hv_union)
+                gdf["intersects_hvline_buffer"] = hv_dist_m.values < HV_LINE_SETBACK_DEFAULT_M
+            else:
+                gdf["intersects_hvline_buffer"] = False
+        else:
+            # No voltage info: apply setback to all lines (conservative)
+            gdf["intersects_hvline_buffer"] = dist_m.values < HV_LINE_SETBACK_DEFAULT_M
+    else:
+        # Fallback: use road distance as proxy for distribution line proximity.
+        # In rural Korea, 배전선(배전주) typically run along roads.
+        road_dist = gdf["dist_to_road_m"] if "dist_to_road_m" in gdf.columns else pd.Series(500.0, index=gdf.index)
+        gdf["dist_to_powerline_m"] = road_dist.values.astype(float)
+        gdf["intersects_hvline_buffer"] = False  # conservatively assume no HV line conflict
+        logger.info("Powerline data unavailable — using road distance proxy for dist_to_powerline_m")
+
+    return gdf
+
+
+def _add_existing_solar_density(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Add existing_solar_kw_5km and grid_saturation_ratio.
+
+    existing_solar_kw_5km: sum of installed solar capacity (kW) within
+    GRID_SATURATION_RADIUS_KM of each parcel centroid.
+
+    grid_saturation_ratio: existing_solar_kw_5km / substation_remaining_kw
+    (display/hard-filter metric, not in FEATURES_V2).
+
+    Data source: data.go.kr SOLAR_PLANT_SERVICE_ID → 0 if unavailable.
+    """
+    solar_df = fetch_existing_solar()
+
+    centroids_wgs = gdf.to_crs(CRS_WGS84).geometry.centroid
+    cent_lat = centroids_wgs.y.values
+    cent_lon = centroids_wgs.x.values
+
+    existing_kw = compute_solar_density(
+        cent_lat, cent_lon, solar_df, radius_km=GRID_SATURATION_RADIUS_KM
+    )
+    gdf["existing_solar_kw_5km"] = existing_kw
+
+    # Derived ratio (for display and hard-filter use)
+    sub_kw = gdf["substation_remaining_kw"].values.astype(float) if "substation_remaining_kw" in gdf.columns else np.full(len(gdf), 10000.0)
+    safe_sub_kw = np.where(sub_kw > 0, sub_kw, 1.0)
+    gdf["grid_saturation_ratio"] = existing_kw / safe_sub_kw
+
+    if solar_df.empty:
+        logger.info("existing_solar_kw_5km = 0 for all parcels (no solar plant data)")
+    else:
+        logger.info(
+            "existing_solar_kw_5km: median=%.0f kW, max=%.0f kW (radius=%.1f km)",
+            float(np.median(existing_kw)),
+            float(existing_kw.max()),
+            GRID_SATURATION_RADIUS_KM,
+        )
+
     return gdf
 
 
@@ -445,40 +540,49 @@ def enrich_parcels(force: bool = False) -> gpd.GeoDataFrame:
     logger.info("Loaded %d parcels (CRS: %s)", len(gdf), gdf.crs)
 
     # ---- FEATURES_V2 (new columns) ----------------------------------------
-    logger.info("Step 1/11: Computing annual_ghi …")
+    logger.info("Step 1/14: Computing annual_ghi …")
     gdf = _add_annual_ghi(gdf)
 
-    logger.info("Step 2/11: Computing area_m2 …")
+    logger.info("Step 2/14: Computing area_m2 …")
     gdf = _add_area_m2(gdf)
 
-    logger.info("Step 3/11: Computing substation features …")
+    logger.info("Step 3/14: Computing substation features (VWorld/data.go.kr/synthetic) …")
     gdf = _add_substation_features(gdf)
 
-    logger.info("Step 4/11: Computing road features …")
+    logger.info("Step 4/14: Computing road features …")
     gdf = _add_road_features(gdf)
 
-    logger.info("Step 5/11: Computing building distance …")
+    logger.info("Step 5/14: Computing building distance …")
     gdf = _add_building_features(gdf)
 
-    logger.info("Step 6/11: Adding official land price …")
+    logger.info("Step 6/14: Adding official land price …")
     gdf = _add_land_price(gdf)
 
+    # ---- 계통 피처 (한전 관련) -------------------------------------------
+    logger.info("Step 7/14: Computing powerline features (VWorld/road proxy) …")
+    gdf = _add_powerline_features(gdf)
+
+    logger.info("Step 8/14: Computing existing solar density (data.go.kr/zero fallback) …")
+    gdf = _add_existing_solar_density(gdf)
+
     # ---- Hard-filter input columns ----------------------------------------
-    logger.info("Step 7/11: Ensuring use_zone …")
+    logger.info("Step 9/14: Ensuring use_zone …")
     gdf = _add_use_zone(gdf)
 
-    logger.info("Step 8/11: Ensuring owner_type …")
+    logger.info("Step 10/14: Ensuring owner_type …")
     gdf = _add_owner_type(gdf)
 
-    logger.info("Step 9/11: Computing agricultural promotion zone …")
+    logger.info("Step 11/14: Computing agricultural promotion zone …")
     gdf = _add_agri_promotion_zone(gdf)
 
-    logger.info("Step 10/11: Computing protected area intersection …")
+    logger.info("Step 12/14: Computing protected area intersection …")
     gdf = _add_protected_area(gdf)
 
-    logger.info("Step 11/11: Adding forest age class and eup_myeon …")
+    logger.info("Step 13/14: Adding forest age class and eup_myeon …")
     gdf = _add_forest_age(gdf)
     gdf = _add_eup_myeon(gdf)
+
+    logger.info("Step 14/14: (done — validation follows)")
 
     # ---- Validation: confirm all FEATURES_V2 columns are present ----------
     missing_features = [c for c in FEATURES_V2 if c not in gdf.columns]

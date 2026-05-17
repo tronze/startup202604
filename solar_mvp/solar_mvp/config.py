@@ -33,6 +33,18 @@ MIN_ROAD_WIDTH_M = 3.0
 # === 해남군 도시계획조례 이격거리 (Day 0 수동 조사 필요 — 현재 기본값) ===
 HAENAM_RESIDENTIAL_BUFFER_M = 300  # TODO(Day 0): Verify with 해남군청 도시계획과; 300m is Jeonnam model ordinance default
 
+# === 고압 송전선로 이격거리 (전기사업법 시행규칙 별표 12) ===
+HVLINE_SETBACK_M: dict[str, int] = {
+    "765kV": 80,
+    "345kV": 60,
+    "154kV": 33,
+}
+HV_LINE_SETBACK_DEFAULT_M = 33  # 154kV 기준 (최소 고압)
+
+# === 계통 포화 판단 기준 ===
+GRID_SATURATION_RADIUS_KM = 5.0        # 반경 5km 내 기존 태양광 밀집도 측정
+GRID_SATURATION_HARD_LIMIT_KW = 50_000  # 반경 5km 내 기존 설치량 ≥ 50MW → 계통포화 위험
+
 # === Feature list for scoring/ML ===
 FEATURES_V2 = [
     'slope_mean',
@@ -46,6 +58,8 @@ FEATURES_V2 = [
     'nearest_building_dist_m',
     'official_land_price',
     'elevation_m',
+    'dist_to_powerline_m',       # 배전선로까지 거리 — 인입공사비 직결
+    'existing_solar_kw_5km',     # 반경 5km 기존 태양광 용량 합 — 계통 포화 추정
 ]
 
 # Features that must NEVER appear in ML training (data leakage guard)
@@ -60,19 +74,21 @@ FORBIDDEN_FEATURES = {
 }
 
 # === Rule-based weights (domain knowledge) ===
-# abs(weights) sum = 1.10; scorer must normalize by sum(abs(v) for v in weights.values())
+# abs(weights) sum = 1.25; scorer must normalize by sum(abs(v) for v in weights.values())
 WEIGHTS_RULE = {
     'slope_mean':               -0.15,
     'slope_std':                -0.05,
     'aspect_south':              0.10,
     'annual_ghi':                0.15,
     'area_m2':                   0.10,
-    'dist_to_substation_km':    -0.15,
-    'substation_remaining_kw':   0.15,
+    'dist_to_substation_km':    -0.13,
+    'substation_remaining_kw':   0.13,
     'dist_to_road_m':           -0.05,
     'nearest_building_dist_m':   0.05,
     'official_land_price':      -0.10,
     'elevation_m':              -0.05,
+    'dist_to_powerline_m':      -0.09,  # 배전선로 인접 = 인입공사비↓ = 사업성↑
+    'existing_solar_kw_5km':    -0.10,  # 주변 태양광 밀집 = 계통 포화 위험↑
 }
 
 # === Evaluation thresholds ===

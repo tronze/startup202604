@@ -22,6 +22,7 @@ from solar_mvp.config import (
     WEIGHTS_RULE,
     FEATURES_V2,
     OUTPUT_DIR,
+    GRID_SATURATION_HARD_LIMIT_KW,
 )
 
 logger = logging.getLogger(__name__)
@@ -64,6 +65,11 @@ def hard_filter_v2(parcel: pd.Series) -> tuple[bool, str]:
         return False, "고도>600m"
     if parcel.get("aspect_class", "") == "북향":
         return False, "북향"
+    # === v3 계통 필터 (2개) ===
+    if parcel.get("intersects_hvline_buffer", False):
+        return False, "고압송전선이격"
+    if parcel.get("existing_solar_kw_5km", 0) >= GRID_SATURATION_HARD_LIMIT_KW:
+        return False, "배전구역포화"
     return True, "통과"
 
 
@@ -130,6 +136,16 @@ def apply_hard_filter(parcels: pd.DataFrame) -> pd.DataFrame:
 
     if "aspect_class" in parcels.columns:
         _apply_mask(parcels["aspect_class"] == "북향", "북향")
+
+    # === v3 계통 필터 (2개) ===
+    if "intersects_hvline_buffer" in parcels.columns:
+        _apply_mask(parcels["intersects_hvline_buffer"].fillna(False).astype(bool), "고압송전선이격")
+
+    if "existing_solar_kw_5km" in parcels.columns:
+        _apply_mask(
+            parcels["existing_solar_kw_5km"].fillna(0) >= GRID_SATURATION_HARD_LIMIT_KW,
+            "배전구역포화",
+        )
 
     return parcels
 

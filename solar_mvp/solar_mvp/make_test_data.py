@@ -69,6 +69,22 @@ def generate_synthetic_parcels(n: int = N, seed: int = SEED) -> gpd.GeoDataFrame
             p=[0.20, 0.25, 0.20, 0.15, 0.12, 0.08],
         )
 
+    # --- 계통 피처 (한전 관련) ---
+    # dist_to_powerline_m: 대체로 도로 근처(배전주 따라 설치), 약간 노이즈 추가
+    dist_to_powerline_m = np.clip(dist_to_road_m * rng.uniform(0.8, 1.2, n) + rng.exponential(30, n), 0, 3000)
+
+    # existing_solar_kw_5km: 반경 5km 기존 설치량. 대부분 낮고 일부 포화 지역 존재
+    existing_solar_kw_5km = np.clip(
+        rng.exponential(3000, n),  # 중앙값 ~3 MW
+        0, 80_000,                 # 최대 80 MW (포화 시나리오 포함)
+    )
+
+    # intersects_hvline_buffer: 약 3% 필지가 고압선 이격거리 내 위치
+    intersects_hvline_buffer = rng.random(n) < 0.03
+
+    # grid_saturation_ratio (표시용 — FEATURES_V2 아님)
+    grid_saturation_ratio = existing_solar_kw_5km / np.clip(substation_remaining_kw, 1, None)
+
     # --- aspect_class: consistent with aspect_south ---
     aspect_class = np.where(
         aspect_south == 1,
@@ -106,6 +122,10 @@ def generate_synthetic_parcels(n: int = N, seed: int = SEED) -> gpd.GeoDataFrame
             "nearest_building_dist_m": nearest_building_dist_m,
             "official_land_price": official_land_price,
             "elevation_m": elevation_m,
+            # 계통 피처 (한전 관련)
+            "dist_to_powerline_m": dist_to_powerline_m,
+            "existing_solar_kw_5km": existing_solar_kw_5km,
+            "grid_saturation_ratio": grid_saturation_ratio,
             # Hard filter inputs
             "jimok": jimok,
             "use_zone": use_zone,
@@ -113,6 +133,7 @@ def generate_synthetic_parcels(n: int = N, seed: int = SEED) -> gpd.GeoDataFrame
             "has_road_access_3m": has_road_access_3m,
             "in_agricultural_promotion_zone": in_agricultural_promotion_zone,
             "intersects_protected_area": intersects_protected_area,
+            "intersects_hvline_buffer": intersects_hvline_buffer,
             "forest_age_class": forest_age_class,
             "aspect_class": aspect_class,
         }

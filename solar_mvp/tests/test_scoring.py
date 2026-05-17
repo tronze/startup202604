@@ -7,6 +7,7 @@ from solar_mvp.config import (
     ALLOWED_JIMOK, BLOCKED_USE_ZONES, BLOCKED_OWNER_TYPES,
     MIN_AREA_M2, MAX_SLOPE_DEG, MAX_ELEVATION_M, BLOCKED_FOREST_AGES,
     REQUIRED_KW, HAENAM_RESIDENTIAL_BUFFER_M, FEATURES_V2, WEIGHTS_RULE,
+    GRID_SATURATION_HARD_LIMIT_KW,
 )
 
 
@@ -16,7 +17,7 @@ from solar_mvp.config import (
 
 @pytest.fixture
 def passing_parcel():
-    """A parcel that passes all 13 hard filter conditions."""
+    """A parcel that passes all 15 hard filter conditions (v3)."""
     return pd.Series({
         "jimok": "임야",
         "area_m2": 5000.0,
@@ -31,6 +32,9 @@ def passing_parcel():
         "forest_age_class": "II",
         "elevation_m": 300.0,
         "aspect_class": "남향",
+        # v3 계통 필터
+        "intersects_hvline_buffer": False,
+        "existing_solar_kw_5km": 1000.0,
     })
 
 
@@ -341,6 +345,44 @@ def test_filter_aspect_south_passes(passing_parcel):
 def test_filter_aspect_east_passes(passing_parcel):
     p = passing_parcel.copy()
     p["aspect_class"] = "동향"
+    passes, _ = hard_filter_v2(p)
+    assert passes is True
+
+
+# ---------------------------------------------------------------------------
+# Filter 14: 고압송전선이격 (v3)
+# ---------------------------------------------------------------------------
+
+def test_filter_hvline_buffer_fails(passing_parcel):
+    p = passing_parcel.copy()
+    p["intersects_hvline_buffer"] = True
+    passes, reason = hard_filter_v2(p)
+    assert passes is False
+    assert reason == "고압송전선이격"
+
+
+def test_filter_hvline_buffer_passes(passing_parcel):
+    p = passing_parcel.copy()
+    p["intersects_hvline_buffer"] = False
+    passes, _ = hard_filter_v2(p)
+    assert passes is True
+
+
+# ---------------------------------------------------------------------------
+# Filter 15: 배전구역포화 (v3)
+# ---------------------------------------------------------------------------
+
+def test_filter_grid_saturation_fails(passing_parcel):
+    p = passing_parcel.copy()
+    p["existing_solar_kw_5km"] = float(GRID_SATURATION_HARD_LIMIT_KW)
+    passes, reason = hard_filter_v2(p)
+    assert passes is False
+    assert reason == "배전구역포화"
+
+
+def test_filter_grid_saturation_passes(passing_parcel):
+    p = passing_parcel.copy()
+    p["existing_solar_kw_5km"] = float(GRID_SATURATION_HARD_LIMIT_KW) - 1.0
     passes, _ = hard_filter_v2(p)
     assert passes is True
 
