@@ -98,7 +98,7 @@ TARGET_RECALL_AT_500 = 0.60
 
 # === VWorld API ===
 VWORLD_BASE_URL = "https://api.vworld.kr/req"
-VWORLD_WFS_URL = "https://api.vworld.kr/ogc/wfs"
+VWORLD_WFS_URL = "https://api.vworld.kr/req/wfs"
 
 # === data.go.kr ===
 DATA_GO_KR_BASE_URL = "https://apis.data.go.kr"

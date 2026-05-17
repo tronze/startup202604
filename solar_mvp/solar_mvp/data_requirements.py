@@ -42,30 +42,24 @@ REQUIREMENTS: list[dict] = [
         "required_for": ["Stage 3 변전소 피처 — 없으면 API → 빈값 처리"],
     },
     {
-        "key": "data/roads.geojson",
-        "type": "file",
+        "key": "data/roads",
+        "type": "file_any_ext",
         "label": "도로망",
         "usage": "Stage 3 dist_to_road_m, has_road_access_3m, dist_to_powerline_m proxy",
         "required": True,
-        "how": (
-            "① VWorld WFS: lt_c_road (VWORLD_API_KEY 필요)\n"
-            "     또는 ② OSM: https://overpass-turbo.eu → 해남군 roads query → GeoJSON 저장"
-        ),
+        "how": "python -m solar_mvp.stage0_download  (VWORLD_API_KEY 설정 후 자동 수집, lt_l_sprd 도로폭 포함)",
         "required_for": [
             "Stage 3 하드필터 현황도로<3m",
             "배전선 거리 proxy (전력선 데이터 없을 때)",
         ],
     },
     {
-        "key": "data/buildings.geojson",
-        "type": "file",
+        "key": "data/buildings",
+        "type": "file_any_ext",
         "label": "건물 (주거 이격거리)",
         "usage": "Stage 3 nearest_building_dist_m — 300m 이격 하드필터",
         "required": True,
-        "how": (
-            "VWorld WFS: lt_c_lsigbldlm (건물통합정보) — VWORLD_API_KEY 필요\n"
-            "     또는 국가공간정보포털 (nsdi.go.kr) → 건물 shapefile → GeoJSON 변환"
-        ),
+        "how": "python -m solar_mvp.stage0_download  (VWORLD_API_KEY 설정 후 자동 수집, lt_c_spbd)",
         "required_for": ["Stage 3 하드필터 이격거리 300m"],
     },
     # ── 파일: 토지 속성 ───────────────────────────────────────────────────────
@@ -100,15 +94,12 @@ REQUIREMENTS: list[dict] = [
     },
     # ── 파일: 규제 구역 ───────────────────────────────────────────────────────
     {
-        "key": "data/agri_promotion.shp",
-        "type": "file",
+        "key": "data/agri_promotion",
+        "type": "file_any_ext",
         "label": "농업진흥지역 (in_agricultural_promotion_zone)",
         "usage": "Stage 3 하드필터 — 농업진흥구역 필지 전량 제외",
         "required": True,
-        "how": (
-            "농림축산식품부 농지정보 관리시스템 (fims.mafra.go.kr)\n"
-            "     → 농업진흥지역 지정 현황 shp 다운로드 → 해남군 clip"
-        ),
+        "how": "python -m solar_mvp.stage0_download  (VWORLD_API_KEY 설정 후 자동 수집, lt_c_agrixue101/102)",
         "required_for": ["Stage 3 하드필터 농업진흥지역 — 없으면 False (낙관적 처리)"],
     },
     {
@@ -117,11 +108,7 @@ REQUIREMENTS: list[dict] = [
         "label": "보전구역 (intersects_protected_area)",
         "usage": "Stage 3 하드필터 — 자연환경보전구역/자연공원 등 중첩 필지 제외",
         "required": True,
-        "how": (
-            "환경부 환경공간정보서비스 (egis.me.go.kr)\n"
-            "     → 자연공원/생태·경관 보전지역/습지보호지역 각각 shp 다운로드\n"
-            "     → data/protected/ 폴더에 저장 (복수 shp 자동 통합)"
-        ),
+        "how": "python -m solar_mvp.stage0_download  (VWORLD_API_KEY 설정 후 자동 수집, lt_c_uq114 + lt_c_um901)",
         "required_for": ["Stage 3 하드필터 보전구역 — 없으면 False (낙관적 처리)"],
     },
     {
@@ -160,11 +147,30 @@ def check_requirements() -> list[dict]:
                 s["current"] = f"있음 ({size_kb} KB)"
             else:
                 s["current"] = f"❌ 없음 — {path}"
+        elif rtype == "file_any_ext":
+            # Accept .geojson, .shp, or any spatial format
+            stem = DATA_DIR / key.replace("data/", "", 1)
+            found = next(
+                (p for ext in (".geojson", ".shp", ".gpkg") if (p := Path(str(stem) + ext)).exists()),
+                None,
+            )
+            s["available"] = found is not None
+            if found:
+                size_kb = found.stat().st_size // 1024
+                s["current"] = f"있음 ({found.name}, {size_kb} KB)"
+            else:
+                s["current"] = f"❌ 없음 — {stem}(.geojson/.shp)"
         elif rtype == "dir":
             dir_path = DATA_DIR / key.replace("data/", "", 1).rstrip("/")
-            shps = list(dir_path.glob("*.shp")) if dir_path.exists() else []
-            s["available"] = bool(shps)
-            s["current"] = f"있음 ({len(shps)}개 .shp)" if shps else f"❌ 없음 — {dir_path}/"
+            spatial_files = (
+                list(dir_path.glob("*.shp")) + list(dir_path.glob("*.geojson"))
+                if dir_path.exists() else []
+            )
+            s["available"] = bool(spatial_files)
+            if spatial_files:
+                s["current"] = f"있음 ({len(spatial_files)}개 공간파일)"
+            else:
+                s["current"] = f"❌ 없음 — {dir_path}/"
 
         statuses.append(s)
     return statuses
@@ -187,7 +193,7 @@ def print_requirements(verbose: bool = True) -> None:
 
     sections = [
         ("🔑 API 키", [s for s in statuses if s["type"] == "env"]),
-        ("🗄️  데이터 파일", [s for s in statuses if s["type"] in ("file", "dir")]),
+        ("🗄️  데이터 파일", [s for s in statuses if s["type"] in ("file", "file_any_ext", "dir")]),
     ]
 
     for section_title, items in sections:

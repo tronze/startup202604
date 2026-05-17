@@ -8,6 +8,7 @@ from solar_mvp.config import OUTPUT_DIR
 logger = logging.getLogger(__name__)
 
 STAGE_NAMES = {
+    0: "Reference Data Download (VWorld WFS)",
     1: "Data Collection (VWorld API)",
     2: "Geometry Processing (DEM terrain)",
     3: "Feature Enrichment",
@@ -24,7 +25,10 @@ def run_stage(stage_num: int, force: bool = False) -> bool:
     Imports stage module lazily to avoid loading all deps at startup.
     """
     try:
-        if stage_num == 1:
+        if stage_num == 0:
+            from solar_mvp.stage0_download import download_all
+            download_all(force=force)
+        elif stage_num == 1:
             from solar_mvp.stage1_collect import collect_parcels
             collect_parcels(force=force)
         elif stage_num == 2:
@@ -129,7 +133,7 @@ Examples:
     )
     parser.add_argument(
         "--start-from", type=int, default=1, metavar="N",
-        help="Start from stage N (1-7, default: 1)"
+        help="Start from stage N (0-7, default: 1). Stage 0 = VWorld data download"
     )
     parser.add_argument(
         "--end-at", type=int, default=7, metavar="N",

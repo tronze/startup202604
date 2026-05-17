@@ -107,12 +107,12 @@ class VWorldClient:
             "VERSION": "2.0.0",
             "REQUEST": "GetFeature",
             "TYPENAME": type_name,
-            "OUTPUT": "application/json",
+            "outputFormat": "application/json",
             "SRSNAME": "EPSG:4326",
             "COUNT": str(per_page),
             "STARTINDEX": str(start_index),
             "CQL_FILTER": cql_filter,
-            "KEY": self.api_key,
+            "key": self.api_key,
         }
         try:
             raw = self._get(VWORLD_WFS_URL, params)

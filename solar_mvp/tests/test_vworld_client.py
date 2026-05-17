@@ -32,7 +32,7 @@ def test_get_parcels_by_bbox_success(client):
     """Should return GeoJSON FeatureCollection when API responds successfully."""
     resp_mock.add(
         resp_mock.GET,
-        "https://api.vworld.kr/ogc/wfs",
+        "https://api.vworld.kr/req/wfs",
         json=MOCK_GEOJSON,
         status=200,
     )
@@ -46,7 +46,7 @@ def test_get_caches_response(client, tmp_path):
     """Second call should use cache, not make another HTTP request."""
     resp_mock.add(
         resp_mock.GET,
-        "https://api.vworld.kr/ogc/wfs",
+        "https://api.vworld.kr/req/wfs",
         json=MOCK_GEOJSON,
         status=200,
     )
@@ -71,9 +71,9 @@ def test_retry_on_server_error(client, monkeypatch):
     # Suppress sleep to keep test fast
     monkeypatch.setattr("time.sleep", lambda _: None)
 
-    resp_mock.add(resp_mock.GET, "https://api.vworld.kr/ogc/wfs", status=500)
-    resp_mock.add(resp_mock.GET, "https://api.vworld.kr/ogc/wfs", status=500)
-    resp_mock.add(resp_mock.GET, "https://api.vworld.kr/ogc/wfs", json=MOCK_GEOJSON, status=200)
+    resp_mock.add(resp_mock.GET, "https://api.vworld.kr/req/wfs", status=500)
+    resp_mock.add(resp_mock.GET, "https://api.vworld.kr/req/wfs", status=500)
+    resp_mock.add(resp_mock.GET, "https://api.vworld.kr/req/wfs", json=MOCK_GEOJSON, status=200)
 
     result = client.get_parcels_by_bbox(bbox=BBOX)
     assert result is not None
@@ -86,7 +86,7 @@ def test_returns_empty_on_persistent_failure(client, monkeypatch):
     monkeypatch.setattr("time.sleep", lambda _: None)
 
     for _ in range(3):
-        resp_mock.add(resp_mock.GET, "https://api.vworld.kr/ogc/wfs", status=500)
+        resp_mock.add(resp_mock.GET, "https://api.vworld.kr/req/wfs", status=500)
 
     result = client.get_parcels_by_bbox(bbox=BBOX)
     assert result["type"] == "FeatureCollection"
@@ -98,7 +98,7 @@ def test_api_key_not_in_cache_filename(client, tmp_path):
     """Cached file name must not contain the API key."""
     resp_mock.add(
         resp_mock.GET,
-        "https://api.vworld.kr/ogc/wfs",
+        "https://api.vworld.kr/req/wfs",
         json=MOCK_GEOJSON,
         status=200,
     )
@@ -132,7 +132,7 @@ def test_get_land_use_plan_returns_feature_collection(client):
     """get_land_use_plan should also return a FeatureCollection."""
     resp_mock.add(
         resp_mock.GET,
-        "https://api.vworld.kr/ogc/wfs",
+        "https://api.vworld.kr/req/wfs",
         json=MOCK_GEOJSON,
         status=200,
     )

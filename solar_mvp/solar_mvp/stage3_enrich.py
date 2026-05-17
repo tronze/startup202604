@@ -269,9 +269,18 @@ def _add_existing_solar_density(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
 
 def _add_road_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
-    """Add dist_to_road_m and has_road_access_3m."""
-    roads_path = DATA_DIR / "roads.geojson"
-    if roads_path.exists():
+    """Add dist_to_road_m and has_road_access_3m.
+
+    Road data source (in priority order):
+      1. data/roads.geojson  (VWorld lt_l_sprd, has road_bt width column)
+      2. data/roads.shp
+    Width column detection: road_bt (VWorld) > width > road_width > 폭 > 도로폭
+    """
+    roads_path = next(
+        (DATA_DIR / f"roads{ext}" for ext in (".geojson", ".shp") if (DATA_DIR / f"roads{ext}").exists()),
+        None,
+    )
+    if roads_path is not None:
         logger.info("Loading road data from %s", roads_path)
         roads = gpd.read_file(roads_path)
         if roads.crs is None:
@@ -279,8 +288,6 @@ def _add_road_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         roads_proj = roads.to_crs(CRS_ANALYSIS)
         gdf_proj = gdf.to_crs(CRS_ANALYSIS)
 
-        # Spatial join: nearest road for each parcel boundary
-        # Use unary_union of roads for distance computation
         from shapely.ops import unary_union
         roads_union = unary_union(roads_proj.geometry)
 
@@ -289,8 +296,9 @@ def _add_road_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         gdf["dist_to_road_m"] = dist_m.values
 
         # Check width attribute if available
+        # road_bt: VWorld lt_l_sprd (실제 도로폭 m), width/road_width: 기타 소스
         width_col = None
-        for col in ("width", "road_width", "폭", "도로폭"):
+        for col in ("road_bt", "width", "road_width", "폭", "도로폭"):
             if col in roads.columns:
                 width_col = col
                 break
@@ -307,7 +315,7 @@ def _add_road_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     else:
         logger.warning(
             "REQUIRED: data/roads.geojson 없음 — dist_to_road_m 및 has_road_access_3m = NaN\n"
-            "  해결: VWorld WFS lt_c_road (VWORLD_API_KEY) 또는 OSM overpass-turbo → 해남군 도로 GeoJSON"
+            "  해결: python -m solar_mvp.stage0_download (VWORLD_API_KEY 필요)"
         )
         gdf["dist_to_road_m"] = float("nan")
         gdf["has_road_access_3m"] = pd.array([pd.NA] * len(gdf), dtype="boolean")
@@ -317,8 +325,11 @@ def _add_road_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
 def _add_building_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Add nearest_building_dist_m."""
-    buildings_path = DATA_DIR / "buildings.geojson"
-    if buildings_path.exists():
+    buildings_path = next(
+        (DATA_DIR / f"buildings{ext}" for ext in (".geojson", ".shp") if (DATA_DIR / f"buildings{ext}").exists()),
+        None,
+    )
+    if buildings_path is not None:
         logger.info("Loading building data from %s", buildings_path)
         buildings = gpd.read_file(buildings_path)
         if buildings.crs is None:
@@ -333,7 +344,7 @@ def _add_building_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     else:
         logger.warning(
             "REQUIRED: data/buildings.geojson 없음 — nearest_building_dist_m = NaN\n"
-            "  해결: VWorld WFS lt_c_lsigbldlm (건물통합정보) 또는 국가공간정보포털 건물 데이터"
+            "  해결: python -m solar_mvp.stage0_download (VWORLD_API_KEY 필요)"
         )
         gdf["nearest_building_dist_m"] = float("nan")
 
@@ -390,8 +401,12 @@ def _add_use_zone(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
 def _add_agri_promotion_zone(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Add in_agricultural_promotion_zone boolean."""
-    shp_path = DATA_DIR / "agri_promotion.shp"
-    if shp_path.exists():
+    agri_path = next(
+        (DATA_DIR / f"agri_promotion{ext}" for ext in (".geojson", ".shp") if (DATA_DIR / f"agri_promotion{ext}").exists()),
+        None,
+    )
+    shp_path = agri_path  # keep variable name for rest of function
+    if shp_path is not None:
         logger.info("Loading agricultural promotion zone from %s", shp_path)
         agri = gpd.read_file(shp_path)
         if agri.crs is None:
@@ -409,16 +424,21 @@ def _add_agri_promotion_zone(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         gdf["in_agricultural_promotion_zone"] = hit_mask
     else:
         logger.warning(
-            "Agricultural promotion zone shapefile not found at %s — defaulting to False", shp_path
+            "data/agri_promotion.geojson 없음 — in_agricultural_promotion_zone = False (낙관적)\n"
+            "  해결: python -m solar_mvp.stage0_download (VWORLD_API_KEY 필요)"
         )
         gdf["in_agricultural_promotion_zone"] = False
     return gdf
 
 
 def _add_protected_area(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
-    """Add intersects_protected_area boolean from protected/*.shp files."""
+    """Add intersects_protected_area boolean from protected/*.shp or *.geojson files."""
     protected_dir = DATA_DIR / "protected"
-    shp_files = list(protected_dir.glob("*.shp")) if protected_dir.exists() else []
+    data_files: list[Path] = []
+    if protected_dir.exists():
+        data_files = list(protected_dir.glob("*.shp")) + list(protected_dir.glob("*.geojson"))
+
+    shp_files = data_files  # keep variable name for rest of function
 
     if shp_files:
         logger.info("Loading %d protected area shapefile(s) from %s", len(shp_files), protected_dir)
@@ -444,7 +464,8 @@ def _add_protected_area(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         gdf["intersects_protected_area"] = hit_mask
     else:
         logger.warning(
-            "No protected area shapefiles found in %s — defaulting to False", protected_dir
+            "data/protected/ 없음 — intersects_protected_area = False (낙관적)\n"
+            "  해결: python -m solar_mvp.stage0_download (VWORLD_API_KEY 필요)"
         )
         gdf["intersects_protected_area"] = False
     return gdf
