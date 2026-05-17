@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   lat: number;
@@ -18,37 +18,57 @@ export default function Map3D({ lat, lon }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const scriptRef = useRef<HTMLScriptElement | null>(null);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const key = import.meta.env.VITE_VWORLD_KEY ?? '';
-
     if (!key || key === 'your_vworld_key_here') {
-      // No VWorld key — show placeholder
+      setStatus('error');
+      setErrorMsg('VITE_VWORLD_KEY가 설정되지 않았습니다');
       return;
     }
 
     const script = document.createElement('script');
     script.src = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}`;
     script.async = true;
+
+    script.onerror = () => {
+      setStatus('error');
+      setErrorMsg('VWorld 3D 스크립트 로드 실패 (네트워크 또는 API 키 오류)');
+    };
+
     script.onload = () => {
-      if (!containerRef.current || !window.vw) return;
+      if (!window.vw) {
+        setStatus('error');
+        setErrorMsg('VWorld API가 로드되지 않았습니다');
+        return;
+      }
       try {
+        // VWorld WebGL Map 초기화 — vw.Map(containerId, options)
         mapRef.current = new window.vw.Map(CONTAINER_ID, {
           apiKey: key,
           basemap: 'Satellite',
-          center: [lon, lat],
+          center: new window.vw.Point(lon, lat, 0),
           zoom: 15,
           shadows: true,
         });
-
-        mapRef.current?.on?.('load', () => {
-          const sunScript = document.createElement('script');
-          sunScript.src =
-            'https://map.vworld.kr/js/dtkmap/tool3d/libapis/sunlightrights/sunlightrights_analysis_api.js';
-          document.head.appendChild(sunScript);
-        });
-      } catch {
-        // VWorld init can fail if the container isn't ready
+        setStatus('ready');
+      } catch (e1) {
+        // fallback: vw.ol3.load 패턴 시도
+        try {
+          window.vw.ol3?.load?.({
+            mapDivId: CONTAINER_ID,
+            apiKey: key,
+            basemap: 'Satellite',
+          });
+          mapRef.current = window.vw.ol3?.map;
+          setStatus('ready');
+        } catch (e2) {
+          console.error('VWorld 3D init failed:', e1, e2);
+          setStatus('error');
+          setErrorMsg(`VWorld 3D 초기화 실패: ${(e1 as Error).message}`);
+        }
       }
     };
 
@@ -56,35 +76,42 @@ export default function Map3D({ lat, lon }: Props) {
     scriptRef.current = script;
 
     return () => {
-      if (scriptRef.current) {
+      if (scriptRef.current && document.head.contains(scriptRef.current)) {
         document.head.removeChild(scriptRef.current);
         scriptRef.current = null;
       }
     };
   }, []);
 
-  // Pan to new coordinates when they change
   useEffect(() => {
-    if (mapRef.current?.moveTo) {
-      mapRef.current.moveTo([lon, lat], 15);
+    if (!mapRef.current) return;
+    try {
+      mapRef.current.moveTo?.([lon, lat], 15);
+      mapRef.current.setCenter?.(new window.vw.Point(lon, lat, 0));
+    } catch {
+      // ignore pan errors
     }
   }, [lat, lon]);
 
-  const key = import.meta.env.VITE_VWORLD_KEY ?? '';
-  const hasKey = key && key !== 'your_vworld_key_here';
-
   return (
     <div className="w-full h-full relative">
-      <div
-        id={CONTAINER_ID}
-        ref={containerRef}
-        className="w-full h-full"
-      />
-      {!hasKey && (
+      <div id={CONTAINER_ID} ref={containerRef} className="w-full h-full" />
+
+      {status === 'loading' && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-400">
+          <div className="text-4xl mb-4 animate-spin">⚡</div>
+          <p className="text-sm">3D 지도 로딩 중...</p>
+        </div>
+      )}
+
+      {status === 'error' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-400">
           <div className="text-4xl mb-4">🌏</div>
-          <p className="text-sm">3D 지도를 사용하려면</p>
-          <p className="text-sm"><code className="bg-gray-800 px-2 py-1 rounded">VITE_VWORLD_KEY</code>를 설정하세요</p>
+          <p className="text-sm text-center px-8 text-red-400">{errorMsg}</p>
+          <p className="text-xs text-gray-600 mt-2 text-center px-8">
+            VWorld 3D는 등록된 도메인에서만 작동합니다.<br />
+            운영 환경에서 도메인을 API 키에 등록하세요.
+          </p>
         </div>
       )}
     </div>

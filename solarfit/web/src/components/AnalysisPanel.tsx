@@ -44,8 +44,9 @@ function RegFlag({ label, blocked }: { label: string; blocked: boolean }) {
 export default function AnalysisPanel({ result }: Props) {
   const { score, terrain, parcel, land_value, regulatory, substation, annual_ghi_kwh } = result;
 
+  // 토지이음: 토지이용계획 + 개발 제한 확인 (PNU 직접 조회 지원)
   const registryUrl = parcel.pnu
-    ? `https://www.iros.go.kr/pos1/jsp/minwon/secure/regd/req/R02002_001.jsp?pnu=${parcel.pnu}`
+    ? `https://www.eum.go.kr/web/ar/lu/luLandDet.do?pnu=${parcel.pnu}`
     : null;
 
   return (
@@ -123,7 +124,7 @@ export default function AnalysisPanel({ result }: Props) {
           rel="noopener noreferrer"
           className="block w-full text-center py-2 bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 text-sm"
         >
-          📋 등기부등본 조회
+          📋 토지이음 (이용계획·규제 상세)
         </a>
       )}
     </div>
