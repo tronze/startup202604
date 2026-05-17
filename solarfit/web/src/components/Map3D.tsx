@@ -29,29 +29,43 @@ export default function Map3D({ lat, lon }: Props) {
       return;
     }
 
+    // VWorld webglMapInit.js uses document.write() to inject sub-scripts in dependency order.
+    // Browsers block this from async scripts, so we collect the URLs and replay them serially.
+    const originalWrite = document['write'].bind(document);
+    const scriptQueue: string[] = [];
+
+    document['write'] = (markup: string) => {
+      const m = markup.match(/src=['"]([^'"]+)['"]/);
+      if (m) scriptQueue.push(m[1]); // collect only src URLs — no markup injection
+    };
+
     const script = document.createElement('script');
-    // host includes port (e.g. localhost:5174) — must match VWorld API key domain registration
     const domain = window.location.host || 'localhost';
-    const scriptSrc = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}&domain=${domain}`;
-    console.log('[Map3D] loading script:', scriptSrc);
-    script.src = scriptSrc;
-    script.async = true;
+    script.src = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}&domain=${domain}`;
 
     script.onerror = () => {
-      console.error('[Map3D] script load failed');
+      document['write'] = originalWrite;
       setStatus('error');
       setErrorMsg('VWorld 3D 스크립트 로드 실패 (네트워크 또는 API 키 오류)');
     };
 
-    script.onload = () => {
-      console.log('[Map3D] script loaded. window.vw =', window.vw);
-      // VWorld 3D initializes window.vw asynchronously after script load — poll up to 5s
+    script.onload = async () => {
+      document['write'] = originalWrite;
+      // Load collected sub-scripts serially to preserve dependency order
+      for (const src of scriptQueue) {
+        await new Promise<void>(resolve => {
+          const s = document.createElement('script');
+          s.src = src;
+          s.onload = s.onerror = () => resolve();
+          document.head.appendChild(s);
+        });
+      }
+
       let attempts = 0;
       const timer = setInterval(() => {
         attempts++;
         if (window.vw) {
           clearInterval(timer);
-          console.log('[Map3D] window.vw ready, keys:', Object.keys(window.vw));
           try {
             mapRef.current = new window.vw.Map(CONTAINER_ID, {
               apiKey: key,
@@ -62,7 +76,6 @@ export default function Map3D({ lat, lon }: Props) {
             });
             setStatus('ready');
           } catch (e1) {
-            console.warn('[Map3D] vw.Map failed, trying ol3:', e1);
             try {
               window.vw.ol3?.load?.({
                 mapDivId: CONTAINER_ID,
@@ -72,16 +85,15 @@ export default function Map3D({ lat, lon }: Props) {
               mapRef.current = window.vw.ol3?.map;
               setStatus('ready');
             } catch (e2) {
-              console.error('[Map3D] both init patterns failed:', e1, e2);
+              console.error('[Map3D] init failed:', e1, e2);
               setStatus('error');
               setErrorMsg(`VWorld 3D 초기화 실패: ${(e1 as Error).message}`);
             }
           }
         } else if (attempts >= 50) {
           clearInterval(timer);
-          console.error('[Map3D] window.vw still undefined after 5s');
           setStatus('error');
-          setErrorMsg('VWorld API가 로드되지 않았습니다 — 브라우저 콘솔(F12)에서 에러 메시지 확인');
+          setErrorMsg('VWorld 3D 로드 실패 — VWorld 콘솔에서 localhost:5174 도메인 등록 확인');
         }
       }, 100);
     };
