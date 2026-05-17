@@ -13,6 +13,7 @@ INDEX_HTML_TEMPLATE = """\
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="refresh" content="5">
   <title>SolarFit MVP — Local Dev Server</title>
   <style>
     body {{ font-family: sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; background: #f5f5f5; }}
@@ -60,6 +61,11 @@ INDEX_HTML_TEMPLATE = """\
 class SolarFitHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(OUTPUT_DIR), **kwargs)
+
+    def guess_type(self, path):
+        if str(path).endswith(".csv"):
+            return "text/csv; charset=utf-8"
+        return super().guess_type(path)
 
     def do_GET(self):
         if self.path == "/" or self.path == "/index.html":
