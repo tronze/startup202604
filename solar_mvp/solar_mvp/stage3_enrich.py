@@ -3,11 +3,14 @@ from __future__ import annotations
 
 import argparse
 import logging
+import warnings
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import geopandas as gpd
+
+warnings.filterwarnings("ignore", message="Geometry is in a geographic CRS", category=UserWarning)
 
 from solar_mvp.config import (
     CRS_ANALYSIS,
@@ -65,6 +68,22 @@ HAENAM_EUP_MYEON = [
 # ---------------------------------------------------------------------------
 # Helper: haversine distance (vectorised)
 # ---------------------------------------------------------------------------
+
+_HAENAM_BBOX_WGS84 = (126.25, 34.30, 126.90, 34.75)  # minx, miny, maxx, maxy
+
+
+def _gdf_within_area(gdf: gpd.GeoDataFrame, bbox: tuple, tolerance_deg: float = 1.0) -> bool:
+    """Return True if gdf has any feature within tolerance_deg of bbox."""
+    minx, miny, maxx, maxy = bbox
+    cx, cy = (minx + maxx) / 2, (miny + maxy) / 2
+    half_diag = ((maxx - minx) ** 2 + (maxy - miny) ** 2) ** 0.5 / 2
+    threshold = half_diag + tolerance_deg
+    # Use centroids in WGS84 for quick distance check
+    g = gdf.to_crs("EPSG:4326") if gdf.crs and gdf.crs.to_epsg() != 4326 else gdf
+    centroids = g.geometry.centroid
+    dists = ((centroids.x - cx) ** 2 + (centroids.y - cy) ** 2) ** 0.5
+    return bool((dists < threshold).any())
+
 
 def _haversine_km(lat1: np.ndarray, lon1: np.ndarray,
                   lat2: np.ndarray | float, lon2: np.ndarray | float) -> np.ndarray:
@@ -293,6 +312,21 @@ def _add_road_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
         # Distance from each parcel boundary (not centroid) to nearest road
         dist_m = gdf_proj.geometry.distance(roads_union)
+
+        # Sanity-check: if median distance > 5 km the road data is from a different
+        # geographic area (VWorld WFS ignores spatial filters, returns national data).
+        # Fall back to NaN so the hard filter treats it as unknown (fillna True = pass).
+        if dist_m.median() > 5000:
+            logger.warning(
+                "Road data appears to be from wrong geographic area "
+                "(median dist = %.0f m >> 5 km) — has_road_access_3m = NaN (pass-through). "
+                "Fix: replace data/roads.geojson with Haenam-area road data.",
+                dist_m.median(),
+            )
+            gdf["dist_to_road_m"] = float("nan")
+            gdf["has_road_access_3m"] = pd.array([pd.NA] * len(gdf), dtype="boolean")
+            return gdf
+
         gdf["dist_to_road_m"] = dist_m.values
 
         # Check width attribute if available
@@ -340,6 +374,17 @@ def _add_building_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         from shapely.ops import unary_union
         buildings_union = unary_union(buildings_proj.geometry)
         dist_m = gdf_proj.geometry.distance(buildings_union)
+
+        # Same sanity-check as for roads: VWorld WFS may return national data.
+        if dist_m.median() > 5000:
+            logger.warning(
+                "Building data appears to be from wrong geographic area "
+                "(median dist = %.0f m) — nearest_building_dist_m = NaN (pass-through).",
+                dist_m.median(),
+            )
+            gdf["nearest_building_dist_m"] = float("nan")
+            return gdf
+
         gdf["nearest_building_dist_m"] = dist_m.values
     else:
         logger.warning(
@@ -411,6 +456,15 @@ def _add_agri_promotion_zone(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         agri = gpd.read_file(shp_path)
         if agri.crs is None:
             agri = agri.set_crs(CRS_WGS84)
+
+        if not _gdf_within_area(agri, _HAENAM_BBOX_WGS84):
+            logger.warning(
+                "Agricultural promotion zone data has no features near Haenam "
+                "(data likely from wrong geographic area) — in_agricultural_promotion_zone = False (pass-through)."
+            )
+            gdf["in_agricultural_promotion_zone"] = False
+            return gdf
+
         agri_proj = agri.to_crs(CRS_ANALYSIS)
         gdf_proj = gdf.to_crs(CRS_ANALYSIS)[["geometry"]].copy()
         gdf_proj["_idx"] = range(len(gdf_proj))
@@ -451,6 +505,11 @@ def _add_protected_area(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
                 pa = gpd.read_file(shp)
                 if pa.crs is None:
                     pa = pa.set_crs(CRS_WGS84)
+                if not _gdf_within_area(pa, _HAENAM_BBOX_WGS84):
+                    logger.warning(
+                        "Protected area file %s has no features near Haenam — skipping (data quality guard).", shp.name
+                    )
+                    continue
                 pa_proj = pa.to_crs(CRS_ANALYSIS)
                 joined = gpd.sjoin(gdf_proj, pa_proj[["geometry"]], how="left", predicate="intersects")
                 hit_idx |= set(joined.loc[joined["index_right"].notna(), "_idx"].values)

@@ -1,14 +1,22 @@
-"""Stage 2: Compute terrain features (slope, aspect, elevation) from 5m DEM."""
+"""Stage 2: Compute terrain features (slope, aspect, elevation).
+
+Primary path: local DEM raster (data/dem/haenam_slope.tif).
+Fallback:     OpenTopoData SRTM 90m API (free, no auth required).
+"""
 from __future__ import annotations
 
 import argparse
 import logging
 import time
+import warnings
 from pathlib import Path
 from typing import Optional
 
+warnings.filterwarnings("ignore", message="Geometry is in a geographic CRS", category=UserWarning)
+
 import numpy as np
 import geopandas as gpd
+import requests
 import rasterio
 from rasterio.mask import mask as rasterio_mask
 from rasterio.features import rasterize
@@ -17,6 +25,7 @@ from tqdm import tqdm
 
 from solar_mvp.config import (
     CRS_ANALYSIS,
+    CRS_WGS84,
     DATA_DIR,
     OUTPUT_DIR,
 )
@@ -27,6 +36,143 @@ DEM_PATH = DATA_DIR / "dem" / "haenam_slope.tif"
 
 # Threshold for switching to vectorized path
 _VECTORIZED_THRESHOLD = 10_000
+
+_OPENTOPODATA_URL = "https://api.opentopodata.org/v1/srtm90m"
+_BATCH_SIZE = 100  # max locations per request
+
+
+def _fetch_elevation_api(
+    lats: list[float],
+    lons: list[float],
+) -> list[Optional[float]]:
+    """Batch-fetch SRTM 90m elevation for (lat, lon) pairs via OpenTopoData."""
+    elevations: list[Optional[float]] = [None] * len(lats)
+    pairs = list(zip(lats, lons))
+
+    for batch_start in range(0, len(pairs), _BATCH_SIZE):
+        batch = pairs[batch_start : batch_start + _BATCH_SIZE]
+        loc_str = "|".join(f"{lat},{lon}" for lat, lon in batch)
+        try:
+            r = requests.get(
+                _OPENTOPODATA_URL,
+                params={"locations": loc_str},
+                timeout=30,
+            )
+            if not r.ok:
+                logger.warning("OpenTopoData HTTP %d — batch skipped", r.status_code)
+                continue
+            results = r.json().get("results", [])
+            for j, res in enumerate(results):
+                elevations[batch_start + j] = res.get("elevation")
+        except Exception as exc:
+            logger.warning("OpenTopoData request failed: %s", exc)
+        time.sleep(0.5)  # gentle rate-limiting
+
+    return elevations
+
+
+def _terrain_from_elevation_grid(
+    centroids_wgs: gpd.GeoSeries,
+    elevations: list[Optional[float]],
+    cell_m: float = 1000.0,
+) -> dict[str, list]:
+    """
+    Derive slope, elevation, and aspect from a list of SRTM elevations.
+
+    Reconstructs the 2D grid using projected (EPSG:5179) centroids to
+    ensure uniform spacing.  Uses numpy.gradient on the 2D elevation grid.
+    """
+    n = len(centroids_wgs)
+
+    # Project centroids to metric CRS for uniform grid detection
+    centroids_proj = centroids_wgs.to_crs(CRS_ANALYSIS)
+    px = centroids_proj.x.values
+    py = centroids_proj.y.values
+
+    # Round to nearest cell_m to recover grid indices
+    ix_raw = np.round(px / cell_m).astype(int)
+    iy_raw = np.round(py / cell_m).astype(int)
+
+    ix_vals = np.unique(ix_raw)
+    iy_vals = np.unique(iy_raw)
+    nx = len(ix_vals)
+    ny = len(iy_vals)
+
+    ix_to_col = {v: j for j, v in enumerate(ix_vals)}
+    iy_to_row = {v: j for j, v in enumerate(iy_vals)}
+
+    # Build 2D elevation grid
+    elev_grid = np.full((ny, nx), np.nan)
+    cell_to_grid: dict[int, tuple[int, int]] = {}
+
+    for i in range(n):
+        if elevations[i] is None:
+            continue
+        col = ix_to_col.get(ix_raw[i])
+        row = iy_to_row.get(iy_raw[i])
+        if col is None or row is None:
+            continue
+        elev_grid[row, col] = float(elevations[i])
+        cell_to_grid[i] = (row, col)
+
+    # Compute spatial gradients — both axes in metres (uniform grid)
+    if ny > 1 and nx > 1:
+        dz_dy, dz_dx = np.gradient(elev_grid, cell_m, cell_m)
+    elif ny > 1:
+        dz_dy = np.gradient(elev_grid, cell_m, axis=0)
+        dz_dx = np.zeros_like(elev_grid)
+    elif nx > 1:
+        dz_dy = np.zeros_like(elev_grid)
+        dz_dx = np.gradient(elev_grid, cell_m, axis=1)
+    else:
+        dz_dy = np.zeros_like(elev_grid)
+        dz_dx = np.zeros_like(elev_grid)
+
+    slope_deg_grid = np.degrees(np.arctan(np.sqrt(dz_dx**2 + dz_dy**2)))
+    aspect_deg_grid = (np.degrees(np.arctan2(-dz_dx, dz_dy)) + 360.0) % 360.0
+
+    # Map grid results back to per-cell lists
+    slope_mean_list, slope_std_list, elev_list = [], [], []
+    aspect_south_list, aspect_class_list = [], []
+
+    for i in range(n):
+        if i not in cell_to_grid or elevations[i] is None:
+            slope_mean_list.append(np.nan)
+            slope_std_list.append(np.nan)
+            elev_list.append(np.nan)
+            aspect_south_list.append(np.nan)
+            aspect_class_list.append("")
+            continue
+
+        row, col = cell_to_grid[i]
+        s = float(slope_deg_grid[row, col])
+        e = float(elev_grid[row, col])
+        a = float(aspect_deg_grid[row, col])
+
+        slope_mean_list.append(s)
+        slope_std_list.append(0.0)
+        elev_list.append(e)
+
+        if 135 <= a < 225:
+            aspect_south_list.append(1)
+            aspect_class_list.append("남향")
+        elif 45 <= a < 135:
+            aspect_south_list.append(0)
+            aspect_class_list.append("동향")
+        elif 225 <= a < 315:
+            aspect_south_list.append(0)
+            aspect_class_list.append("서향")
+        else:
+            aspect_south_list.append(0)
+            aspect_class_list.append("북향")
+
+    return {
+        "slope_mean": slope_mean_list,
+        "slope_std": slope_std_list,
+        "elevation_m": elev_list,
+        "aspect_south": aspect_south_list,
+        "aspect_class": aspect_class_list,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -430,15 +576,30 @@ def process_geometry(force: bool = False) -> gpd.GeoDataFrame:
     dem_path = DEM_PATH
     if not dem_path.exists():
         logger.warning(
-            "DEM file not found at %s — terrain features will be NaN.  "
-            "Provide the file to enable full processing.",
+            "DEM file not found at %s — attempting OpenTopoData SRTM 90m fallback.",
             dem_path,
         )
-        for col in ("slope_mean", "slope_std", "elevation_m"):
-            parcels[col] = np.nan
-        for col in ("aspect_south",):
-            parcels[col] = np.nan
-        parcels["aspect_class"] = ""
+        centroids_wgs = parcels.to_crs(CRS_WGS84).geometry.centroid
+        lats = centroids_wgs.y.tolist()
+        lons = centroids_wgs.x.tolist()
+        logger.info(
+            "Fetching SRTM elevation for %d cells (%d batches) via OpenTopoData …",
+            len(lats),
+            (len(lats) + _BATCH_SIZE - 1) // _BATCH_SIZE,
+        )
+        elevations = _fetch_elevation_api(lats, lons)
+        n_ok = sum(1 for e in elevations if e is not None)
+        logger.info("Elevation fetched: %d/%d cells", n_ok, len(elevations))
+
+        if n_ok > 0:
+            terrain_cols = _terrain_from_elevation_grid(centroids_wgs, elevations)
+            for col, values in terrain_cols.items():
+                parcels[col] = values
+        else:
+            logger.warning("OpenTopoData fallback failed — terrain features will be NaN.")
+            for col in ("slope_mean", "slope_std", "elevation_m", "aspect_south"):
+                parcels[col] = np.nan
+            parcels["aspect_class"] = ""
     else:
         parcels = enrich_terrain(parcels, dem_path)
 

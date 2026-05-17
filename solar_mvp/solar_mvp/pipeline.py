@@ -170,7 +170,7 @@ Examples:
         print()
         raise SystemExit(0)
 
-    start = args.stage if args.stage else args.start_from
-    end = args.stage if args.stage else args.end_at
+    start = args.stage if args.stage is not None else args.start_from
+    end = args.stage if args.stage is not None else args.end_at
 
     run_pipeline(start_from=start, end_at=end, force=args.force)

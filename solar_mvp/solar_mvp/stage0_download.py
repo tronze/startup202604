@@ -116,6 +116,7 @@ def _wfs_get_features(layer: str, cql: str, api_key: str, start_index: int = 0) 
         "TYPENAME": layer,
         "CQL_FILTER": cql,
         "outputFormat": "application/json",
+        "SRSNAME": "EPSG:4326",
         "COUNT": "1000",
         "STARTINDEX": str(start_index),
         "key": api_key,

@@ -1,11 +1,14 @@
 """Stage 4.6: ML weight tuning with leakage guards and spatial block CV."""
 import logging
 import pickle
+import warnings
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import geopandas as gpd
+
+warnings.filterwarnings("ignore", message="Geometry is in a geographic CRS", category=UserWarning)
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
