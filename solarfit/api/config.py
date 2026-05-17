@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 VWORLD_API_KEY: str = os.getenv("VWORLD_API_KEY", "")
+VWORLD_DOMAIN: str = os.getenv("VWORLD_DOMAIN", "localhost")
 
 VWORLD_DATA_URL = "https://api.vworld.kr/req/data"
 VWORLD_SEARCH_URL = "https://api.vworld.kr/req/search"

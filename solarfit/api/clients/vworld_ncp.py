@@ -1,7 +1,7 @@
 """VWorld 국가중점데이터 API 클라이언트 — PNU 기반 속성 조회."""
 import httpx
 from typing import Optional
-from api.config import VWORLD_API_KEY, VWORLD_DATA_URL
+from api.config import VWORLD_API_KEY, VWORLD_DATA_URL, VWORLD_DOMAIN
 
 
 def _ncp_get(service_id: str, pnu: str) -> list[dict]:
@@ -13,6 +13,7 @@ def _ncp_get(service_id: str, pnu: str) -> list[dict]:
         "request": "GetFeature",
         "data": service_id,
         "key": VWORLD_API_KEY,
+        "domain": VWORLD_DOMAIN,
         "format": "json",
         "size": "1",
         "page": "1",

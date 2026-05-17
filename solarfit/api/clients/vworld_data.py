@@ -1,7 +1,28 @@
 """VWorld Data API 2.0 클라이언트 — geomFilter=BOX() 방식."""
+import re
 import httpx
 from typing import Optional
-from api.config import VWORLD_API_KEY, VWORLD_DATA_URL
+from api.config import VWORLD_API_KEY, VWORLD_DATA_URL, VWORLD_DOMAIN
+
+_JIMOK: dict[str, str] = {
+    "전": "전", "답": "답", "과": "과수원", "목": "목장용지",
+    "임": "임야", "광": "광천지", "염": "염전", "대": "대지",
+    "공": "공장용지", "학": "학교용지", "주": "주차장",
+    "유": "유원지", "종": "종교용지", "사": "사적지",
+    "묘": "묘지", "잡": "잡종지", "도": "도로",
+    "철": "철도용지", "제": "제방", "하": "하천",
+    "구": "구거", "양": "양어장", "수": "수도용지",
+    "공원": "공원", "체": "체육용지",
+}
+
+
+def _parse_jimok(jibun: str) -> tuple[str | None, str | None]:
+    """'161대' → ('대', '대지') 형태로 지목코드/이름 파싱."""
+    m = re.search(r'([가-힣]+)$', jibun or '')
+    if not m:
+        return None, None
+    code = m.group(1)
+    return code, _JIMOK.get(code, code)
 
 _DELTA = 0.001  # ~111m bbox half-width
 
@@ -18,6 +39,7 @@ def _get(data: str, geom_filter: str, attr_filter: str = "", size: int = 5) -> l
         "request": "GetFeature",
         "data": data,
         "key": VWORLD_API_KEY,
+        "domain": VWORLD_DOMAIN,
         "format": "json",
         "size": str(size),
         "page": "1",
@@ -48,12 +70,13 @@ def fetch_parcel_at(lat: float, lon: float) -> Optional[dict]:
     if not features:
         return None
     props = features[0].get("properties", {})
+    jimok_code, jimok_name = _parse_jimok(props.get("jibun", ""))
     return {
         "pnu": props.get("pnu"),
-        "jimok": props.get("jmcode") or props.get("jimok") or props.get("lndcgr_cd"),
-        "jimok_name": props.get("jmcode_nm") or props.get("lndcgr_nm"),
-        "area_m2": props.get("area") or props.get("lndar"),
-        "address": props.get("addr") or props.get("lnm_addrss"),
+        "jimok": jimok_code,
+        "jimok_name": jimok_name,
+        "area_m2": None,  # LP_PA_CBND_BUBUN 레이어에 면적 필드 없음
+        "address": props.get("addr"),
     }
 
 
