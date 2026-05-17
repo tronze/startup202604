@@ -89,7 +89,8 @@ def main():
         print("    (출력 파일 없음)")
 
     # Open browser then start server
-    url = f"http://localhost:{args.port}"
+    dashboard = OUTPUT_DIR / "dashboard.html"
+    url = f"http://localhost:{args.port}" + ("/dashboard.html" if dashboard.exists() else "")
     if not args.no_open:
         print(f"\n  브라우저 열기: {url}")
         time.sleep(0.5)

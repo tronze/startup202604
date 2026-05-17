@@ -69,7 +69,13 @@ class SolarFitHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == "/" or self.path == "/index.html":
-            self._serve_index()
+            dashboard = OUTPUT_DIR / "dashboard.html"
+            if dashboard.exists():
+                self.send_response(302)
+                self.send_header("Location", "/dashboard.html")
+                self.end_headers()
+            else:
+                self._serve_index()
         else:
             # Serve files from output/ directly
             super().do_GET()
@@ -138,8 +144,10 @@ def serve(port: int = DEFAULT_PORT) -> None:
     """Start the local development server."""
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", port), SolarFitHandler) as httpd:
+        dashboard = OUTPUT_DIR / "dashboard.html"
+        landing = f"/dashboard.html" if dashboard.exists() else "/"
         print(f"\n  SolarFit MVP dev server running at:")
-        print(f"  -> http://localhost:{port}")
+        print(f"  -> http://localhost:{port}{landing}")
         print(f"\n  Serving output files from: {OUTPUT_DIR}")
         print(f"  Press Ctrl+C to stop.\n")
         try:
