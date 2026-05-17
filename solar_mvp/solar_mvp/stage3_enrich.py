@@ -124,11 +124,11 @@ def _add_substation_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Add dist_to_substation_km and substation_remaining_kw.
 
     Data source priority (via kepco_grid.fetch_substations):
-      1. VWorld WFS lp_pa_elec_ltfac
-      2. data.go.kr 변전소 현황
-      3. synthetic fallback (4 Haenam substations)
+      1. data/substations.csv  (수동 CSV — 가장 우선)
+      2. VWorld WFS lp_pa_elec_ltfac  (VWORLD_API_KEY 필요)
+      3. data.go.kr 변전소 현황  (DATA_GO_KR_KEY 필요)
+      API 모두 실패 시 NaN (경고 출력).
     """
-    # Local CSV override (manual data takes precedence over APIs)
     sub_csv = DATA_DIR / "substations.csv"
     if sub_csv.exists():
         logger.info("Loading substations from local %s (overrides API)", sub_csv)
@@ -136,10 +136,15 @@ def _add_substation_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         if {"lat", "lon", "remaining_kw"}.issubset(df_sub.columns):
             sub_df = df_sub[["lat", "lon", "remaining_kw"]]
         else:
-            logger.warning("substations.csv missing columns — falling back to API/synthetic")
+            logger.warning("substations.csv missing required columns — falling back to API")
             sub_df = fetch_substations()
     else:
         sub_df = fetch_substations()
+
+    if sub_df.empty:
+        gdf["dist_to_substation_km"] = float("nan")
+        gdf["substation_remaining_kw"] = float("nan")
+        return gdf
 
     sub_lats = sub_df["lat"].values.astype(float)
     sub_lons = sub_df["lon"].values.astype(float)
@@ -301,10 +306,11 @@ def _add_road_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
             gdf["has_road_access_3m"] = dist_m.values <= 50.0
     else:
         logger.warning(
-            "Road data not found at %s — setting dist_to_road_m=0 (optimistic fallback)", roads_path
+            "REQUIRED: data/roads.geojson 없음 — dist_to_road_m 및 has_road_access_3m = NaN\n"
+            "  해결: VWorld WFS lt_c_road (VWORLD_API_KEY) 또는 OSM overpass-turbo → 해남군 도로 GeoJSON"
         )
-        gdf["dist_to_road_m"] = 0.0
-        gdf["has_road_access_3m"] = True
+        gdf["dist_to_road_m"] = float("nan")
+        gdf["has_road_access_3m"] = pd.array([pd.NA] * len(gdf), dtype="boolean")
 
     return gdf
 
@@ -325,12 +331,11 @@ def _add_building_features(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         dist_m = gdf_proj.geometry.distance(buildings_union)
         gdf["nearest_building_dist_m"] = dist_m.values
     else:
-        fallback = float(HAENAM_RESIDENTIAL_BUFFER_M + 1)  # 301 m — passes the filter
         logger.warning(
-            "Building data not found at %s — setting nearest_building_dist_m=%.0f (optimistic fallback)",
-            buildings_path, fallback,
+            "REQUIRED: data/buildings.geojson 없음 — nearest_building_dist_m = NaN\n"
+            "  해결: VWorld WFS lt_c_lsigbldlm (건물통합정보) 또는 국가공간정보포털 건물 데이터"
         )
-        gdf["nearest_building_dist_m"] = fallback
+        gdf["nearest_building_dist_m"] = float("nan")
 
     return gdf
 

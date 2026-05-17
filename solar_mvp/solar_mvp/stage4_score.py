@@ -191,6 +191,12 @@ def compute_score_rule(parcels: pd.DataFrame) -> pd.Series:
             continue
 
         col = passing[feature].astype(float)
+        if col.isna().all():
+            logger.warning("Feature %s is all NaN — skipping (see data_requirements.py)", feature)
+            continue
+        if col.isna().any():
+            col = col.fillna(col.median())
+
         col_min = col.min()
         col_max = col.max()
 

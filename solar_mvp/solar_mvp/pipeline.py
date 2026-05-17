@@ -147,8 +147,17 @@ Examples:
         "--list-stages", action="store_true",
         help="List available stages and exit"
     )
+    parser.add_argument(
+        "--check-data", action="store_true",
+        help="Show data requirements status and exit"
+    )
 
     args = parser.parse_args()
+
+    if args.check_data:
+        from solar_mvp.data_requirements import print_requirements
+        print_requirements()
+        raise SystemExit(0)
 
     if args.list_stages:
         print("\nAvailable stages:")

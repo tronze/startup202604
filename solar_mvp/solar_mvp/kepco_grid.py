@@ -1,11 +1,9 @@
 """한전/계통 데이터 수집 — VWorld 전력시설 WFS + data.go.kr 태양광/변전소 현황.
 
 우선순위:
-  변전소: VWorld lp_pa_elec_ltfac → data.go.kr → synthetic fallback
+  변전소: data/substations.csv → VWorld lp_pa_elec_ltfac → data.go.kr → 빈 DataFrame (NaN)
   전력선: VWorld lt_l_clfla → None (fallback: road distance proxy)
-  태양광: data.go.kr SOLAR_PLANT_SERVICE_ID → empty DataFrame fallback
-
-API 키 없이도 synthetic fallback으로 파이프라인 전체 실행 가능.
+  태양광: data.go.kr SOLAR_PLANT_SERVICE_ID → empty DataFrame fallback (0 kW)
 """
 from __future__ import annotations
 
@@ -52,17 +50,6 @@ _VOLTAGE_CAPACITY_KW: dict[str, int] = {
     "22.9kV":  5_000,
 }
 _REMAINING_RATIO = 0.30  # 전체 용량의 30%를 잔여용량으로 가정 (보수적)
-
-# ---------------------------------------------------------------------------
-# Synthetic fallback (API 키 없을 때)
-# ---------------------------------------------------------------------------
-
-SYNTHETIC_SUBSTATIONS: list[dict] = [
-    {"name": "해남변전소",  "lat": 34.5745, "lon": 126.5991, "remaining_kw": 15000, "voltage": "154kV"},
-    {"name": "화원변전소",  "lat": 34.6327, "lon": 126.5109, "remaining_kw":  8000, "voltage": "154kV"},
-    {"name": "북평변전소",  "lat": 34.4897, "lon": 126.7092, "remaining_kw":  5000, "voltage": "22.9kV"},
-    {"name": "완도변전소",  "lat": 34.3389, "lon": 126.7540, "remaining_kw": 20000, "voltage": "154kV"},
-]
 
 # ---------------------------------------------------------------------------
 # HTTP helpers
@@ -219,10 +206,16 @@ def fetch_substations(
         df = _fetch_substations_data_go_kr(data_go_key)
         if df is not None and len(df) > 0:
             return df
-        logger.warning("data.go.kr substation fetch returned nothing — using synthetic fallback")
+        logger.warning("data.go.kr substation fetch returned nothing")
 
-    logger.info("Using synthetic substation data (4 stations, Haenam-gun)")
-    return pd.DataFrame(SYNTHETIC_SUBSTATIONS)
+    logger.warning(
+        "REQUIRED: 변전소 데이터 없음 — dist_to_substation_km 및 substation_remaining_kw = NaN\n"
+        "  해결 방법:\n"
+        "    1) export VWORLD_API_KEY=...  (VWorld WFS lp_pa_elec_ltfac)\n"
+        "    2) export DATA_GO_KR_KEY=...  (data.go.kr 한전 변전소 현황)\n"
+        "    3) data/substations.csv 직접 작성  (name,lat,lon,remaining_kw,voltage)"
+    )
+    return pd.DataFrame(columns=["name", "lat", "lon", "remaining_kw", "voltage"])
 
 
 # ---------------------------------------------------------------------------
