@@ -9,14 +9,13 @@ import geopandas as gpd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_auc_score, average_precision_score
+from sklearn.metrics import average_precision_score
 from sklearn.impute import SimpleImputer
 from imblearn.over_sampling import SMOTE
 
 from solar_mvp.config import (
     FEATURES_V2, FORBIDDEN_FEATURES, OUTPUT_DIR,
-    N_SPATIAL_FOLDS, TRAIN_YEAR_MAX, TEST_YEAR_MIN,
-    SPATIAL_FOLD_COLUMN, ENSEMBLE_RULE_WEIGHT, ENSEMBLE_ML_WEIGHT,
+    N_SPATIAL_FOLDS, SPATIAL_FOLD_COLUMN, ENSEMBLE_RULE_WEIGHT, ENSEMBLE_ML_WEIGHT,
 )
 from solar_mvp.models import LOGISTIC_REGRESSION, XGBOOST, get_lr_weights
 
@@ -123,9 +122,7 @@ def train_and_evaluate(parcels: pd.DataFrame) -> dict:
             lr_r100.append(recall_at_k(y_val, lr_prob, min(100, len(y_val))))
 
         # XGBoost
-        scale_pw = (y_tr == 0).sum() / max((y_tr == 1).sum(), 1)
         xgb_cfg = copy.deepcopy(XGBOOST.model)
-        xgb_cfg.set_params(scale_pos_weight=scale_pw)
         xgb_cfg.fit(X_tr_res, y_tr_res)
         xgb_prob = xgb_cfg.predict_proba(X_val)[:, 1]
         if y_val.sum() > 0:
@@ -141,9 +138,7 @@ def train_and_evaluate(parcels: pd.DataFrame) -> dict:
         X_res, y_res = X_imp, y_all.values
     logreg_final.fit(X_res, y_res)
 
-    scale_pw_all = (y_all == 0).sum() / max(n_pos, 1)
     xgb_final = copy.deepcopy(XGBOOST.model)
-    xgb_final.set_params(scale_pos_weight=scale_pw_all)
     xgb_final.fit(X_res, y_res)
 
     weights_ml = get_lr_weights(logreg_final, FEATURES_V2)
@@ -196,26 +191,14 @@ def add_ensemble_score(parcels: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
     def _norm(s: pd.Series) -> pd.Series:
         lo, hi = s.min(), s.max()
-        if hi == lo:
+        if pd.isna(lo) or hi == lo:
             return pd.Series(0.5, index=s.index)
         return (s - lo) / (hi - lo)
 
-    rule_non_nan = parcels["score_rule"].dropna()
-    ml_non_nan = parcels["score_ml"].dropna()
+    rule_norm = _norm(parcels["score_rule"])
+    ml_norm = _norm(parcels["score_ml"])
 
-    rule_norm_vals = _norm(rule_non_nan)
-    ml_norm_vals = _norm(ml_non_nan)
-
-    rule_norm = parcels["score_rule"].map(rule_norm_vals).where(
-        parcels["score_rule"].notna(), other=np.nan
-    )
-    ml_norm = parcels["score_ml"].map(ml_norm_vals).where(
-        parcels["score_ml"].notna(), other=np.nan
-    )
-
-    parcels["score_ensemble"] = (
-        ENSEMBLE_RULE_WEIGHT * rule_norm + ENSEMBLE_ML_WEIGHT * ml_norm
-    )
+    parcels["score_ensemble"] = ENSEMBLE_RULE_WEIGHT * rule_norm + ENSEMBLE_ML_WEIGHT * ml_norm
     return parcels
 
 
