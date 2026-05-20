@@ -16,7 +16,8 @@ declare global {
   }
 }
 
-const CONTAINER_ID = 'vworld3d-container';
+// Static fallback — actual ID is generated per-mount via useRef below
+const CONTAINER_ID_PREFIX = 'vworld3d';
 
 function toCameraPosition(lon: number, lat: number, height = 2000) {
   if (!window.vw?.CameraPosition || !window.vw?.CoordZ || !window.vw?.Direction) {
@@ -134,6 +135,8 @@ function loadVWorld3D(key: string) {
 }
 
 export default function Map3D({ lat, lon }: Props) {
+  // Unique ID per mount — prevents readonly property error on StrictMode double-mount
+  const containerId = useRef(`${CONTAINER_ID_PREFIX}-${Math.random().toString(36).slice(2)}`);
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -188,16 +191,17 @@ export default function Map3D({ lat, lon }: Props) {
     }
 
     try {
+      const cid = containerId.current;
       const initialPosition = toCameraPosition(lon, lat);
       const map = new window.vw.Map();
 
       map.setOption({
-        mapId: CONTAINER_ID,
+        mapId: cid,
         initPosition: initialPosition,
         logo: false,
         navigation: true,
       });
-      map.setMapId(CONTAINER_ID);
+      map.setMapId(cid);
       if (initialPosition) {
         map.setInitPosition(initialPosition);
       }
@@ -215,7 +219,7 @@ export default function Map3D({ lat, lon }: Props) {
 
   return (
     <div className="w-full h-full relative">
-      <div id={CONTAINER_ID} ref={containerRef} className="w-full h-full" />
+      <div id={containerId.current} ref={containerRef} className="w-full h-full" />
 
       {status === 'loading' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-400 pointer-events-none">
