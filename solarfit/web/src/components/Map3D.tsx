@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useVWorldLoader } from '../hooks/useVWorldLoader';
 
 interface Props {
   lat: number;
@@ -8,227 +9,87 @@ interface Props {
 declare global {
   interface Window {
     vw: any;
-    ws3d: any;
-    Cesium: any;
-    $: any;
-    jQuery: any;
-    __vworld3dLoader?: Promise<void>;
   }
 }
 
-// Static fallback — actual ID is generated per-mount via useRef below
-const CONTAINER_ID_PREFIX = 'vworld3d';
-
-function toCameraPosition(lon: number, lat: number, height = 2000) {
-  if (!window.vw?.CameraPosition || !window.vw?.CoordZ || !window.vw?.Direction) {
+function makePosition(lon: number, lat: number) {
+  if (!window.vw?.CameraPosition) return null;
+  try {
+    return new window.vw.CameraPosition(
+      new window.vw.CoordZ(lon, lat, 500),
+      new window.vw.Direction(0, -80, 0)
+    );
+  } catch {
     return null;
   }
-
-  return new window.vw.CameraPosition(
-    new window.vw.CoordZ(lon, lat, height),
-    new window.vw.Direction(0, -80, 0),
-  );
-}
-
-function moveCamera(map: any, lon: number, lat: number) {
-  if (!map) return;
-  try {
-    const position = toCameraPosition(lon, lat);
-    if (position) {
-      map.moveTo?.(position);
-    }
-  } catch {
-    // ignore camera errors
-  }
-}
-
-function loadScript(src: string) {
-  return new Promise<void>((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>(`script[src="${src}"]`);
-    if (existing) {
-      resolve();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error(`스크립트 로드 실패: ${src}`));
-    document.head.appendChild(script);
-  });
-}
-
-async function loadJQuery() {
-  if (window.$ && window.jQuery) {
-    return;
-  }
-
-  await loadScript('https://code.jquery.com/jquery-3.7.1.min.js');
-}
-
-function loadVWorld3D(key: string) {
-  if (window.vw?.Map) {
-    return Promise.resolve();
-  }
-
-  if (window.__vworld3dLoader) {
-    return window.__vworld3dLoader;
-  }
-
-  window.__vworld3dLoader = new Promise<void>((resolve, reject) => {
-    const originalWrite = document.write.bind(document);
-    const scriptQueue: string[] = [];
-
-    document.write = (markup: string) => {
-      const matches = markup.matchAll(/<script[^>]+src=["']([^"']+)["'][^>]*>/gi);
-      for (const match of matches) {
-        scriptQueue.push(new URL(match[1], 'https://map.vworld.kr').href);
-      }
-    };
-
-    const restoreWrite = () => {
-      document.write = originalWrite;
-    };
-
-    const scriptSrc = `https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=${encodeURIComponent(key)}`;
-    const script = document.createElement('script');
-    script.src = scriptSrc;
-
-    script.onerror = () => {
-      restoreWrite();
-      window.__vworld3dLoader = undefined;
-      reject(new Error('VWorld 스크립트 로드 실패 (네트워크 또는 API 키 오류)'));
-    };
-
-    script.onload = async () => {
-      restoreWrite();
-
-      try {
-        for (const src of scriptQueue) {
-          await loadScript(src);
-        }
-
-        if (window.vw?.Map) {
-          resolve();
-        } else {
-          window.__vworld3dLoader = undefined;
-          reject(new Error('VWorld 3D API가 초기화되지 않았습니다'));
-        }
-      } catch (error) {
-        window.__vworld3dLoader = undefined;
-        reject(error);
-      }
-    };
-
-    loadJQuery()
-      .then(() => {
-        document.head.appendChild(script);
-      })
-      .catch((error: Error) => {
-        restoreWrite();
-        window.__vworld3dLoader = undefined;
-        reject(error);
-      });
-  });
-
-  return window.__vworld3dLoader;
 }
 
 export default function Map3D({ lat, lon }: Props) {
-  // Unique ID per mount — prevents readonly property error on StrictMode double-mount
-  const containerId = useRef(`${CONTAINER_ID_PREFIX}-${Math.random().toString(36).slice(2)}`);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [mapError, setMapError] = useState<string | null>(null);
+  const loaderState = useVWorldLoader();
 
-  // Camera update when coordinates change after map is ready
+  // Initialize map when VWorld scripts are ready
   useEffect(() => {
-    if (mapRef.current) {
-      moveCamera(mapRef.current, lon, lat);
-    }
-  }, [lat, lon]);
+    if (loaderState !== 'ready' || !wrapperRef.current) return;
 
-  // One-time initialization
-  useEffect(() => {
-    const key = import.meta.env.VITE_VWORLD_KEY ?? '';
-    if (!key || key === 'your_vworld_key_here') {
-      setStatus('error');
-      setErrorMsg('VITE_VWORLD_KEY가 설정되지 않았습니다');
-      return;
-    }
-
-    let cancelled = false;
-
-    loadVWorld3D(key)
-      .then(() => {
-        if (!cancelled) {
-          initMap(lon, lat);
-        }
-      })
-      .catch((error: Error) => {
-        if (!cancelled) {
-          setStatus('error');
-          setErrorMsg(error.message);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-      if (mapRef.current?.destroy) {
-        try { mapRef.current.destroy(); } catch { /* ignore */ }
-      }
-      mapRef.current = null;
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function initMap(lon: number, lat: number) {
-    if (!containerRef.current || !window.vw?.Map) {
-      setStatus('error');
-      setErrorMsg('VWorld 3D 컨테이너를 찾을 수 없습니다');
-      return;
-    }
+    // Create a fresh container div each time this effect runs.
+    // This is the key fix: JSX에 div를 두면 StrictMode 재실행 시 같은 DOM 노드에
+    // vw.Map이 두 번 초기화되어 readonly 에러가 발생함.
+    const container = document.createElement('div');
+    container.style.cssText = 'width:100%;height:100%';
+    container.id = `vworld3d-${Math.random().toString(36).slice(2)}`;
+    wrapperRef.current.appendChild(container);
 
     try {
-      const cid = containerId.current;
-      const initialPosition = toCameraPosition(lon, lat);
+      const pos = makePosition(lon, lat);
       const map = new window.vw.Map();
-
-      map.setOption({
-        mapId: cid,
-        initPosition: initialPosition,
-        logo: false,
-        navigation: true,
-      });
-      map.setMapId(cid);
-      if (initialPosition) {
-        map.setInitPosition(initialPosition);
-      }
+      map.setOption({ mapId: container.id, initPosition: pos, logo: false, navigation: true });
+      map.setMapId(container.id);
+      if (pos) map.setInitPosition(pos);
       map.setLogoVisible?.(false);
       map.setNavigationZoomVisible?.(false);
       map.start();
-
       mapRef.current = map;
-      setStatus('ready');
     } catch (e) {
-      setStatus('error');
-      setErrorMsg(`VWorld 3D 초기화 실패: ${(e as Error).message}`);
+      setMapError((e as Error).message);
+      container.remove();
     }
-  }
+
+    return () => {
+      if (mapRef.current?.destroy) {
+        try { mapRef.current.destroy(); } catch { /* ignore */ }
+        mapRef.current = null;
+      }
+      container.remove();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaderState]);
+
+  // Move camera when coordinates change
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const pos = makePosition(lon, lat);
+    if (pos) try { mapRef.current.moveTo?.(pos); } catch { /* ignore */ }
+  }, [lat, lon]);
+
+  const isError = !!mapError || typeof loaderState === 'object';
+  const errorMsg = mapError ?? (typeof loaderState === 'object' ? loaderState.error : '');
+  const isLoading = !isError && loaderState !== 'ready';
 
   return (
     <div className="w-full h-full relative">
-      <div id={containerId.current} ref={containerRef} className="w-full h-full" />
+      <div ref={wrapperRef} className="w-full h-full" />
 
-      {status === 'loading' && (
+      {isLoading && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-400 pointer-events-none">
           <div className="text-4xl mb-4 animate-spin">⚡</div>
           <p className="text-sm">3D 지도 로딩 중...</p>
         </div>
       )}
 
-      {status === 'error' && (
+      {isError && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-400">
           <div className="text-4xl mb-4">🌏</div>
           <p className="text-sm text-center px-8 text-red-400">{errorMsg}</p>
