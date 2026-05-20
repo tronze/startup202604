@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useVWorldLoader } from '../hooks/useVWorldLoader';
 
 interface Props {
@@ -12,70 +12,73 @@ declare global {
   }
 }
 
-function makePosition(lon: number, lat: number) {
-  if (!window.vw?.CameraPosition) return null;
+// vw.Map은 전역 상태를 readonly로 등록하므로 딱 한 번만 생성해야 함.
+// 모듈 레벨 싱글톤으로 유지하고, 컴포넌트는 container 첨부/분리만 담당.
+let _singleton: { map: any; container: HTMLDivElement } | null = null;
+
+function getOrCreateMap(lon: number, lat: number): { map: any; container: HTMLDivElement } | null {
+  if (_singleton) return _singleton;
+  if (!window.vw?.Map) return null;
+
+  const container = document.createElement('div');
+  container.style.cssText = 'width:100%;height:100%';
+  container.id = 'vworld3d-singleton';
+
   try {
-    return new window.vw.CameraPosition(
-      new window.vw.CoordZ(lon, lat, 500),
-      new window.vw.Direction(0, -80, 0)
-    );
-  } catch {
+    const pos = window.vw.CameraPosition
+      ? new window.vw.CameraPosition(new window.vw.CoordZ(lon, lat, 500), new window.vw.Direction(0, -80, 0))
+      : null;
+
+    const map = new window.vw.Map();
+    map.setOption({ mapId: container.id, initPosition: pos, logo: false, navigation: true });
+    map.setMapId(container.id);
+    if (pos) map.setInitPosition(pos);
+    map.setLogoVisible?.(false);
+    map.setNavigationZoomVisible?.(false);
+    map.start();
+
+    _singleton = { map, container };
+    return _singleton;
+  } catch (e) {
+    console.error('VWorld 3D 초기화 실패:', e);
     return null;
   }
 }
 
 export default function Map3D({ lat, lon }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<any>(null);
-  const [mapError, setMapError] = useState<string | null>(null);
   const loaderState = useVWorldLoader();
 
-  // Initialize map when VWorld scripts are ready
+  // 스크립트 로드 완료 시 map 싱글톤 생성 후 wrapper에 붙임
   useEffect(() => {
     if (loaderState !== 'ready' || !wrapperRef.current) return;
 
-    // Create a fresh container div each time this effect runs.
-    // This is the key fix: JSX에 div를 두면 StrictMode 재실행 시 같은 DOM 노드에
-    // vw.Map이 두 번 초기화되어 readonly 에러가 발생함.
-    const container = document.createElement('div');
-    container.style.cssText = 'width:100%;height:100%';
-    container.id = `vworld3d-${Math.random().toString(36).slice(2)}`;
-    wrapperRef.current.appendChild(container);
+    const singleton = getOrCreateMap(lon, lat);
+    if (!singleton) return;
 
-    try {
-      const pos = makePosition(lon, lat);
-      const map = new window.vw.Map();
-      map.setOption({ mapId: container.id, initPosition: pos, logo: false, navigation: true });
-      map.setMapId(container.id);
-      if (pos) map.setInitPosition(pos);
-      map.setLogoVisible?.(false);
-      map.setNavigationZoomVisible?.(false);
-      map.start();
-      mapRef.current = map;
-    } catch (e) {
-      setMapError((e as Error).message);
-      container.remove();
-    }
+    wrapperRef.current.appendChild(singleton.container);
 
     return () => {
-      if (mapRef.current?.destroy) {
-        try { mapRef.current.destroy(); } catch { /* ignore */ }
-        mapRef.current = null;
-      }
-      container.remove();
+      // 파괴하지 않고 detach만 — 다음 마운트에서 재사용
+      singleton.container.remove();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaderState]);
 
-  // Move camera when coordinates change
+  // 좌표 변경 시 카메라 이동
   useEffect(() => {
-    if (!mapRef.current) return;
-    const pos = makePosition(lon, lat);
-    if (pos) try { mapRef.current.moveTo?.(pos); } catch { /* ignore */ }
+    if (!_singleton?.map || !window.vw?.CameraPosition) return;
+    try {
+      const pos = new window.vw.CameraPosition(
+        new window.vw.CoordZ(lon, lat, 500),
+        new window.vw.Direction(0, -80, 0)
+      );
+      _singleton.map.moveTo?.(pos);
+    } catch { /* ignore */ }
   }, [lat, lon]);
 
-  const isError = !!mapError || typeof loaderState === 'object';
-  const errorMsg = mapError ?? (typeof loaderState === 'object' ? loaderState.error : '');
+  const isError = typeof loaderState === 'object';
+  const errorMsg = isError ? loaderState.error : '';
   const isLoading = !isError && loaderState !== 'ready';
 
   return (
