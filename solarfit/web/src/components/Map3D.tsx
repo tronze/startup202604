@@ -10,46 +10,144 @@ declare global {
     vw: any;
     ws3d: any;
     Cesium: any;
+    $: any;
+    jQuery: any;
+    __vworld3dLoader?: Promise<void>;
   }
 }
 
-function flyCamera(viewer: any, lon: number, lat: number) {
-  if (!viewer) return;
+const CONTAINER_ID = 'vworld3d-container';
+
+function toCameraPosition(lon: number, lat: number, height = 2000) {
+  if (!window.vw?.CameraPosition || !window.vw?.CoordZ || !window.vw?.Direction) {
+    return null;
+  }
+
+  return new window.vw.CameraPosition(
+    new window.vw.CoordZ(lon, lat, height),
+    new window.vw.Direction(0, -80, 0),
+  );
+}
+
+function moveCamera(map: any, lon: number, lat: number) {
+  if (!map) return;
   try {
-    const ellipsoid = viewer.scene?.globe?.ellipsoid;
-    if (!ellipsoid) return;
-    const destination = ellipsoid.cartographicToCartesian({
-      longitude: lon * Math.PI / 180,
-      latitude: lat * Math.PI / 180,
-      height: 50000,
-    });
-    viewer.camera.flyTo({
-      destination,
-      orientation: { heading: 0, pitch: -Math.PI / 4, roll: 0 },
-      duration: 1.5,
-    });
+    const position = toCameraPosition(lon, lat);
+    if (position) {
+      map.moveTo?.(position);
+    }
   } catch {
     // ignore camera errors
   }
 }
 
+function loadScript(src: string) {
+  return new Promise<void>((resolve, reject) => {
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${src}"]`);
+    if (existing) {
+      resolve();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`스크립트 로드 실패: ${src}`));
+    document.head.appendChild(script);
+  });
+}
+
+async function loadJQuery() {
+  if (window.$ && window.jQuery) {
+    return;
+  }
+
+  await loadScript('https://code.jquery.com/jquery-3.7.1.min.js');
+}
+
+function loadVWorld3D(key: string) {
+  if (window.vw?.Map) {
+    return Promise.resolve();
+  }
+
+  if (window.__vworld3dLoader) {
+    return window.__vworld3dLoader;
+  }
+
+  window.__vworld3dLoader = new Promise<void>((resolve, reject) => {
+    const originalWrite = document.write.bind(document);
+    const scriptQueue: string[] = [];
+
+    document.write = (markup: string) => {
+      const matches = markup.matchAll(/<script[^>]+src=["']([^"']+)["'][^>]*>/gi);
+      for (const match of matches) {
+        scriptQueue.push(new URL(match[1], 'https://map.vworld.kr').href);
+      }
+    };
+
+    const restoreWrite = () => {
+      document.write = originalWrite;
+    };
+
+    const scriptSrc = `https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=${encodeURIComponent(key)}`;
+    const script = document.createElement('script');
+    script.src = scriptSrc;
+
+    script.onerror = () => {
+      restoreWrite();
+      window.__vworld3dLoader = undefined;
+      reject(new Error('VWorld 스크립트 로드 실패 (네트워크 또는 API 키 오류)'));
+    };
+
+    script.onload = async () => {
+      restoreWrite();
+
+      try {
+        for (const src of scriptQueue) {
+          await loadScript(src);
+        }
+
+        if (window.vw?.Map) {
+          resolve();
+        } else {
+          window.__vworld3dLoader = undefined;
+          reject(new Error('VWorld 3D API가 초기화되지 않았습니다'));
+        }
+      } catch (error) {
+        window.__vworld3dLoader = undefined;
+        reject(error);
+      }
+    };
+
+    loadJQuery()
+      .then(() => {
+        document.head.appendChild(script);
+      })
+      .catch((error: Error) => {
+        restoreWrite();
+        window.__vworld3dLoader = undefined;
+        reject(error);
+      });
+  });
+
+  return window.__vworld3dLoader;
+}
+
 export default function Map3D({ lat, lon }: Props) {
-  // Unique ID per mount — prevents WebGL context pollution on React StrictMode double-mount
-  const containerId = useRef(`vworld3d-${Math.random().toString(36).slice(2)}`);
-  const viewerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<any>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Camera update when coordinates change after map is ready
   useEffect(() => {
-    if (viewerRef.current) {
-      flyCamera(viewerRef.current, lon, lat);
+    if (mapRef.current) {
+      moveCamera(mapRef.current, lon, lat);
     }
   }, [lat, lon]);
 
+  // One-time initialization
   useEffect(() => {
-    let mounted = true;
-    const cid = containerId.current;
-
     const key = import.meta.env.VITE_VWORLD_KEY ?? '';
     if (!key || key === 'your_vworld_key_here') {
       setStatus('error');
@@ -57,128 +155,67 @@ export default function Map3D({ lat, lon }: Props) {
       return;
     }
 
-    function initViewer() {
-      if (!mounted) return;
-      try {
-        const viewer = window.ws3d.initViewer('#' + cid, true);
-        if (!mounted) {
-          try { viewer.destroy(); } catch { /* ignore */ }
-          return;
+    let cancelled = false;
+
+    loadVWorld3D(key)
+      .then(() => {
+        if (!cancelled) {
+          initMap(lon, lat);
         }
-        viewerRef.current = viewer;
-
-        const Cesium = window.Cesium;
-
-        // VWorld 고해상도 위성 이미지 + 도로명 라벨 레이어
-        try {
-          viewer.imageryLayers.removeAll();
-          viewer.imageryLayers.addImageryProvider(
-            new Cesium.WebMapTileServiceImageryProvider({
-              url: `https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/GoogleMapsCompatible/{TileMatrix}/{TileRow}/{TileCol}.jpeg`,
-              layer: 'Satellite', style: 'default', format: 'image/jpeg',
-              tileMatrixSetID: 'GoogleMapsCompatible', maximumLevel: 19,
-            })
-          );
-          viewer.imageryLayers.addImageryProvider(
-            new Cesium.WebMapTileServiceImageryProvider({
-              url: `https://api.vworld.kr/req/wmts/1.0.0/${key}/Hybrid/GoogleMapsCompatible/{TileMatrix}/{TileRow}/{TileCol}.png`,
-              layer: 'Hybrid', style: 'default', format: 'image/png',
-              tileMatrixSetID: 'GoogleMapsCompatible', maximumLevel: 19,
-            })
-          );
-        } catch { /* keep ws3d default imagery */ }
-
-        // LOD4 3D 건물 타일셋
-        try {
-          viewer.scene.primitives.add(
-            new Cesium.Cesium3DTileset({
-              url: `https://api.vworld.kr/req/3dls?key=${key}&domain=${window.location.host}&service=3DLS&request=GetTile&version=2.0&layer=lod4`,
-            })
-          );
-        } catch { /* LOD4 없는 지역이면 무시 */ }
-
-        setStatus('ready');
-        const waitForScene = () => {
-          if (!mounted || !viewerRef.current) return;
-          if (viewer.scene?.globe?.ellipsoid) {
-            flyCamera(viewer, lon, lat);
-          } else {
-            requestAnimationFrame(waitForScene);
-          }
-        };
-        requestAnimationFrame(waitForScene);
-      } catch (e) {
-        if (!mounted) return;
-        setStatus('error');
-        setErrorMsg(`VWorld 3D 초기화 실패: ${(e as Error).message}`);
-      }
-    }
-
-    if (window.ws3d?.initViewer) {
-      initViewer();
-      return () => {
-        mounted = false;
-        if (viewerRef.current?.destroy) {
-          try { viewerRef.current.destroy(); } catch { /* ignore */ }
-          viewerRef.current = null;
+      })
+      .catch((error: Error) => {
+        if (!cancelled) {
+          setStatus('error');
+          setErrorMsg(error.message);
         }
-      };
-    }
-
-    // VWorld webglMapInit.js calls document.write() — shim to collect sub-script URLs and load serially
-    const origWrite = document['write'].bind(document);
-    const scriptQueue: string[] = [];
-    document['write'] = (markup: string) => {
-      const m = markup.match(/src=['"]([^'"]+)['"]/);
-      if (m) scriptQueue.push(m[1]);
-    };
-
-    const domain = window.location.host || 'localhost';
-    const bootScript = document.createElement('script');
-    bootScript.src = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}&domain=${domain}`;
-
-    bootScript.onerror = () => {
-      document['write'] = origWrite;
-      if (!mounted) return;
-      setStatus('error');
-      setErrorMsg('VWorld 스크립트 로드 실패 (네트워크 또는 API 키 오류)');
-    };
-
-    bootScript.onload = async () => {
-      document['write'] = origWrite;
-      for (const src of scriptQueue) {
-        await new Promise<void>(resolve => {
-          const s = document.createElement('script');
-          s.src = src;
-          s.onload = s.onerror = () => resolve();
-          document.head.appendChild(s);
-        });
-      }
-      if (!mounted) return;
-      if (window.ws3d?.initViewer) {
-        initViewer();
-      } else {
-        setStatus('error');
-        setErrorMsg('VWorld 3D 로드 실패 — VWorld 콘솔에서 localhost:5174 도메인 등록 확인');
-      }
-    };
-
-    document.head.appendChild(bootScript);
+      });
 
     return () => {
-      mounted = false;
-      document['write'] = origWrite;
-      if (viewerRef.current?.destroy) {
-        try { viewerRef.current.destroy(); } catch { /* ignore */ }
-        viewerRef.current = null;
+      cancelled = true;
+      if (mapRef.current?.destroy) {
+        try { mapRef.current.destroy(); } catch { /* ignore */ }
       }
+      mapRef.current = null;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function initMap(lon: number, lat: number) {
+    if (!containerRef.current || !window.vw?.Map) {
+      setStatus('error');
+      setErrorMsg('VWorld 3D 컨테이너를 찾을 수 없습니다');
+      return;
+    }
+
+    try {
+      const initialPosition = toCameraPosition(lon, lat);
+      const map = new window.vw.Map();
+
+      map.setOption({
+        mapId: CONTAINER_ID,
+        initPosition: initialPosition,
+        logo: false,
+        navigation: true,
+      });
+      map.setMapId(CONTAINER_ID);
+      if (initialPosition) {
+        map.setInitPosition(initialPosition);
+      }
+      map.setLogoVisible?.(false);
+      map.setNavigationZoomVisible?.(false);
+      map.start();
+
+      mapRef.current = map;
+      setStatus('ready');
+    } catch (e) {
+      setStatus('error');
+      setErrorMsg(`VWorld 3D 초기화 실패: ${(e as Error).message}`);
+    }
+  }
+
   return (
     <div className="w-full h-full relative">
-      <div id={containerId.current} className="w-full h-full" />
+      <div id={CONTAINER_ID} ref={containerRef} className="w-full h-full" />
 
       {status === 'loading' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-400 pointer-events-none">
