@@ -13,8 +13,6 @@ declare global {
   }
 }
 
-const CONTAINER_ID = 'vworld3d-container';
-
 function flyCamera(viewer: any, lon: number, lat: number) {
   if (!viewer) return;
   try {
@@ -23,7 +21,7 @@ function flyCamera(viewer: any, lon: number, lat: number) {
     const destination = ellipsoid.cartographicToCartesian({
       longitude: lon * Math.PI / 180,
       latitude: lat * Math.PI / 180,
-      height: 2000,
+      height: 50000,
     });
     viewer.camera.flyTo({
       destination,
@@ -36,7 +34,8 @@ function flyCamera(viewer: any, lon: number, lat: number) {
 }
 
 export default function Map3D({ lat, lon }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  // Unique ID per mount — prevents WebGL context pollution on React StrictMode double-mount
+  const containerId = useRef(`vworld3d-${Math.random().toString(36).slice(2)}`);
   const viewerRef = useRef<any>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [errorMsg, setErrorMsg] = useState('');
@@ -49,6 +48,7 @@ export default function Map3D({ lat, lon }: Props) {
 
   useEffect(() => {
     let mounted = true;
+    const cid = containerId.current;
 
     const key = import.meta.env.VITE_VWORLD_KEY ?? '';
     if (!key || key === 'your_vworld_key_here') {
@@ -59,18 +59,45 @@ export default function Map3D({ lat, lon }: Props) {
 
     function initViewer() {
       if (!mounted) return;
-      // Clear any Cesium canvas left by a previous destroyed viewer (React StrictMode double-mount)
-      const container = document.getElementById(CONTAINER_ID);
-      if (container) container.innerHTML = '';
       try {
-        const viewer = window.ws3d.initViewer('#' + CONTAINER_ID, true);
+        const viewer = window.ws3d.initViewer('#' + cid, true);
         if (!mounted) {
           try { viewer.destroy(); } catch { /* ignore */ }
           return;
         }
         viewerRef.current = viewer;
+
+        const Cesium = window.Cesium;
+
+        // VWorld 고해상도 위성 이미지 + 도로명 라벨 레이어
+        try {
+          viewer.imageryLayers.removeAll();
+          viewer.imageryLayers.addImageryProvider(
+            new Cesium.WebMapTileServiceImageryProvider({
+              url: `https://api.vworld.kr/req/wmts/1.0.0/${key}/Satellite/GoogleMapsCompatible/{TileMatrix}/{TileRow}/{TileCol}.jpeg`,
+              layer: 'Satellite', style: 'default', format: 'image/jpeg',
+              tileMatrixSetID: 'GoogleMapsCompatible', maximumLevel: 19,
+            })
+          );
+          viewer.imageryLayers.addImageryProvider(
+            new Cesium.WebMapTileServiceImageryProvider({
+              url: `https://api.vworld.kr/req/wmts/1.0.0/${key}/Hybrid/GoogleMapsCompatible/{TileMatrix}/{TileRow}/{TileCol}.png`,
+              layer: 'Hybrid', style: 'default', format: 'image/png',
+              tileMatrixSetID: 'GoogleMapsCompatible', maximumLevel: 19,
+            })
+          );
+        } catch { /* keep ws3d default imagery */ }
+
+        // LOD4 3D 건물 타일셋
+        try {
+          viewer.scene.primitives.add(
+            new Cesium.Cesium3DTileset({
+              url: `https://api.vworld.kr/req/3dls?key=${key}&domain=${window.location.host}&service=3DLS&request=GetTile&version=2.0&layer=lod4`,
+            })
+          );
+        } catch { /* LOD4 없는 지역이면 무시 */ }
+
         setStatus('ready');
-        // Poll until scene.globe.ellipsoid is ready before flying camera
         const waitForScene = () => {
           if (!mounted || !viewerRef.current) return;
           if (viewer.scene?.globe?.ellipsoid) {
@@ -151,7 +178,7 @@ export default function Map3D({ lat, lon }: Props) {
 
   return (
     <div className="w-full h-full relative">
-      <div id={CONTAINER_ID} ref={containerRef} className="w-full h-full" />
+      <div id={containerId.current} className="w-full h-full" />
 
       {status === 'loading' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 text-gray-400 pointer-events-none">
