@@ -11,13 +11,14 @@
   <div id="map"></div>
   <script>
     (async function () {
-      var params = new URLSearchParams(location.search);
+      var params  = new URLSearchParams(location.search);
       var key     = params.get('key') || '';
       var initLat = parseFloat(params.get('lat') || '37.5');
       var initLon = parseFloat(params.get('lon') || '127.0');
 
       if (!key) { document.body.textContent = 'API 키 없음'; return; }
 
+      /* ── 스크립트 로더 ── */
       function loadScript(src) {
         return new Promise(function(res, rej) {
           if (document.querySelector('script[src="' + src + '"]')) { res(); return; }
@@ -27,25 +28,22 @@
         });
       }
 
+      /* ── jQuery ── */
       await loadScript('https://code.jquery.com/jquery-3.7.1.min.js');
 
-      // VWorld 부트 스크립트가 내부적으로 document.write 로 서브스크립트를 주입함.
-      // 비동기 컨텍스트에서는 막히므로, write 를 가로채서 URL 을 수동으로 로드.
+      /* ── VWorld 부트 스크립트 (document['write'] 가로채기) ── */
       var queue = [];
       var _w = document['write'].bind(document);
       document['write'] = function(html) {
         var m = html.match(/src=["']([^"']+)["']/);
         if (m) queue.push(new URL(m[1], 'https://map.vworld.kr').href);
       };
-
       try {
         await loadScript(
-          'https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=' + encodeURIComponent(key)
+          'https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey='
+          + encodeURIComponent(key)
         );
-      } finally {
-        document['write'] = _w;
-      }
-
+      } finally { document['write'] = _w; }
       for (var i = 0; i < queue.length; i++) { await loadScript(queue[i]); }
 
       if (!window.vw || !window.vw.Map) {
@@ -53,30 +51,57 @@
         return;
       }
 
+      /* ── 카메라 위치 생성 헬퍼 ── */
+      function makePos(lon, lat) {
+        if (!vw.CameraPosition || !vw.CoordZ || !vw.Direction) return null;
+        try {
+          return new vw.CameraPosition(
+            new vw.CoordZ(lon, lat, 500),
+            new vw.Direction(0, -80, 0)
+          );
+        } catch(e) { return null; }
+      }
+
+      /* ── 지도 초기화 ── */
+      var initPos = makePos(initLon, initLat);
       var map = new vw.Map();
-      map.setOption({ mapId: 'map', logo: false, navigation: true });
+      map.setOption({
+        mapId: 'map',
+        initPosition: initPos,
+        logo: false,
+        navigation: true
+      });
       map.setMapId('map');
+      if (initPos) map.setInitPosition(initPos);
       if (map.setLogoVisible) map.setLogoVisible(false);
       if (map.setNavigationZoomVisible) map.setNavigationZoomVisible(false);
       map.start();
 
-      function moveTo(lon, lat) {
-        if (!window.vw || !vw.CameraPosition) return;
-        try {
-          map.moveTo(new vw.CameraPosition(
-            new vw.CoordZ(lon, lat, 500),
-            new vw.Direction(0, -80, 0)
-          ));
-        } catch(e) { console.warn('moveTo 실패:', e); }
+      /* ── ready 감지: vw.CameraPosition 이 실제로 동작할 때까지 폴링 ── */
+      function waitReady(cb, tries) {
+        tries = tries || 0;
+        if (tries > 50) return; // 최대 5초
+        var pos = makePos(initLon, initLat);
+        if (pos) { cb(); return; }
+        setTimeout(function() { waitReady(cb, tries + 1); }, 100);
       }
 
-      setTimeout(function() { moveTo(initLon, initLat); }, 500);
+      waitReady(function() {
+        /* 초기 위치로 이동 */
+        var pos = makePos(initLon, initLat);
+        if (pos) try { map.moveTo(pos); } catch(e) {}
 
-      window.addEventListener('message', function(e) {
-        if (e.data && e.data.type === 'flyTo') moveTo(e.data.lon, e.data.lat);
+        /* 부모에게 준비 완료 알림 */
+        window.parent.postMessage({ type: 'vworld3d:ready' }, '*');
       });
 
-      window.parent.postMessage({ type: 'vworld3d:ready' }, '*');
+      /* ── 부모로부터 flyTo 수신 ── */
+      window.addEventListener('message', function(e) {
+        if (!e.data || e.data.type !== 'flyTo') return;
+        var pos = makePos(e.data.lon, e.data.lat);
+        if (pos) try { map.moveTo(pos); } catch(e) {}
+      });
+
     })();
   </script>
 </body>
