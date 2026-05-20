@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body, #map { width: 100%; height: 100%; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    (async function () {
+      var params = new URLSearchParams(location.search);
+      var key     = params.get('key') || '';
+      var initLat = parseFloat(params.get('lat') || '37.5');
+      var initLon = parseFloat(params.get('lon') || '127.0');
+
+      if (!key) { document.body.textContent = 'API 키 없음'; return; }
+
+      function loadScript(src) {
+        return new Promise(function(res, rej) {
+          if (document.querySelector('script[src="' + src + '"]')) { res(); return; }
+          var s = document.createElement('script');
+          s.src = src; s.onload = res; s.onerror = rej;
+          document.head.appendChild(s);
+        });
+      }
+
+      await loadScript('https://code.jquery.com/jquery-3.7.1.min.js');
+
+      // VWorld 부트 스크립트가 내부적으로 document.write 로 서브스크립트를 주입함.
+      // 비동기 컨텍스트에서는 막히므로, write 를 가로채서 URL 을 수동으로 로드.
+      var queue = [];
+      var _w = document['write'].bind(document);
+      document['write'] = function(html) {
+        var m = html.match(/src=["']([^"']+)["']/);
+        if (m) queue.push(new URL(m[1], 'https://map.vworld.kr').href);
+      };
+
+      try {
+        await loadScript(
+          'https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=' + encodeURIComponent(key)
+        );
+      } finally {
+        document['write'] = _w;
+      }
+
+      for (var i = 0; i < queue.length; i++) { await loadScript(queue[i]); }
+
+      if (!window.vw || !window.vw.Map) {
+        document.body.textContent = 'VWorld 로드 실패 — API 키/도메인 확인';
+        return;
+      }
+
+      var map = new vw.Map();
+      map.setOption({ mapId: 'map', logo: false, navigation: true });
+      map.setMapId('map');
+      if (map.setLogoVisible) map.setLogoVisible(false);
+      if (map.setNavigationZoomVisible) map.setNavigationZoomVisible(false);
+      map.start();
+
+      function moveTo(lon, lat) {
+        if (!window.vw || !vw.CameraPosition) return;
+        try {
+          map.moveTo(new vw.CameraPosition(
+            new vw.CoordZ(lon, lat, 500),
+            new vw.Direction(0, -80, 0)
+          ));
+        } catch(e) { console.warn('moveTo 실패:', e); }
+      }
+
+      setTimeout(function() { moveTo(initLon, initLat); }, 500);
+
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'flyTo') moveTo(e.data.lon, e.data.lat);
+      });
+
+      window.parent.postMessage({ type: 'vworld3d:ready' }, '*');
+    })();
+  </script>
+</body>
+</html>

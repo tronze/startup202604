@@ -3,6 +3,7 @@ import type { AnalysisResult } from './types';
 import { analyzeLocation } from './api';
 import SearchBar from './components/SearchBar';
 import Map2D from './components/Map2D';
+import Map3D from './components/Map3D';
 import AnalysisPanel from './components/AnalysisPanel';
 
 export default function App() {
@@ -10,6 +11,7 @@ export default function App() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mode, setMode] = useState<'2d' | '3d'>('2d');
 
   async function handleSelect(lat: number, lon: number) {
     setCoords({ lat, lon });
@@ -29,7 +31,24 @@ export default function App() {
     <div className="flex h-screen bg-gray-950 text-white">
       <div className="flex-1 relative">
         <SearchBar onSelect={handleSelect} />
-        <Map2D onMapClick={handleSelect} selectedCoords={coords} />
+
+        <div className="absolute top-4 right-4 z-[1000] flex bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+          <button
+            onClick={() => setMode('2d')}
+            className={`px-4 py-2 text-sm font-medium transition-colors ${mode === '2d' ? 'bg-yellow-400 text-gray-900' : 'text-gray-300 hover:text-white'}`}
+          >2D</button>
+          <button
+            onClick={() => setMode('3d')}
+            className={`px-4 py-2 text-sm font-medium transition-colors ${mode === '3d' ? 'bg-yellow-400 text-gray-900' : 'text-gray-300 hover:text-white'}`}
+          >3D</button>
+        </div>
+
+        {mode === '2d'
+          ? <Map2D onMapClick={handleSelect} selectedCoords={coords} />
+          : coords
+            ? <Map3D lat={coords.lat} lon={coords.lon} />
+            : <div className="flex items-center justify-center h-full text-gray-500">먼저 위치를 선택하세요</div>
+        }
       </div>
 
       <div className="w-96 bg-gray-900 overflow-y-auto border-l border-gray-800">
