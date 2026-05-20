@@ -18,7 +18,6 @@ const CONTAINER_ID = 'vworld3d-container';
 function flyCamera(viewer: any, lon: number, lat: number) {
   if (!viewer) return;
   try {
-    // Use ellipsoid.cartographicToCartesian — avoids needing window.Cesium directly
     const ellipsoid = viewer.scene?.globe?.ellipsoid;
     if (!ellipsoid) return;
     const destination = ellipsoid.cartographicToCartesian({
@@ -42,15 +41,15 @@ export default function Map3D({ lat, lon }: Props) {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Camera update when coordinates change after map is ready
   useEffect(() => {
     if (viewerRef.current) {
       flyCamera(viewerRef.current, lon, lat);
     }
   }, [lat, lon]);
 
-  // One-time initialization
   useEffect(() => {
+    let mounted = true;
+
     const key = import.meta.env.VITE_VWORLD_KEY ?? '';
     if (!key || key === 'your_vworld_key_here') {
       setStatus('error');
@@ -58,15 +57,49 @@ export default function Map3D({ lat, lon }: Props) {
       return;
     }
 
-    // If VWorld scripts already loaded from a previous mount, init directly
-    if (window.ws3d?.initViewer) {
-      initViewer(key, lon, lat);
-      return;
+    function initViewer() {
+      if (!mounted) return;
+      // Clear any Cesium canvas left by a previous destroyed viewer (React StrictMode double-mount)
+      const container = document.getElementById(CONTAINER_ID);
+      if (container) container.innerHTML = '';
+      try {
+        const viewer = window.ws3d.initViewer('#' + CONTAINER_ID, true);
+        if (!mounted) {
+          try { viewer.destroy(); } catch { /* ignore */ }
+          return;
+        }
+        viewerRef.current = viewer;
+        setStatus('ready');
+        // Poll until scene.globe.ellipsoid is ready before flying camera
+        const waitForScene = () => {
+          if (!mounted || !viewerRef.current) return;
+          if (viewer.scene?.globe?.ellipsoid) {
+            flyCamera(viewer, lon, lat);
+          } else {
+            requestAnimationFrame(waitForScene);
+          }
+        };
+        requestAnimationFrame(waitForScene);
+      } catch (e) {
+        if (!mounted) return;
+        setStatus('error');
+        setErrorMsg(`VWorld 3D 초기화 실패: ${(e as Error).message}`);
+      }
     }
 
-    // VWorld webglMapInit.js uses document.write() to inject sub-scripts.
-    // Browsers block this from async scripts, so we collect URLs and replay serially.
-    const originalWrite = document['write'].bind(document);
+    if (window.ws3d?.initViewer) {
+      initViewer();
+      return () => {
+        mounted = false;
+        if (viewerRef.current?.destroy) {
+          try { viewerRef.current.destroy(); } catch { /* ignore */ }
+          viewerRef.current = null;
+        }
+      };
+    }
+
+    // VWorld webglMapInit.js calls document.write() — shim to collect sub-script URLs and load serially
+    const origWrite = document['write'].bind(document);
     const scriptQueue: string[] = [];
     document['write'] = (markup: string) => {
       const m = markup.match(/src=['"]([^'"]+)['"]/);
@@ -74,19 +107,18 @@ export default function Map3D({ lat, lon }: Props) {
     };
 
     const domain = window.location.host || 'localhost';
-    const script = document.createElement('script');
-    script.src = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}&domain=${domain}`;
+    const bootScript = document.createElement('script');
+    bootScript.src = `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${key}&domain=${domain}`;
 
-    script.onerror = () => {
-      document['write'] = originalWrite;
+    bootScript.onerror = () => {
+      document['write'] = origWrite;
+      if (!mounted) return;
       setStatus('error');
       setErrorMsg('VWorld 스크립트 로드 실패 (네트워크 또는 API 키 오류)');
     };
 
-    script.onload = async () => {
-      document['write'] = originalWrite;
-
-      // Load collected sub-scripts serially to preserve dependency order
+    bootScript.onload = async () => {
+      document['write'] = origWrite;
       for (const src of scriptQueue) {
         await new Promise<void>(resolve => {
           const s = document.createElement('script');
@@ -95,19 +127,20 @@ export default function Map3D({ lat, lon }: Props) {
           document.head.appendChild(s);
         });
       }
-
+      if (!mounted) return;
       if (window.ws3d?.initViewer) {
-        initViewer(key, lon, lat);
+        initViewer();
       } else {
         setStatus('error');
         setErrorMsg('VWorld 3D 로드 실패 — VWorld 콘솔에서 localhost:5174 도메인 등록 확인');
       }
     };
 
-    document.head.appendChild(script);
+    document.head.appendChild(bootScript);
 
     return () => {
-      document['write'] = originalWrite;
+      mounted = false;
+      document['write'] = origWrite;
       if (viewerRef.current?.destroy) {
         try { viewerRef.current.destroy(); } catch { /* ignore */ }
         viewerRef.current = null;
@@ -115,19 +148,6 @@ export default function Map3D({ lat, lon }: Props) {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  function initViewer(_key: string, lon: number, lat: number) {
-    try {
-      // Use ws3d (Cesium) directly — vw.Map wrapper has broken option handling
-      const viewer = window.ws3d.initViewer('#' + CONTAINER_ID, true);
-      viewerRef.current = viewer;
-      flyCamera(viewer, lon, lat);
-      setStatus('ready');
-    } catch (e) {
-      setStatus('error');
-      setErrorMsg(`VWorld 3D 초기화 실패: ${(e as Error).message}`);
-    }
-  }
 
   return (
     <div className="w-full h-full relative">
