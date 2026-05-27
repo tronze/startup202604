@@ -64,3 +64,45 @@ export interface SearchResult {
   lat: number;
   lon: number;
 }
+
+export interface IndustrialArea {
+  id: string;
+  name: string;
+  region: string;
+  city: string;
+  type: '국가산업단지' | '일반산업단지' | '도시첨단산업단지' | '농공단지';
+  lat: number;
+  lon: number;
+  boundary: [number, number][];
+  ghiKwhM2Year: number;
+  pvoutKwhKwpYear: number;
+  availableRoofM2: number;
+  recommendedCapacityMw: number;
+  gridDistanceKm: number;
+  landUseNote: string;
+  industries: string[];
+  selectedAreaM2?: number;
+  isCustomSelection?: boolean;
+  basePvoutKwhKwpYear?: number;
+  effectiveGhiKwhM2Year?: number;
+  shadingLossPct?: number;
+  incidenceAdjustmentPct?: number;
+  shapeEfficiencyPct?: number;
+}
+
+export interface IndustrialAreaAnalysis {
+  capacityMw: number;
+  annualGenerationMwh: number;
+  annualRevenueKrw: number;
+  installCostKrw: number;
+  paybackYears: number;
+  co2ReductionTon: number;
+  smpKrwKwh: number;
+  recKrwKwh: number;
+  performanceRatio: number;
+  effectivePvoutKwhKwpYear: number;
+  effectiveGhiKwhM2Year: number;
+  shadingLossPct: number;
+  incidenceAdjustmentPct: number;
+  shapeEfficiencyPct: number;
+}

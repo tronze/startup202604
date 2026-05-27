@@ -5,8 +5,12 @@ import SearchBar from './components/SearchBar';
 import Map2D from './components/Map2D';
 import Map3D from './components/Map3D';
 import AnalysisPanel from './components/AnalysisPanel';
+import AppHeader from './components/AppHeader';
+import SolarExplorePage from './components/SolarExplorePage';
 
-export default function App() {
+type View = 'home' | 'explore';
+
+function HomePage() {
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -28,7 +32,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-950 text-white">
+    <div className="flex min-h-0 flex-1 bg-gray-950 text-white">
       <div className="flex-1 relative">
         <SearchBar onSelect={handleSelect} />
 
@@ -67,6 +71,17 @@ export default function App() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [view, setView] = useState<View>('home');
+
+  return (
+    <div className="flex h-screen flex-col bg-gray-950">
+      <AppHeader activeView={view} onChange={setView} />
+      {view === 'home' ? <HomePage /> : <SolarExplorePage />}
     </div>
   );
 }

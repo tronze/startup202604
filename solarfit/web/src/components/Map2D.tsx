@@ -11,6 +11,11 @@ export default function Map2D({ onMapClick, selectedCoords }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
+  const onMapClickRef = useRef(onMapClick);
+
+  useEffect(() => {
+    onMapClickRef.current = onMapClick;
+  }, [onMapClick]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -32,7 +37,7 @@ export default function Map2D({ onMapClick, selectedCoords }: Props) {
     }
 
     map.on('click', (e) => {
-      onMapClick(e.latlng.lat, e.latlng.lng);
+      onMapClickRef.current(e.latlng.lat, e.latlng.lng);
     });
 
     mapRef.current = map;

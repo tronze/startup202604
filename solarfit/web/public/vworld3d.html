@@ -5,18 +5,277 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body, #map { width: 100%; height: 100%; overflow: hidden; }
+    #overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <canvas id="overlay"></canvas>
   <script>
     (async function () {
       var params  = new URLSearchParams(location.search);
       var key     = params.get('key') || '';
       var initLat = parseFloat(params.get('lat') || '37.5');
       var initLon = parseFloat(params.get('lon') || '127.0');
+      var center = { lat: initLat, lon: initLon };
+      var overlay = document.getElementById('overlay');
+      var ctx = overlay.getContext('2d');
+      var renderedAreas = [];
+      var renderedSelectedId = null;
+      var hitAreas = [];
+      var selectedHandles = [];
+      var dragState = null;
+      var didDrag = false;
 
       if (!key) { document.body.textContent = 'API 키 없음'; return; }
+
+      function resizeOverlay() {
+        var dpr = window.devicePixelRatio || 1;
+        overlay.width = Math.floor(window.innerWidth * dpr);
+        overlay.height = Math.floor(window.innerHeight * dpr);
+        overlay.style.width = window.innerWidth + 'px';
+        overlay.style.height = window.innerHeight + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        drawIndustrialAreas();
+      }
+
+      function project(lon, lat) {
+        var scale = Math.min(window.innerWidth, window.innerHeight) * 7.5;
+        var x = window.innerWidth / 2 + (lon - center.lon) * scale;
+        var y = window.innerHeight / 2 - (lat - center.lat) * scale * 1.25;
+        return [x, y];
+      }
+
+      function unproject(x, y) {
+        var scale = Math.min(window.innerWidth, window.innerHeight) * 7.5;
+        var lon = center.lon + (x - window.innerWidth / 2) / scale;
+        var lat = center.lat - (y - window.innerHeight / 2) / (scale * 1.25);
+        return [lon, lat];
+      }
+
+      function colorForGhi(ghi, alpha) {
+        var t = Math.max(0, Math.min(1, (ghi - 1300) / 190));
+        var r = Math.round(42 + t * 238);
+        var g = Math.round(169 + t * 54);
+        var b = Math.round(224 - t * 190);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+      }
+
+      function drawPolygon(points, fillStyle, strokeStyle, lineWidth) {
+        if (!points.length) return;
+        ctx.beginPath();
+        ctx.moveTo(points[0][0], points[0][1]);
+        for (var i = 1; i < points.length; i++) ctx.lineTo(points[i][0], points[i][1]);
+        ctx.closePath();
+        if (fillStyle) {
+          ctx.fillStyle = fillStyle;
+          ctx.fill();
+        }
+        if (strokeStyle) {
+          ctx.strokeStyle = strokeStyle;
+          ctx.lineWidth = lineWidth || 1;
+          ctx.stroke();
+        }
+      }
+
+      function pointInPolygon(point, polygon) {
+        var x = point[0], y = point[1];
+        var inside = false;
+        for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+          var xi = polygon[i][0], yi = polygon[i][1];
+          var xj = polygon[j][0], yj = polygon[j][1];
+          var intersect = ((yi > y) !== (yj > y))
+            && (x < (xj - xi) * (y - yi) / ((yj - yi) || 0.000001) + xi);
+          if (intersect) inside = !inside;
+        }
+        return inside;
+      }
+
+      function getSelectedArea() {
+        for (var i = 0; i < renderedAreas.length; i++) {
+          if (renderedAreas[i].id === renderedSelectedId) return renderedAreas[i];
+        }
+        return null;
+      }
+
+      function updateSelectedBoundary(boundary) {
+        var area = getSelectedArea();
+        if (!area) return;
+        area.boundary = boundary;
+        var lonSum = 0;
+        var latSum = 0;
+        boundary.forEach(function(point) {
+          lonSum += point[0];
+          latSum += point[1];
+        });
+        area.lon = lonSum / boundary.length;
+        area.lat = latSum / boundary.length;
+        drawIndustrialAreas();
+        window.parent.postMessage({
+          type: 'vworld3d:areaBoundaryChanged',
+          areaId: area.id,
+          boundary: boundary
+        }, '*');
+      }
+
+      function drawHandle(point, cursor, index) {
+        ctx.fillStyle = '#facc15';
+        ctx.strokeStyle = '#111827';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.rect(point[0] - 5, point[1] - 5, 10, 10);
+        ctx.fill();
+        ctx.stroke();
+        selectedHandles.push({
+          index: index,
+          x: point[0],
+          y: point[1],
+          cursor: cursor
+        });
+      }
+
+      function drawIndustrialAreas() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        hitAreas = [];
+        selectedHandles = [];
+        renderedAreas.forEach(function(area) {
+          var points = (area.boundary || []).map(function(coord) {
+            return project(coord[0], coord[1]);
+          });
+          var selected = area.id === renderedSelectedId;
+          drawPolygon(
+            points,
+            colorForGhi(area.ghiKwhM2Year || 1380, selected ? 0.42 : 0.24),
+            selected ? 'rgba(250, 204, 21, 0.98)' : 'rgba(255, 255, 255, 0.65)',
+            selected ? 3 : 1.5
+          );
+          var centerPoint = project(area.lon, area.lat);
+          var gradient = ctx.createRadialGradient(
+            centerPoint[0], centerPoint[1], 4,
+            centerPoint[0], centerPoint[1], selected ? 80 : 56
+          );
+          gradient.addColorStop(0, colorForGhi(area.ghiKwhM2Year || 1380, selected ? 0.58 : 0.36));
+          gradient.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(centerPoint[0], centerPoint[1], selected ? 80 : 56, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = selected ? '#facc15' : '#e5e7eb';
+          ctx.font = selected ? '700 13px system-ui, sans-serif' : '600 11px system-ui, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.shadowColor = 'rgba(0,0,0,0.85)';
+          ctx.shadowBlur = 4;
+          ctx.fillText(area.name, centerPoint[0], centerPoint[1] - 12);
+          ctx.shadowBlur = 0;
+          if (selected) {
+            drawHandle(points[0], 'nesw-resize', 0);
+            drawHandle(points[1], 'nwse-resize', 1);
+            drawHandle(points[2], 'nesw-resize', 2);
+            drawHandle(points[3], 'nwse-resize', 3);
+          }
+          hitAreas.push({ id: area.id, points: points });
+        });
+      }
+
+      window.addEventListener('resize', resizeOverlay);
+      overlay.addEventListener('mousedown', function(e) {
+        var area = getSelectedArea();
+        var point = [e.clientX, e.clientY];
+        for (var i = 0; i < selectedHandles.length; i++) {
+          var handle = selectedHandles[i];
+          if (Math.abs(point[0] - handle.x) <= 10 && Math.abs(point[1] - handle.y) <= 10) {
+            dragState = {
+              mode: 'vertex',
+              handleIndex: handle.index,
+              start: point,
+              boundary: area.boundary.map(function(coord) { return [coord[0], coord[1]]; })
+            };
+            didDrag = false;
+            e.preventDefault();
+            return;
+          }
+        }
+        var selectedPoints = area
+          ? (area.boundary || []).map(function(coord) { return project(coord[0], coord[1]); })
+          : [];
+        if (area && pointInPolygon(point, selectedPoints)) {
+          dragState = {
+            mode: 'move',
+            start: point,
+            boundary: area.boundary.map(function(coord) { return [coord[0], coord[1]]; })
+          };
+          didDrag = false;
+          e.preventDefault();
+        }
+      });
+
+      overlay.addEventListener('mousemove', function(e) {
+        if (!dragState) {
+          var point = [e.clientX, e.clientY];
+          var cursor = 'default';
+          for (var i = 0; i < selectedHandles.length; i++) {
+            var handle = selectedHandles[i];
+            if (Math.abs(point[0] - handle.x) <= 10 && Math.abs(point[1] - handle.y) <= 10) {
+              cursor = handle.cursor;
+              break;
+            }
+          }
+          if (cursor === 'default') {
+            var selected = getSelectedArea();
+            if (selected) {
+              var selectedPoints = (selected.boundary || []).map(function(coord) {
+                return project(coord[0], coord[1]);
+              });
+              if (pointInPolygon(point, selectedPoints)) cursor = 'move';
+            }
+          }
+          overlay.style.cursor = cursor;
+          return;
+        }
+        didDrag = true;
+        var currentGeo = unproject(e.clientX, e.clientY);
+
+        if (dragState.mode === 'move') {
+          var startGeo = unproject(dragState.start[0], dragState.start[1]);
+          var lonDelta = currentGeo[0] - startGeo[0];
+          var latDelta = currentGeo[1] - startGeo[1];
+          updateSelectedBoundary(dragState.boundary.map(function(coord) {
+            return [coord[0] + lonDelta, coord[1] + latDelta];
+          }));
+          return;
+        }
+
+        if (dragState.mode === 'vertex') {
+          var nextBoundary = dragState.boundary.map(function(coord) {
+            return [coord[0], coord[1]];
+          });
+          nextBoundary[dragState.handleIndex] = currentGeo;
+          updateSelectedBoundary(nextBoundary);
+        }
+      });
+
+      window.addEventListener('mouseup', function() {
+        dragState = null;
+        setTimeout(function() { didDrag = false; }, 0);
+      });
+
+      overlay.addEventListener('click', function(e) {
+        if (didDrag) return;
+        var point = [e.clientX, e.clientY];
+        for (var i = hitAreas.length - 1; i >= 0; i--) {
+          if (pointInPolygon(point, hitAreas[i].points)) {
+            window.parent.postMessage({ type: 'vworld3d:areaSelected', areaId: hitAreas[i].id }, '*');
+            return;
+          }
+        }
+      });
+      resizeOverlay();
 
       /* ── 스크립트 로더 ── */
       function loadScript(src) {
@@ -97,9 +356,19 @@
 
       /* ── 부모로부터 flyTo 수신 ── */
       window.addEventListener('message', function(e) {
-        if (!e.data || e.data.type !== 'flyTo') return;
-        var pos = makePos(e.data.lon, e.data.lat);
-        if (pos) try { map.moveTo(pos); } catch(e) {}
+        if (!e.data) return;
+        if (e.data.type === 'flyTo') {
+          center = { lat: e.data.lat, lon: e.data.lon };
+          var pos = makePos(e.data.lon, e.data.lat);
+          if (pos) try { map.moveTo(pos); } catch(e) {}
+          drawIndustrialAreas();
+          return;
+        }
+        if (e.data.type === 'renderIndustrialAreas') {
+          renderedAreas = Array.isArray(e.data.areas) ? e.data.areas : [];
+          renderedSelectedId = e.data.selectedAreaId;
+          drawIndustrialAreas();
+        }
       });
 
     })();
