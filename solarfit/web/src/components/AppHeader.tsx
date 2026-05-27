@@ -1,4 +1,4 @@
-type View = 'home' | 'explore';
+type View = 'home' | 'dashboard' | 'explore';
 
 interface Props {
   activeView: View;
@@ -33,6 +33,16 @@ export default function AppHeader({ activeView, onChange }: Props) {
             }`}
           >
             홈
+          </button>
+          <button
+            onClick={() => onChange('dashboard')}
+            className={`rounded px-4 py-2 text-sm font-medium transition-colors ${
+              activeView === 'dashboard'
+                ? 'bg-yellow-400 text-gray-950'
+                : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+            }`}
+          >
+            대시보드
           </button>
           <button
             onClick={() => onChange('explore')}

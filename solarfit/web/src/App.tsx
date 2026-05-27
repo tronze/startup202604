@@ -6,9 +6,10 @@ import Map2D from './components/Map2D';
 import Map3D from './components/Map3D';
 import AnalysisPanel from './components/AnalysisPanel';
 import AppHeader from './components/AppHeader';
+import SolarDashboardPage from './components/SolarDashboardPage';
 import SolarExplorePage from './components/SolarExplorePage';
 
-type View = 'home' | 'explore';
+type View = 'home' | 'dashboard' | 'explore';
 
 function HomePage() {
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
@@ -81,7 +82,9 @@ export default function App() {
   return (
     <div className="flex h-screen flex-col bg-gray-950">
       <AppHeader activeView={view} onChange={setView} />
-      {view === 'home' ? <HomePage /> : <SolarExplorePage />}
+      {view === 'home' && <HomePage />}
+      {view === 'dashboard' && <SolarDashboardPage />}
+      {view === 'explore' && <SolarExplorePage />}
     </div>
   );
 }
